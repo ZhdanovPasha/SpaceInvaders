@@ -7,8 +7,104 @@
 </head>
 <body>
 	<script type="text/javascript" src="js/point.js"></script>
-		
-	
+	<script type="text/javascript">
+		var pjs =  new PointJS('2d', 400, 400);
+		pjs.system.initFullScreen();
+
+		var game = pjs.game;
+		var mouse = pjs.mouseControl;
+		var key = pjs.keyControl;
+		var point = pjs.vector.point;
+		var width = game.getWH().w;
+		var height = game.getWH().h;
+
+		mouse.initMouseControl();
+		key.initKeyControl();
+
+		var bulletSpeed = 1;
+		var shipSpeed = 1;
+		var shipDX = 10;
+		var bulletDY = 10;
+		var shipWidth = 50;
+		var shipHeight = 50;
+		var bulletWidth = 27;
+		var bulletHeight = 64;
+		var beginPosX = width/2 - 25;
+		var beginPosY = height - 50; 
+
+		var fon = game.newImageObject({
+			position: point(0, 0),
+			w: width, h: height,
+			file: 'img/terrain.png'
+		});
+
+		var ship = game.newImageObject({
+			x: beginPosX ,	y: beginPosY,
+			w: shipWidth,	h: shipHeight,
+			file: 'img/player.png'
+		})
+
+		var bullets = [];
+		var count = 0;  
+
+		var addBullet = function(){
+			var tmp = game.newImageObject({
+				x: ship.x + ((count++)%2)*(ship.w/2), y: ship.y,
+				w: bulletWidth, h:bulletHeight,
+				file: 'img/bullet.png'
+			});
+			bullets.push(tmp);
+		}
+
+		var fire = function(){
+			for (i = 0; i < bullets.length; ++i){
+				var bullet = bullets[i];
+				bullet.draw();
+				bullet.y -= bulletDY;
+				if (bullet.y <= 0){
+					bullets.splice(i, 1);
+					i--;
+				}
+			} 
+		};
+
+		var lastBulletTime = Date.now();
+
+		ship.control = function(){
+			if (key.isDown('LEFT')){
+				ship.x -= shipDX * shipSpeed;
+				if (ship.x <= 0){
+					ship.x = 0;
+				}	
+			}
+			if (key.isDown('RIGHT')){
+				ship.x += shipDX * shipSpeed;
+				var dif = width - ship.w;
+				if (ship.x >= width - ship.w){
+					ship.x = width - ship.w;
+				}
+			}
+			if (key.isDown('SPACE')){
+				if (Date.now() - lastBulletTime > 100 * bulletSpeed){
+					addBullet();
+					lastBulletTime = Date.now();
+				}
+			}
+		};
+
+		game.newLoop('game', function(){
+			game.clear();
+
+			fon.draw();
+			ship.draw();
+
+			ship.control();
+			fire();
+		});
+
+		game.startLoop('game');
+
+	</script>	
 
 </body>
 </html>
