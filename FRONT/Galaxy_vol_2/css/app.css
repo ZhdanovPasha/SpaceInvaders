@@ -1,0 +1,112 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #151515;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.wrapper {
+    width: 1050px;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+#waves {
+    float: left;
+    width: 25%;
+    color: white;
+    font-size: 2em;
+}
+
+#lives {
+    float: left;
+    width: 25%;
+    color: white;
+    font-size: 2em;
+}
+
+#clear1 {
+    float: left;
+    width: 25%;
+    color: white;
+    font-size: 2em;
+}
+
+#score {
+    float: left;
+    width: 25%;
+    color: white;
+    font-size: 2em;
+}
+
+#enemiesCount {
+    float: left;
+    width: 25%;
+    color: white;
+    font-size: 2em;
+
+}
+
+
+
+
+
+#game-over, #game-over-overlay,#game-start {
+    margin: auto;
+    width: 512px;
+    height: 480px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: none;
+}
+
+#game-over-overlay {
+    background-color: black;
+    opacity: .5;
+}
+
+#game-over {
+    height: 200px;
+    text-align: center;
+    color: white;
+}
+#game-start {
+    height: 200px;
+    text-align: center;
+    color: white;
+}
+
+#game-over h1 {
+    color : red;
+    font-size: 3em;
+    font-family: sans-serif;
+}
+
+#game-start h1 {
+    color : rgb(0, 193, 178);
+    font-size: 3em;
+    font-family: sans-serif;
+}
+#game-over button {
+    font-size: 1.5em;
+}
+#game-start button {
+    font-size: 1.5em;
+}
+#final{
+    font-size: 1.5em;
+}
