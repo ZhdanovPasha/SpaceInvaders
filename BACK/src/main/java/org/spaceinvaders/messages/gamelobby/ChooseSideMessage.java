@@ -5,16 +5,16 @@ package org.spaceinvaders.messages.gamelobby;
  */
 public class ChooseSideMessage extends LobbyMessageEntity {
     String side;//true-розовые false голубые
-    int shipId;
+    String name;
 
     ChooseSideMessage() {
         type = LobbyMessageType.CHOOSESIDE;
     }
 
-    public ChooseSideMessage(String side, int shipId) {
+    public ChooseSideMessage(String side, String name) {
         this();
         this.side = side;
-        this.shipId = shipId;
+        this.name = name;
     }
 
     public String getSide() {
@@ -25,11 +25,11 @@ public class ChooseSideMessage extends LobbyMessageEntity {
         this.side = side;
     }
 
-    public int getShipId() {
-        return shipId;
+    public String getName() {
+        return name;
     }
 
-    public void setShipId(int shipId) {
-        this.shipId = shipId;
+    public void setName(String name) {
+        this.name = name;
     }
 }
