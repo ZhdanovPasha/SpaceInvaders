@@ -18,12 +18,19 @@
 		var width = game.getWH().w;
 		var height = game.getWH().h;
 
-		//инициализация контроля мыши
 		mouse.initMouseControl();
 		key.initKeyControl();
 
 		var bulletSpeed = 1;
 		var shipSpeed = 1;
+		var shipDX = 10;
+		var bulletDY = 10;
+		var shipWidth = 50;
+		var shipHeight = 50;
+		var bulletWidth = 27;
+		var bulletHeight = 64;
+		var beginPosX = width/2 - 25;
+		var beginPosY = height - 50; 
 
 		var fon = game.newImageObject({
 			position: point(0, 0),
@@ -32,38 +39,29 @@
 		});
 
 		var ship = game.newImageObject({
-			x: width/2 - 25 ,	y: height - 50,
-			w: 50,	h: 50,
-			//fillColor : "#FC4FC0"
+			x: beginPosX ,	y: beginPosY,
+			w: shipWidth,	h: shipHeight,
 			file: 'img/player.png'
 		})
 
-		//rect.draw();		
 		var bullets = [];
 		var count = 0;  
 
 		var addBullet = function(){
 			var tmp = game.newImageObject({
 				x: ship.x + ((count++)%2)*(ship.w/2), y: ship.y,
-				w: 27, h:64,
+				w: bulletWidth, h:bulletHeight,
 				file: 'img/bullet.png'
 			});
 			bullets.push(tmp);
 		}
 
 		var fire = function(){
-			// bullets.forEach(function(bullet, i , bullets){
-			// 	bullet.y -=10;
-			// 	bullet.draw();
-			// 	if (bullet.y <= 50){
-			// 		bullets.splice(i, 1);
-			// 	}
-			// });
 			for (i = 0; i < bullets.length; ++i){
-				var tmp = bullets[i];
-				tmp.draw();
-				tmp.y -=10;
-				if (tmp.y <= 50){
+				var bullet = bullets[i];
+				bullet.draw();
+				bullet.y -= bulletDY;
+				if (bullet.y <= 0){
 					bullets.splice(i, 1);
 					i--;
 				}
@@ -74,24 +72,23 @@
 
 		ship.control = function(){
 			if (key.isDown('LEFT')){
-				ship.x -=10 * shipSpeed;
+				ship.x -= shipDX * shipSpeed;
 				if (ship.x <= 0){
 					ship.x = 0;
 				}	
 			}
 			if (key.isDown('RIGHT')){
-				ship.x +=10 * shipSpeed;
+				ship.x += shipDX * shipSpeed;
+				var dif = width - ship.w;
 				if (ship.x >= width - ship.w){
 					ship.x = width - ship.w;
 				}
 			}
 			if (key.isDown('SPACE')){
-				console.log('addBullet');
 				if (Date.now() - lastBulletTime > 100 * bulletSpeed){
 					addBullet();
 					lastBulletTime = Date.now();
 				}
-				console.log(bullets);
 			}
 		};
 
@@ -108,7 +105,6 @@
 		game.startLoop('game');
 
 	</script>	
-	
 
 </body>
 </html>
