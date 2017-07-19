@@ -22,13 +22,16 @@
 		mouse.initMouseControl();
 		key.initKeyControl();
 
+		var bulletSpeed = 1;
+		var shipSpeed = 1;
+
 		var fon = game.newImageObject({
 			position: point(0, 0),
 			w: width, h: height,
 			file: 'img/terrain.png'
 		});
 
-		var rect = game.newImageObject({
+		var ship = game.newImageObject({
 			x: width/2 - 25 ,	y: height - 50,
 			w: 50,	h: 50,
 			//fillColor : "#FC4FC0"
@@ -36,23 +39,70 @@
 		})
 
 		//rect.draw();		
+		var bullets = [];
+		var count = 0;  
+
+		var addBullet = function(){
+			var tmp = game.newImageObject({
+				x: ship.x + ((count++)%2)*(ship.w/2), y: ship.y,
+				w: 27, h:64,
+				file: 'img/bullet.png'
+			});
+			bullets.push(tmp);
+		}
+
+		var fire = function(){
+			// bullets.forEach(function(bullet, i , bullets){
+			// 	bullet.y -=10;
+			// 	bullet.draw();
+			// 	if (bullet.y <= 50){
+			// 		bullets.splice(i, 1);
+			// 	}
+			// });
+			for (i = 0; i < bullets.length; ++i){
+				var tmp = bullets[i];
+				tmp.draw();
+				tmp.y -=10;
+				if (tmp.y <= 50){
+					bullets.splice(i, 1);
+					i--;
+				}
+			} 
+		};
+
+		var lastBulletTime = Date.now();
+
+		ship.control = function(){
+			if (key.isDown('LEFT')){
+				ship.x -=10 * shipSpeed;
+				if (ship.x <= 0){
+					ship.x = 0;
+				}	
+			}
+			if (key.isDown('RIGHT')){
+				ship.x +=10 * shipSpeed;
+				if (ship.x >= width - ship.w){
+					ship.x = width - ship.w;
+				}
+			}
+			if (key.isDown('SPACE')){
+				console.log('addBullet');
+				if (Date.now() - lastBulletTime > 100 * bulletSpeed){
+					addBullet();
+					lastBulletTime = Date.now();
+				}
+				console.log(bullets);
+			}
+		};
 
 		game.newLoop('game', function(){
 			game.clear();
 
 			fon.draw();
-			rect.draw();
+			ship.draw();
 
-			if (key.isDown('LEFT'))
-				rect.x -=10;
-			if (key.isDown('RIGHT'))
-				rect.x +=10;
-			if (rect.x <= 0){
-				rect.x = 0;
-			}
-			if (rect.x >= width - rect.w){
-				rect.x = width - rect.w;
-			}
+			ship.control();
+			fire();
 		});
 
 		game.startLoop('game');
