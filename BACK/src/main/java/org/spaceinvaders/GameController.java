@@ -17,6 +17,7 @@ import java.util.LinkedList;
  * Created by Gemini on 17.07.2017.
  */
 @Controller
+@MessageMapping("/process")
 public class GameController {
     private Logger log = LoggerFactory.getLogger(GameController.class);
 
@@ -30,8 +31,7 @@ public class GameController {
         messages.push(message);
     }
     @MessageMapping("/addCreateMessage")
-    public void addCreateMessage(CreateShipMessage message) {
-        messages.push(message);}
+    public void addCreateMessage(CreateShipMessage message) { messages.push(message);}
     @MessageMapping("/addHitMessage")
     public void addHitMessage(HitMessage message) {
         messages.push(message);
@@ -47,7 +47,7 @@ public class GameController {
     @Scheduled(fixedDelay = 16)
     public void hello() {
             if (!messages.isEmpty()) {
-                simpMessagingTemplate.convertAndSend("/hello", messages);
+                simpMessagingTemplate.convertAndSend("/g", messages);
                 messages.clear();
                 log.info("send");
             }

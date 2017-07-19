@@ -1,5 +1,7 @@
 package org.spaceinvaders;
 
+import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
+import org.spaceinvaders.messages.gamelobby.LobbyMessageType;
 import org.spaceinvaders.messages.process.ProcessMessageEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,7 +20,9 @@ public class SpaceInvadersApplication {
 		SpringApplication.run(SpaceInvadersApplication.class, args);
 	}
 	@Bean
-	LinkedList<ProcessMessageEntity> messages() {
+	LinkedList<ProcessMessageEntity> processMessages() {
 		return new LinkedList<>();
 	}
+	@Bean
+	LinkedList<LobbyMessageEntity> lobbyMessages() { return new LinkedList<>();}
 }
