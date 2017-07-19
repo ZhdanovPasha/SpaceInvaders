@@ -27,7 +27,7 @@ public class LobbyPageController {
     private void  addJoinMessage(JoinMessage message) {
         messages.push(message);
     }
-    @Scheduled(fixedDelay = 100)
+    @Scheduled(fixedDelay = 10)
     public void hello() {
         if (!messages.isEmpty()) {
             simpMessagingTemplate.convertAndSend("/game/lobby", messages);
