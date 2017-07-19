@@ -21,37 +21,34 @@ game.newLoopFromConstructor('battle', function () {
     // var obj = false;
 
     this.update = function () {
-        // var mPos = mouse.getPosition();
         game.clear(); // clear screen
-
-        OOP.drawArr(enemies, function (o) {
-            // o.y++;
-
-            // if (mouse.isInObject(o)) {
-            //     brush.drawRect({
-            //         x : o.x - 4, y : o.y - 4,
-            //         w : o.w + 6, h : o.h + 6,
-            //         strokeColor : 'white',
-            //         strokeWidth : 2
-            //     });
+        var hit = false;
+        bullets.forEach(function (bullet, i, bullets) {
+            enemies.forEach(function (enemy, j, enemies) {
+                if (bullet.isStaticIntersect(enemy.getStaticBox())) {
+                    hit = true;
+                    enemies.splice(j, 1);
+                }
+            });
+            if (bullet.y < 0 || hit) bullets.splice(i, 1);
+            else {
+                bullet.y--;
+                bullet.draw();
+            }
+            // if (bullet[i].getDistance(pl.getPosition(1)) < pl.getRadius() + 10) {
+            //     bullet[i].moveTimeC(pl.getPosition(1), 50);
             // }
-
-            // if (mouse.isPeekObject('LEFT', o)) {
-            //     obj = o;
+            //
+            // if (bullet[i].isDynamicInside(pl.getDynamicBox())) {
+            //     pl.scaleC(1.005);
+            //     bullet.splice(i, 1);
             // }
         });
-
-        // if (mouse.isUp('LEFT')) {
-        //     obj = false;
-        // }
-        //
-        // if (obj) {
-        //     obj.moveTimeC(mPos, 10);
-        // }
-
-        OOP.drawArr([player], function (o) {
-            // your code
+        enemies.forEach(function (enemy, i, enemies) {
+            enemy.draw();
         });
+
+        player.draw();
         if (key.isDown('LEFT')) {
             if (player.x >= 0) {
                 player.x--;
@@ -62,6 +59,15 @@ game.newLoopFromConstructor('battle', function () {
                 player.x++;
             }
         }
+        if (key.isDown('SPACE')) {
+            bullets.push(game.newImageObject({
+                x: player.x, y: player.y,
+                w: 27,
+                h: 64,
+                file: 'img/projectile_bolt_blue_single.png'
+            }));
+        }
+
     };
 
 
