@@ -1,6 +1,6 @@
 package org.spaceinvaders;
 
-import org.spaceinvaders.messages.process.MessageEntity;
+import org.spaceinvaders.messages.process.ProcessMessageEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ public class SpaceInvadersApplication {
 		SpringApplication.run(SpaceInvadersApplication.class, args);
 	}
 	@Bean
-	LinkedList<MessageEntity> messages() {
+	LinkedList<ProcessMessageEntity> messages() {
 		return new LinkedList<>();
 	}
 }

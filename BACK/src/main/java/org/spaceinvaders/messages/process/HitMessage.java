@@ -6,7 +6,7 @@ package org.spaceinvaders.messages.process;
 public class HitMessage extends MoveMessage {
     private int shipId;
     public HitMessage() {
-        type = Type.HITTING;
+        type = ProcessMessageType.HITTING;
     }
 
     public HitMessage(int shipId,int shelId ) {

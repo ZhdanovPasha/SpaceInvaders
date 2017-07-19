@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * Created by Gemini on 17.07.2017.
  */
-public class MessageEntity {
-    protected Type type;
+public class ProcessMessageEntity {
+    protected ProcessMessageType type;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public Type getType() {
+    public ProcessMessageType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(ProcessMessageType type) {
         this.type = type;
     }
 }

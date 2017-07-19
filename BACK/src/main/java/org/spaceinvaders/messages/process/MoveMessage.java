@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * Created by Gemini on 17.07.2017.
  */
-public class MoveMessage extends MessageEntity {
+public class MoveMessage extends ProcessMessageEntity {
     private int id,dx;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Direction direction;
     public MoveMessage() {
-        type = Type.MOVE;
+        type = ProcessMessageType.MOVE;
     }
     public MoveMessage(int id,Direction direction, int dx) {
         this();

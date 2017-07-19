@@ -23,7 +23,7 @@ public class GameController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
-    private LinkedList<MessageEntity> messages;
+    private LinkedList<ProcessMessageEntity> messages;
 
     @MessageMapping("/addShotMessage")
     public void  addShotMessage(ShotMessage message) {
