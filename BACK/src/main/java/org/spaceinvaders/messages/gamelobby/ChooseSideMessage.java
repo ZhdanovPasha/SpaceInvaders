@@ -6,6 +6,7 @@ package org.spaceinvaders.messages.gamelobby;
 public class ChooseSideMessage extends LobbyMessageEntity {
     String side;//true-розовые false голубые
     int shipId;
+
     ChooseSideMessage() {
         type = LobbyMessageType.CHOOSESIDE;
     }
