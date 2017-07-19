@@ -1,11 +1,11 @@
-package org.spaceinvaders.messages;
+package org.spaceinvaders.messages.process;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.io.Serializable;
 
 /**
  * Created by Gemini on 17.07.2017.
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Direction {
-    LEFT,RIGHT;
-}
+public enum  Type  {MOVE,SHOT,HITTING,CREATESHIP,DESTROYSHIP}

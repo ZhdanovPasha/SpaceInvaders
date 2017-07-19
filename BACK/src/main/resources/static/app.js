@@ -11,16 +11,30 @@ function setConnected(connected) {
     } else
         $("#game").hide();
 }
+var subscription = null;
 function  connect() {
     var  socket = new SockJS('/game');
     stompClient = Stomp.over(socket);
     stompClient.connect({},function (frame) {
         setConnected(true);
-        stompClient.subscribe('/hello',function (change) {
+        subscription = stompClient.subscribe('/game/Page',function (change) {
+            if (change.body="startGame"){
+                startGame();
+                return;
+            }
             console.log(JSON.parse(change.body));
         })
+
     })
 }
+function startGame() {
+    subscription.unsubscribe();
+    subscription = stompClient.subscribe('/game/process',function (change) {
+        console.log(JSON.parse(change.body));
+    })
+
+}
+
 function newMessage() {
-    stompClient.send("/addshotmessage",{},JSON.stringify({'type':"SHOT",'id':1,'time':new Date().getTime()}));
+    stompClient.send("/addShotMessage",{},JSON.stringify({'type':"SHOT",'id':1,'time':new Date().getTime()}));
 }

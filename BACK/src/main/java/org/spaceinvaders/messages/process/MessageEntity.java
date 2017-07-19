@@ -1,4 +1,4 @@
-package org.spaceinvaders.messages;
+package org.spaceinvaders.messages.process;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * Created by Gemini on 17.07.2017.
  */
 public class MessageEntity {
-    protected   Type type;
+    protected Type type;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     public Type getType() {
         return type;

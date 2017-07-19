@@ -1,6 +1,6 @@
 package org.spaceinvaders;
 
-import org.spaceinvaders.messages.MessageEntity;
+import org.spaceinvaders.messages.process.MessageEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
