@@ -100,11 +100,15 @@
 
 			ship.control();
 			fire();
+			
+			updateInterface(100,100,1000,10);
+			drawInterface();
 		});
 
 		game.startLoop('game');
 
 	</script>	
+	<script type="text/javascript" src="js/interface.js"></script>
 
 </body>
 </html>

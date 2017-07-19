@@ -54,7 +54,7 @@ var drawHP = function(){
 };
 
 var scoresText = game.newTextObject({
-	text: 'ОЧКИ: 1000',
+	text: 'SCORES: 1000',
 	x: hpRectStroke.x + hpRectStroke.w + 10,
 	y: hpText.y,
 	color: 'white',
@@ -70,7 +70,7 @@ var drawScores = function(){
 };
 
 var aliveText = game.newTextObject({
-	text: 'ВРАГОВ: 100',
+	text: 'ENEMIES: 100',
 	x: scoresText.x + scoresText.w + 10,
 	y: scoresText.y,
 	color: 'white',
@@ -124,7 +124,7 @@ var updateInterface = function(cHP, cMP, sc, al){
 	hpRectVal.w = (rectValWidth - 2) * currHP / maxHP;
 	hpVal.text = currHP + '/' + maxHP;
 	
-	scoresText.text = 'ОЧКИ: ' + scores;
+	scoresText.text = 'SCORES: ' + scores;
 	
-	aliveText.text = 'ВРАГОВ: ' + alive;
+	aliveText.text = 'ENEMIES: ' + alive;
 };
