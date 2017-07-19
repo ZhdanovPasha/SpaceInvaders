@@ -41,9 +41,7 @@ var hpRectVal = game.newRectObject({
 
 var hpVal = game.newTextObject({
 		text: '100/100',
-		//x: hpRectVal.x + hpRectVal.w / 2,
 		positionC: point(hpRectVal.x + hpRectVal.w / 2, hpRectVal.y + hpRectVal.h / 2),
-		//y: hpRectVal.y + hpRectVal.h / 2,
 		color: 'white',
 		size: 0.03 * height
 });
