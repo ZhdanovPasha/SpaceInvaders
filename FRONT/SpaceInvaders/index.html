@@ -7,7 +7,57 @@
 </head>
 <body>
 	<script type="text/javascript" src="js/point.js"></script>
-		
+	<script type="text/javascript">
+		var pjs =  new PointJS('2d', 400, 400);
+		pjs.system.initFullScreen();
+
+		var game = pjs.game;
+		var mouse = pjs.mouseControl;
+		var key = pjs.keyControl;
+		var point = pjs.vector.point;
+		var width = game.getWH().w;
+		var height = game.getWH().h;
+
+		//инициализация контроля мыши
+		mouse.initMouseControl();
+		key.initKeyControl();
+
+		var fon = game.newImageObject({
+			position: point(0, 0),
+			w: width, h: height,
+			file: 'img/terrain.png'
+		});
+
+		var rect = game.newImageObject({
+			x: width/2 - 25 ,	y: height - 50,
+			w: 50,	h: 50,
+			//fillColor : "#FC4FC0"
+			file: 'img/player.png'
+		})
+
+		//rect.draw();		
+
+		game.newLoop('game', function(){
+			game.clear();
+
+			fon.draw();
+			rect.draw();
+
+			if (key.isDown('LEFT'))
+				rect.x -=10;
+			if (key.isDown('RIGHT'))
+				rect.x +=10;
+			if (rect.x <= 0){
+				rect.x = 0;
+			}
+			if (rect.x >= width - rect.w){
+				rect.x = width - rect.w;
+			}
+		});
+
+		game.startLoop('game');
+
+	</script>	
 	
 
 </body>
