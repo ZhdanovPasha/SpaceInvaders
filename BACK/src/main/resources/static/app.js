@@ -17,7 +17,7 @@ function  connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({},function (frame) {
         setConnected(true);
-        subscription = stompClient.subscribe('/game/Page',function (change) {
+        subscription = stompClient.subscribe('/game/lobby',function (change) {
             if (change.body="startGame"){
                 startGame();
                 return;
