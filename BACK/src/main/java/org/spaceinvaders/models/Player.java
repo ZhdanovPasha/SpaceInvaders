@@ -4,15 +4,18 @@ package org.spaceinvaders.models;
  * Created by lionnick on 20.07.17.
  */
 public class Player {
-    String status;
-    String name;
+    private StatusInLobby side;
+    private String name;
+    private Boolean ready;
+    public Player(){
 
-    public String getStatus() {
-        return status;
+    }
+    public StatusInLobby getSide() {
+        return side;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSide(StatusInLobby side) {
+        this.side = side;
     }
 
     public String getName() {
@@ -21,5 +24,19 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getReady() {
+        return ready;
+    }
+
+    public void setReady(Boolean ready) {
+        ready = ready;
+    }
+
+    public Player(String name, StatusInLobby side,Boolean ready) {
+        this.side = side;
+        this.name = name;
+        this.ready = ready;
     }
 }

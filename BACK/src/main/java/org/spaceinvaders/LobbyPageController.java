@@ -2,9 +2,9 @@ package org.spaceinvaders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spaceinvaders.messages.gamelobby.JoinMessage;
-import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
+import org.spaceinvaders.messages.gamelobby.*;
 import org.spaceinvaders.models.Player;
+import org.spaceinvaders.models.StatusInLobby;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -28,7 +28,47 @@ public class LobbyPageController {
     private SimpMessagingTemplate simpMessagingTemplate;
     @MessageMapping("/addJoinMessage")
     private void  addJoinMessage(JoinMessage message) {
+        players.push(new Player(message.getName(), StatusInLobby.NONE,false));
         messages.push(message);
+    }
+    @Scheduled(fixedDelay = 50)
+    public  void checkReadyToStart() {
+        boolean isReady;
+        if (players.isEmpty()) return;
+        for (Player player: players) {
+            if (!player.getReady()) return;
+        }
+        simpMessagingTemplate.convertAndSend(new StartMessage());
+
+    }
+    @MessageMapping("/addChooseSideMessage")
+    public  void addChooseSideMessage(ChooseSideMessage message) {
+        messages.push(message);
+        for (Player player :players) {
+            if (player.getName() == message.getName()) {
+                player.setSide(message.getSide()) ;
+            }
+        }
+    }
+    @MessageMapping("/addReadyMessage")
+    public void addReadyMessage(ReadyMessage message) {
+        messages.push(message);
+        for (Player player : players) {
+            if (player.getName() == message.getName()) {
+                player.setReady(true);
+                break;
+            }
+        }
+    }
+    @MessageMapping("/addNoreadyMessage")
+    public void addNoReadyMessage(NoReadyMessage message) {
+        messages.push(message);
+        for (Player player: players) {
+            if (player.getName() == message.getName()) {
+                player.setReady(false);
+                break;
+            }
+        }
     }
     @Scheduled(fixedDelay = 10)
     public void hello() {

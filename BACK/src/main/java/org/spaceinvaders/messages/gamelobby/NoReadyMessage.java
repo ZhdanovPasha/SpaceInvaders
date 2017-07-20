@@ -1,15 +1,15 @@
 package org.spaceinvaders.messages.gamelobby;
 
 /**
- * Created by Gemini on 19.07.2017.
+ * Created by gemini on 20.07.17.
  */
-public class ReadyMessage extends LobbyMessageEntity {
-    public String name;
-    public ReadyMessage() {
-        type = LobbyMessageType.READY;
+public class NoReadyMessage extends LobbyMessageEntity{
+    String name;
+    public NoReadyMessage() {
+        type = LobbyMessageType.NOREADY;
     }
 
-    public ReadyMessage(String name) {
+    public NoReadyMessage(String name) {
         this();
         this.name = name;
     }
