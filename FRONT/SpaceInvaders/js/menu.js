@@ -2,8 +2,8 @@
     var obj;
     var header;
     var items;
-    var menuY=30;
-    var menuElemHeight=20;
+    var menuY=200;
+    var menuElemHeight=40;
     var menuWidth=200;
     var chooseMenuElements=[
         { //0 всегда заголовок
@@ -44,16 +44,16 @@
     function setMenuElements(elements) {
         items=[];
         elements.forEach(function(elem,i){
-            if(i===0)header=game.newTextObject({
+            if(i===0) header=game.newTextObject({
                 text: elem.text,
-                x:width-menuWidth/2,
+                x:width/2-menuWidth/2,
                 y:menuY,
                 color: 'white',
                 size: menuElemHeight*0.75
             }); else{
                 items.push(game.newTextObject({
                     text: elem.text,
-                    x:width-menuWidth/2,
+                    x:width/2-menuWidth/2,
                     y:menuY+i*menuElemHeight,
                     color: 'white',
                     size: menuElemHeight*0.6
@@ -73,7 +73,7 @@
             pjs.OOP.drawArr(items, function (o) {
 
                 if (mouse.isInObject(o)) {
-                    brush.drawRect({
+                    pjs.brush.drawRect({
                         x : o.x - 4, y : o.y - 4,
                         w : o.w + 6, h : o.h + 6,
                         strokeColor : 'white',

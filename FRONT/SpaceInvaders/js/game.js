@@ -120,9 +120,3 @@ game.newLoop('game', function () {
     updateInterface(currHP, scores,100, enemies.length);
     drawInterface();
 });
-
-window.onload=function() {
-
-// game.startLoop('game');
-    game.startLoop('menu');
-};
