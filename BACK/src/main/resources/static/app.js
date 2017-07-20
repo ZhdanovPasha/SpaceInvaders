@@ -2,6 +2,7 @@
  * Created by Gemini on 17.07.2017.
  */
 var stompClient = null;
+
 var button = document.getElementById('button');
 function setConnected(connected) {
     $("#connect").prop("disabled",connected);
