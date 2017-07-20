@@ -17,6 +17,7 @@
             text: "Pink",
             handle: function () {
                 alert(name);
+                key.setInputMode(false);
                 game.startLoop('game');
             }
         },
@@ -24,6 +25,7 @@
             text: "Blue",
             handle: function () {
                 alert(name);
+                key.setInputMode(false);
                 game.startLoop('game');
             }
         }
