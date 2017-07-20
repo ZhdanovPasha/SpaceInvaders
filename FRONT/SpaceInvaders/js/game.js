@@ -18,14 +18,22 @@ var shipDX = 10;
 var bulletDY = 10;
 var shipWidth = 50;
 var shipHeight = 50;
-var bulletWidth = 27;
-var bulletHeight = 64;
+var bulletHeroWidth = 27;
+var bulletHeroHeight = 64;
+var bulletEnemyWidth = 800 ;
+var bulletEnemyHeight = 600 ;
 var beginPosX = width/2 - 25;
 var beginPosY = height - 50; 
-var bullets = [];
+var bulletsHero = [];
+var bulletsEnemies = [];
 var enemies = [];
-var countBullets = 0;  
-var lastBulletTime = Date.now();
+var countHeroBullets = 0;  
+var lastHeroFire = Date.now();
+var lastEnemiesFire = Date.now();
+var lastEnemiesMove = Date.now();
+var scores = 1000;
+var curHP = 100;
+var enemiesCount;
 
 var fon = game.newImageObject({
 	position: point(0, 0),
@@ -39,18 +47,29 @@ var ship = game.newImageObject({
 	file: 'img/player.png'
 })
 
-var addBullet = function(){
+var addBulletHero = function(){
 	var tmp = game.newImageObject({
-		x: ship.x + ((countBullets++)%2)*(ship.w/2), y: ship.y,
-		w: bulletWidth, h:bulletHeight,
+		x: ship.x + ((countHeroBullets++)%2)*(ship.w/2), y: ship.y,
+		w: bulletHeroWidth, h:bulletHeroHeight,
 		file: 'img/bullet.png'
 	});
-	bullets.push(tmp);
+	bulletsHero.push(tmp);
 }
 
-var fire = function(){
-	for (i = 0; i < bullets.length; ++i){
-		var bullet = bullets[i];
+var addBulletEnemy = function(number){
+	var enemyX = enemies[number].x;
+	var enemyY = enemies[number].y;
+	var tmp = game.newImageObject({
+		x: enemyX, y: enemyY,
+		w: bulletEnemyWidth, h: bulletEnemyHeight,
+		file: 'img/bulletEnemy.png'
+	});
+	bulletsEnemies[number].push(tmp);
+}
+
+var fireHero = function(){
+	for (i = 0; i < bulletsHero.length; ++i){
+		var bullet = bulletsHero[i];
 		var hit = false;
 		bullet.draw();
 		bullet.y -= bulletDY;
@@ -58,10 +77,11 @@ var fire = function(){
             if (bullet.isStaticIntersect(enemy.getStaticBox())) {
                 hit = true;
                 enemies.splice(j, 1);
+                scores += 100;
             }
     	});
 		if (bullet.y <= 0 || hit){
-			bullets.splice(i, 1);
+			bulletsHero.splice(i, 1);
 			i--;
 		}
 	} 
@@ -82,22 +102,70 @@ ship.control = function(){
 		}
 	}
 	if (key.isDown('SPACE')){
-		if (Date.now() - lastBulletTime > 100 * bulletSpeed){
-			addBullet();
-			lastBulletTime = Date.now();
+		if (Date.now() - lastHeroFire > 100 * bulletSpeed){
+			addBulletHero();
+			lastHeroFire = Date.now();
 		}
 	}
 };
 
 // надо исправить числовые значения
 var addEnemies = function(){
-	for (i = 0; i < 10; i++) {
+	for (i = 0; i < enemiesCount; ++i) {
         enemies.push(game.newAnimationObject({
-            x: i * 75, y: hpRectStroke.h + hpRectStroke.y, angle: 90,
+            x: i * 75, y: hpRectVal.h + hpRectVal.y+50, angle: 90,
             w: 80, h: 39,
             animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
         }));
     }
+    //initialization bulletEnemies
+    for (i = 0; i < enemiesCount; ++i) {
+    	bulletsEnemies[i] = [];
+    }
+};
+
+function getRandomInt(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var enemiesMoving = function(){
+	enemies.forEach(function (enemy, i, enemies) {
+		enemy.x += getRandomInt(-5, 5);
+		enemy.y += getRandomInt(-1, 1);
+	});
+}
+
+var enemiesFire = function(){
+	for (i = 0; i < bulletsEnemies.length; ++i){
+		for (j = 0; j < bulletsEnemies[i].length; ++j){
+			var hit = false;
+			var bullet = bulletsEnemies[i][j];
+			bullet.draw();
+			bullet.y += bulletDY;
+			if (bullet.isStaticIntersect(ship.getStaticBox())) {
+	                hit = true;
+	                curHP -= 5;
+	        }
+	        if (bullet.y >= height - bullet.height || hit){
+				bulletsEnemies[i].splice(j, 1);
+				j--;
+			}
+		}
+	}
+	// bulletsEnemies.forEach(function (enemy, i, bulletsEnemies){
+	// 	bulletsEnemies.forEach(function (bullet, j, enemy){
+	// 		var hit = false;
+	// 		bullet.draw();
+	// 		bullet.y += bulletDY;
+	// 		if (bullet.isStaticIntersect(ship.getStaticBox())) {
+	//                 hit = true;
+	//                 hp -= 5;
+	//         }
+	//         if (bullet.y >= height - bullet.height || hit){
+	// 			bullet.splice(j, 1);
+	// 		}
+	// 	});
+	// });
 };
 
 var noEnemy = false;
@@ -109,14 +177,26 @@ game.newLoop('game', function(){
 	ship.control();
 	
 	if (!noEnemy){
+		enemiesCount = 10;
 		addEnemies();
 		noEnemy = true;
 	}
 	enemies.forEach(function (enemy, i, enemies) {
-    	enemy.draw();
+	    enemy.draw();
 	});
-	fire();
-	updateInterface(100, 100, 1000, enemies.length);
+	if (Date.now() - lastEnemiesMove > 300){
+		enemiesMoving();
+		enemiesFire();
+		lastEnemiesMove = Date.now();
+	}
+	if (Date.now() - lastEnemiesFire > 500){
+		for (i = 0; i < enemies.length; ++i){
+			addBulletEnemy(i);
+		}
+		lastEnemiesFire = Date.now();
+	}
+	fireHero();
+	updateInterface(curHP, 100, scores, enemies.length);
 	drawInterface();
 });
 
