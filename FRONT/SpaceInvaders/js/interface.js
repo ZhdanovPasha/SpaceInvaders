@@ -1,7 +1,5 @@
 var currHP = 100;
 var maxHP = 100;
-var currMP = 100;
-var maxMP = 100;
 var scores = 1000;
 var alive = 10;
 
