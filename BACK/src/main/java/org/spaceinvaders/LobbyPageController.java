@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spaceinvaders.messages.gamelobby.JoinMessage;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
+import org.spaceinvaders.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
