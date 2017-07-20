@@ -1,27 +1,28 @@
 package org.spaceinvaders.messages.gamelobby;
 
+import org.spaceinvaders.models.StatusInLobby;
+
 /**
  * Created by Gemini on 19.07.2017.
  */
 public class ChooseSideMessage extends LobbyMessageEntity {
-    String side;//true-розовые false голубые
+    StatusInLobby side;//true-розовые false голубые
     String name;
 
     ChooseSideMessage() {
         type = LobbyMessageType.CHOOSESIDE;
     }
 
-    public ChooseSideMessage(String side, String name) {
-        this();
+    public ChooseSideMessage( String name,StatusInLobby side) {
         this.side = side;
         this.name = name;
     }
 
-    public String getSide() {
+    public StatusInLobby getSide() {
         return side;
     }
 
-    public void setSide(String side) {
+    public void setSide(StatusInLobby side) {
         this.side = side;
     }
 

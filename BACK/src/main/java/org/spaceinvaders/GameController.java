@@ -47,7 +47,7 @@ public class GameController {
     @Scheduled(fixedDelay = 16)
     public void hello() {
             if (!messages.isEmpty()) {
-                simpMessagingTemplate.convertAndSend("/g", messages);
+                simpMessagingTemplate.convertAndSend("/game/process", messages);
                 messages.clear();
                 log.info("send");
             }
