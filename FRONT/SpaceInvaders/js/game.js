@@ -1,4 +1,4 @@
-var pjs =  new PointJS('2d', 400, 400);
+var pjs = new PointJS('2d', 400, 400);
 pjs.system.initFullScreen();
 
 var game = pjs.game;
@@ -41,9 +41,9 @@ var botsMovingX = 5;
 var botsMovingY = 5;
 
 var fon = game.newImageObject({
-	position: point(0, 0),
-	w: width, h: height,
-	file: 'img/terrain.png'
+    position: point(0, 0),
+    w: width, h: height,
+    file: 'img/terrain.png'
 });
 
 var ship = game.newImageObject({
@@ -236,5 +236,3 @@ game.newLoop('game', function(){
 		game.startLoop('game');
 	}
 });
-
-game.startLoop('game');
