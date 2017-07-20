@@ -2,7 +2,7 @@ var currHP = 100;
 var maxHP = 100;
 var currMP = 100;
 var maxMP = 100;
-var scores = 1000;
+var scores = 0;
 var alive = 10;
 
 var width = game.getWH().w;
@@ -54,7 +54,7 @@ var drawHP = function(){
 };
 
 var scoresText = game.newTextObject({
-	text: 'SCORES: 1000',
+	text: 'SCORES: 10000',
 	x: hpRectStroke.x + hpRectStroke.w + 10,
 	y: hpText.y,
 	color: 'white',

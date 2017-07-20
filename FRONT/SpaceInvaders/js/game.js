@@ -32,9 +32,10 @@ var countHeroBullets = 0;
 var lastHeroFire = Date.now();
 var lastEnemiesFire = Date.now();
 var lastEnemiesMove = Date.now();
-var scores = 1000;
+var scores = 0;
 var curHP = 100;
-var enemiesCount;
+var damageEnemyBullet = 50; 
+var enemiesCount = 0;
 var killScores = 100;
 var botsMovingX = 5;
 var botsMovingY = 5;
@@ -49,7 +50,19 @@ var ship = game.newImageObject({
 	x: beginPosX ,	y: beginPosY,
 	w: shipWidth,	h: shipHeight,
 	file: 'img/player.png'
-})
+});
+
+var initParameters = function(){
+	curHP = 100;
+	scores = 0;
+	noEnemy = false;
+	gameEnd = false;
+	for (i = 0; i < bulletsEnemies.length; ++i){
+		bulletsEnemies[i].splice(0, bulletsEnemies[i].length)
+	}
+	bulletsEnemies.splice(0, bulletsEnemies.length);
+	bulletsHero.splice(0, bulletsHero.length);
+};
 
 var addBulletHero = function(){
 	var tmp = game.newImageObject({
@@ -58,7 +71,7 @@ var addBulletHero = function(){
 		file: 'img/bullet.png'
 	});
 	bulletsHero.push(tmp);
-}
+};
 
 var addBulletEnemy = function(number){
 	var enemyX = enemies[number].x;
@@ -150,7 +163,7 @@ var fireEnemies = function(){
 			bullet.y += bulletDY/2;
 			if (bullet.isStaticIntersect(ship.getStaticBox())) {
 	                hit = true;
-	                curHP -= 5;
+	                curHP -= damageEnemyBullet;
 	        }
 	        if (bullet.y >= height - bullet.height || hit){
 				bulletsEnemies[i].splice(j, 1);
@@ -161,36 +174,64 @@ var fireEnemies = function(){
 };
 
 var noEnemy = false;
+var gameEnd = false;
+
 game.newLoop('game', function(){
 	game.clear();
-
 	fon.draw();
-	ship.draw();
-	ship.control();
-	
-	if (!noEnemy){
-		enemiesCount = 10;
-		addEnemies();
-		noEnemy = true;
-	}
-	enemies.forEach(function (enemy, i, enemies) {
-	    enemy.draw();
-	});
-	fireEnemies();
-	if (Date.now() - lastEnemiesFire > 2000){
-		for (i = 0; i < enemies.length; ++i){
-			addBulletEnemy(i);
+	if (!gameEnd){
+		
+		ship.draw();
+		ship.control();
+		
+		if (!noEnemy){
+			enemiesCount = 10;
+			addEnemies();
+			noEnemy = true;
 		}
-		//enemiesMoving();
-		lastEnemiesFire = Date.now();
+		enemies.forEach(function (enemy, i, enemies) {
+		    enemy.draw();
+		});
+		fireEnemies();
+		if (Date.now() - lastEnemiesFire > 2000){
+			for (i = 0; i < enemies.length; ++i){
+				addBulletEnemy(i);
+			}
+			//enemiesMoving();
+			lastEnemiesFire = Date.now();
+		}
+		if (Date.now() - lastEnemiesMove > 500){
+			movingEnemies();
+			lastEnemiesMove = Date.now();
+		}
+		fireHero();
+		if (!enemies.length){
+			//game.stop();
+			var success = game.newTextObject({
+				text: "Вы победили!!Нажмите Enter, чтобы начать заново",
+				size: 20, color: "white",
+				positionC: point(width/2, height/2)
+			});
+			success.draw();
+			gameEnd = true;
+		}
+		if (curHP <= 0){
+			var lose = game.newTextObject({
+				text: "Вы проиграли!!Нажмите Enter, чтобы начать заново",
+				size: 20, color: "white",
+				positionC: point(width/2, height/2)
+			});
+			lose.draw();
+			gameEnd = true;
+		}
 	}
-	if (Date.now() - lastEnemiesMove > 500){
-		movingEnemies();
-		lastEnemiesMove = Date.now();
-	}
-	fireHero();
 	updateInterface(curHP, 100, scores, enemies.length);
-	drawInterface();
+	drawInterface();	
+	if (gameEnd && key.isPress('ENTER')){
+		enemies.splice(0, enemies.length);
+		initParameters();
+		game.startLoop('game');
+	}
 });
 
 game.startLoop('game');
