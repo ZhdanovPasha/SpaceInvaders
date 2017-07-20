@@ -44,6 +44,8 @@ public class GameController {
     public  void addDestroyMessage(DestroyShipMessage message) {
         messages.push(message);
     }
+
+
     @Scheduled(fixedDelay = 16)
     public void hello() {
             if (!messages.isEmpty()) {

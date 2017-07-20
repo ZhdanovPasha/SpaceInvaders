@@ -15,6 +15,7 @@ function setConnected(connected) {
 var subscription = null;
 var count = 0;
 
+
 function  connect() {
     if(stompClient==null){
     var  socket = new SockJS('/game');

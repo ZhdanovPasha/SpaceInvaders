@@ -18,5 +18,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         stompEndpointRegistry.addEndpoint("/game").withSockJS();
     }
 
+
+
 }
 
