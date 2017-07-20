@@ -20,8 +20,8 @@ var shipWidth = 50;
 var shipHeight = 50;
 var bulletHeroWidth = 27;
 var bulletHeroHeight = 64;
-var bulletEnemyWidth = 800 ;
-var bulletEnemyHeight = 600 ;
+var bulletEnemyWidth = 27 ;
+var bulletEnemyHeight = 64 ;
 var beginPosX = width/2 - 25;
 var beginPosY = height - 50; 
 var bulletsHero = [];
@@ -152,20 +152,6 @@ var enemiesFire = function(){
 			}
 		}
 	}
-	// bulletsEnemies.forEach(function (enemy, i, bulletsEnemies){
-	// 	bulletsEnemies.forEach(function (bullet, j, enemy){
-	// 		var hit = false;
-	// 		bullet.draw();
-	// 		bullet.y += bulletDY;
-	// 		if (bullet.isStaticIntersect(ship.getStaticBox())) {
-	//                 hit = true;
-	//                 hp -= 5;
-	//         }
-	//         if (bullet.y >= height - bullet.height || hit){
-	// 			bullet.splice(j, 1);
-	// 		}
-	// 	});
-	// });
 };
 
 var noEnemy = false;
@@ -184,12 +170,13 @@ game.newLoop('game', function(){
 	enemies.forEach(function (enemy, i, enemies) {
 	    enemy.draw();
 	});
+	enemiesFire();
 	if (Date.now() - lastEnemiesMove > 300){
 		enemiesMoving();
-		enemiesFire();
+		
 		lastEnemiesMove = Date.now();
 	}
-	if (Date.now() - lastEnemiesFire > 500){
+	if (Date.now() - lastEnemiesFire > 1000){
 		for (i = 0; i < enemies.length; ++i){
 			addBulletEnemy(i);
 		}
