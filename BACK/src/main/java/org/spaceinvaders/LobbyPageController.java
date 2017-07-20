@@ -20,6 +20,8 @@ import java.util.LinkedList;
 public class LobbyPageController {
     private Logger log = LoggerFactory.getLogger(LobbyPageController.class);
     @Autowired
+    private LinkedList<Player> players;
+    @Autowired
     private LinkedList<LobbyMessageEntity> messages;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;

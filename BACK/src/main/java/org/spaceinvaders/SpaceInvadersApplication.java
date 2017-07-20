@@ -25,4 +25,6 @@ public class SpaceInvadersApplication {
 	}
 	@Bean
 	LinkedList<LobbyMessageEntity> lobbyMessages() { return new LinkedList<>();}
+	@Bean
+	LinkedList<Player> getPlayers() {return new LinkedList<Player>();}
 }
