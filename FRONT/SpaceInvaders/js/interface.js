@@ -89,6 +89,23 @@ class Interface{
 			h: 50,
 			fillColor: 'black'
 		});
+		
+		this.resultBattleText = this.game.newTextObject({
+			text: "Вы победили!\nДля продолжения нажмите ENTER",
+			positionC: this.point(this.game.getWH().w2, this.game.getWH().h2),
+			size: 20,
+			color: "white"
+		});
+	}
+	
+	initialWin(){
+		this.resultBattleText.text = "Вы победили!\nДля продолжения нажмите ENTER"
+		this.resultBattleText.draw();
+	}
+	
+	initialLose(){
+		this.resultBattleText.text = "Вы проиграли!\nДля продолжения нажмите ENTER"
+		this.resultBattleText.draw();
 	}
 	
 	drawHP(){
@@ -113,17 +130,19 @@ class Interface{
 	}
 	
 	update(hp, sc, en){//Обновить текущие данные
-		if(hp < 0)
+		if(hp < 0){
 			this.currHP = 0;
+			initialLose();
+		}
 		else if(hp > this.maxHP) 
 			this.currHP = maxHP;
 		else 
 			this.currHP = hp;
 		
-		if(en < 0)
-			this.enemies = 0;
-		else
-			this.enemies = en;
+		if(en == 0)
+			this.initialWin();
+		
+		this.enemies = en;
 		
 		if(sc < 0)
 			this.scores = 0;
