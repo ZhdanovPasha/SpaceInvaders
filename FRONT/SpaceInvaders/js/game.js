@@ -93,7 +93,7 @@ ship.control = function(){
 var addEnemies = function(){
 	for (i = 0; i < 10; i++) {
         enemies.push(game.newAnimationObject({
-            x: i * 50, y: 41, angle: 90,
+            x: i * 75, y: hpRectStroke.h + hpRectStroke.y, angle: 90,
             w: 80, h: 39,
             animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
         }));
@@ -106,7 +106,6 @@ game.newLoop('game', function(){
 
 	fon.draw();
 	ship.draw();
-
 	ship.control();
 	
 	if (!noEnemy){
@@ -117,7 +116,8 @@ game.newLoop('game', function(){
     	enemy.draw();
 	});
 	fire();
-
+	updateInterface(100, 100, 1000, enemies.length);
+	drawInterface();
 });
 
 game.startLoop('game');
