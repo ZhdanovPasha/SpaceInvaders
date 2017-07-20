@@ -48,6 +48,8 @@ var addBullet = function(){
 	bullets.push(tmp);
 }
 
+var scores = 0;
+
 var fire = function(){
 	for (i = 0; i < bullets.length; ++i){
 		var bullet = bullets[i];
@@ -58,6 +60,8 @@ var fire = function(){
             if (bullet.isStaticIntersect(enemy.getStaticBox())) {
                 hit = true;
                 enemies.splice(j, 1);
+				
+				scores += 10;
             }
     	});
 		if (bullet.y <= 0 || hit){
@@ -101,6 +105,11 @@ var addEnemies = function(){
 };
 
 var noEnemy = false;
+
+var gameInterface = new Interface(pjs);
+gameInterface.initialize(100, scores, enemies.length);
+gameInterface.initializeObjects();
+
 game.newLoop('game', function(){
 	game.clear();
 
@@ -117,7 +126,9 @@ game.newLoop('game', function(){
     	enemy.draw();
 	});
 	fire();
-
+	
+	gameInterface.update(100, scores, enemies.length);
+	gameInterface.draw();
 });
 
 game.startLoop('game');
