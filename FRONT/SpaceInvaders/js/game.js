@@ -62,6 +62,7 @@ var initParameters = function(){
 	}
 	bulletsEnemies.splice(0, bulletsEnemies.length);
 	bulletsHero.splice(0, bulletsHero.length);
+	enemies.splice(0, enemies.length);
 };
 
 var addBulletHero = function(){
@@ -132,7 +133,7 @@ ship.control = function(){
 var addEnemies = function(){
 	for (i = 0; i < enemiesCount; ++i) {
         enemies.push(game.newAnimationObject({
-            x: i * 75, y: hpRectVal.h + hpRectVal.y+50, angle: 90,
+            x: i * 75, y: 50, angle: 90,
             w: 80, h: 39,
             animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
         }));
@@ -179,6 +180,7 @@ var gameEnd = false;
 var gameInterface = new Interface(pjs);
 gameInterface.initialize(100, scores, enemies.length);
 gameInterface.initializeObjects();
+
 game.newLoop('game', function(){
 	game.clear();
 	fon.draw();
@@ -210,29 +212,30 @@ game.newLoop('game', function(){
 		fireHero();
 		if (!enemies.length){
 			//game.stop();
-			var success = game.newTextObject({
-				text: "Вы победили!!Нажмите Enter, чтобы начать заново",
-				size: 20, color: "white",
-				positionC: point(width/2, height/2)
-			});
-			success.draw();
+			// var success = game.newTextObject({
+			// 	text: "Вы победили!!Нажмите Enter, чтобы начать заново",
+			// 	size: 20, color: "white",
+			// 	positionC: point(width/2, height/2)
+			// });
+			// success.draw();
 			gameEnd = true;
 		}
 		if (curHP <= 0){
-			var lose = game.newTextObject({
-				text: "Вы проиграли!!Нажмите Enter, чтобы начать заново",
-				size: 20, color: "white",
-				positionC: point(width/2, height/2)
-			});
-			lose.draw();
+			// var lose = game.newTextObject({
+			// 	text: "Вы проиграли!!Нажмите Enter, чтобы начать заново",
+			// 	size: 20, color: "white",
+			// 	positionC: point(width/2, height/2)
+			// });
+			// lose.draw();
 			gameEnd = true;
 		}
 	}
-	gameInterface.update(100, scores, enemies.length);
+	gameInterface.update(curHP, scores, enemies.length);
 	gameInterface.draw();
 	if (gameEnd && key.isPress('ENTER')){
-		enemies.splice(0, enemies.length);
 		initParameters();
 		game.startLoop('game');
 	}
 });
+
+game.startLoop('game');

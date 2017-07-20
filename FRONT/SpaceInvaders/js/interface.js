@@ -130,9 +130,9 @@ class Interface{
 	}
 	
 	update(hp, sc, en){//Обновить текущие данные
-		if(hp < 0){
+		if(hp <= 0){
 			this.currHP = 0;
-			initialLose();
+			this.initialLose();
 		}
 		else if(hp > this.maxHP) 
 			this.currHP = maxHP;
