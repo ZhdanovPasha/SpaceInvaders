@@ -8,6 +8,7 @@ var point = pjs.vector.point;
 var width = game.getWH().w;
 var height = game.getWH().h;
 
+//init mouse and keyboard
 mouse.initMouseControl();
 key.initKeyControl();
 
@@ -20,8 +21,8 @@ var shipWidth = 50;
 var shipHeight = 50;
 var bulletHeroWidth = 27;
 var bulletHeroHeight = 64;
-var bulletEnemyWidth = 27 ;
-var bulletEnemyHeight = 64 ;
+var bulletEnemyWidth = 25;
+var bulletEnemyHeight = 50;
 var beginPosX = width/2 - 25;
 var beginPosY = height - 50; 
 var bulletsHero = [];
@@ -34,6 +35,9 @@ var lastEnemiesMove = Date.now();
 var scores = 1000;
 var curHP = 100;
 var enemiesCount;
+var killScores = 100;
+var botsMovingX = 5;
+var botsMovingY = 5;
 
 var fon = game.newImageObject({
 	position: point(0, 0),
@@ -59,8 +63,10 @@ var addBulletHero = function(){
 var addBulletEnemy = function(number){
 	var enemyX = enemies[number].x;
 	var enemyY = enemies[number].y;
+	var enemyWidth = enemies[number].w;
+	var enemyHidth = enemies[number].h;
 	var tmp = game.newImageObject({
-		x: enemyX, y: enemyY,
+		positionC : point(enemyX + enemyWidth/2, enemyY + enemyHidth/2) ,
 		w: bulletEnemyWidth, h: bulletEnemyHeight,
 		file: 'img/bulletEnemy.png'
 	});
@@ -77,7 +83,7 @@ var fireHero = function(){
             if (bullet.isStaticIntersect(enemy.getStaticBox())) {
                 hit = true;
                 enemies.splice(j, 1);
-                scores += 100;
+                scores += killScores;
             }
     	});
 		if (bullet.y <= 0 || hit){
@@ -128,20 +134,20 @@ function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var enemiesMoving = function(){
+var movingEnemies = function(){
 	enemies.forEach(function (enemy, i, enemies) {
-		enemy.x += getRandomInt(-5, 5);
-		enemy.y += getRandomInt(-1, 1);
+		enemy.x += getRandomInt(-1 * botsMovingX, botsMovingY);
+		enemy.y += getRandomInt(-1 * botsMovingX, botsMovingY);
 	});
 }
 
-var enemiesFire = function(){
+var fireEnemies = function(){
 	for (i = 0; i < bulletsEnemies.length; ++i){
 		for (j = 0; j < bulletsEnemies[i].length; ++j){
 			var hit = false;
 			var bullet = bulletsEnemies[i][j];
 			bullet.draw();
-			bullet.y += bulletDY;
+			bullet.y += bulletDY/2;
 			if (bullet.isStaticIntersect(ship.getStaticBox())) {
 	                hit = true;
 	                curHP -= 5;
@@ -170,17 +176,17 @@ game.newLoop('game', function(){
 	enemies.forEach(function (enemy, i, enemies) {
 	    enemy.draw();
 	});
-	enemiesFire();
-	if (Date.now() - lastEnemiesMove > 300){
-		enemiesMoving();
-		
-		lastEnemiesMove = Date.now();
-	}
-	if (Date.now() - lastEnemiesFire > 1000){
+	fireEnemies();
+	if (Date.now() - lastEnemiesFire > 2000){
 		for (i = 0; i < enemies.length; ++i){
 			addBulletEnemy(i);
 		}
+		//enemiesMoving();
 		lastEnemiesFire = Date.now();
+	}
+	if (Date.now() - lastEnemiesMove > 500){
+		movingEnemies();
+		lastEnemiesMove = Date.now();
 	}
 	fireHero();
 	updateInterface(curHP, 100, scores, enemies.length);
