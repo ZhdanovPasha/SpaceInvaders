@@ -28,6 +28,7 @@ public class LobbyPageController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     //ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
+
     @MessageMapping("/addJoinMessage")
     private void  addJoinMessage(JoinMessage message) {
         players.push(new Player(message.getName(), StatusInLobby.NONE,false));
@@ -88,8 +89,13 @@ public class LobbyPageController {
         if (!messages.isEmpty()) {
             simpMessagingTemplate.convertAndSend("/game/lobby", messages);
             messages.clear();
-            log.info("send");
-        }
+            for (Player player:players
+                 ) {
+                log.info(player.getName());
+            }
+
+            log.info("=================================");
+            }
 
     }
 
