@@ -8,25 +8,33 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class MoveMessage extends ProcessMessageEntity {
     private int dx;
-    private int id;
+    private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Direction direction;
     public MoveMessage() {
         type = ProcessMessageType.MOVE;
     }
-    public MoveMessage(int id,Direction direction, int dx) {
+    public MoveMessage(String name,Direction direction, int dx) {
         this();
-        this.id = id;
+        this.name= name;
         this.direction = direction;
         this.dx = dx;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public int getDx() {

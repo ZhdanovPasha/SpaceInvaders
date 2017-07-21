@@ -30,16 +30,24 @@ public class GameController {
     public void  addShotMessage(ShotMessage message) {
         messages.push(message);
     }
+
+
     @MessageMapping("/addCreateMessage")
     public void addCreateMessage(CreateShipMessage message) { messages.push(message);}
+
+
     @MessageMapping("/addHitMessage")
     public void addHitMessage(HitMessage message) {
         messages.push(message);
     }
+
+
     @MessageMapping("/addMoveMessage")
     public void addMoveMessage(MoveMessage message) {
         messages.push(message);
     }
+
+
     @MessageMapping("/addDestroyMessage")
     public  void addDestroyMessage(DestroyShipMessage message) {
         messages.push(message);
