@@ -50,5 +50,5 @@ function startGame() {
 }
 
 function newMessage() {
-    stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'id':1}));
+    stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':qwfqf}));
 }
