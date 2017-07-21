@@ -24,7 +24,10 @@ public class HelloController {
     Boolean isEnable(@PathVariable String name) {
         if (players.isEmpty()) return true;
         for (Player player : players) {
-            if (player.getName().equals(name)) return false;
+            if (player.getName().equals(name)) {
+
+                return false;
+            }
         }
         return true;
 

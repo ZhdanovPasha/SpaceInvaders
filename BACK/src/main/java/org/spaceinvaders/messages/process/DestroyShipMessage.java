@@ -4,20 +4,20 @@ package org.spaceinvaders.messages.process;
  * Created by Gemini on 19.07.2017.
  */
 public class DestroyShipMessage extends ProcessMessageEntity {
-    private int id;
+    private String name;
     public DestroyShipMessage () {
         type = ProcessMessageType.DESTROYSHIP;
     }
 
-    public DestroyShipMessage(int id) {
-        this.id = id;
+    public DestroyShipMessage(String name) {
+        this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 }

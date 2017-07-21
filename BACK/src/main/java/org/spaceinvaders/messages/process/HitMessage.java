@@ -9,6 +9,7 @@ public class HitMessage extends MoveMessage {
         type = ProcessMessageType.HITTING;
     }
 
+    //Что значит shelId???
     public HitMessage(int shipId,int shelId ) {
         this();
         this.shipId = shipId;
