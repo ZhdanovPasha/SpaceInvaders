@@ -50,5 +50,10 @@ function startGame() {
 }
 
 function newMessage() {
-    stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
+    $.ajax({
+        url: '/login/test',
+        success: function(data){
+            alert(d);        }
+    });
+ //   stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
  }

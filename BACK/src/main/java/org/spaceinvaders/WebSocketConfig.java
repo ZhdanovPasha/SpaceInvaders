@@ -32,16 +32,12 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         stompEndpointRegistry.addEndpoint("/game").withSockJS();
     }
 
-<<<<<<< refs/remotes/origin/backend
-
-=======
     @Override
     public void configureWebSocketTransport(final WebSocketTransportRegistration registration) {
         registration.addDecoratorFactory(factory);
 
         super.configureWebSocketTransport(registration);
     }
->>>>>>> Добавил отправление сообщения при дисконнекте
 
 }
 
