@@ -225,4 +225,4 @@ game.newLoop('game', function(){
 	}
 });
 
-game.startLoop('game');
+//game.startLoop('game');
