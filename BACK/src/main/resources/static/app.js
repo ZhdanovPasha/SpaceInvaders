@@ -30,6 +30,24 @@ function  connect() {
 function startGame() {
     subscription.unsubscribe();
     subscription = stompClient.subscribe('/game/process',function (change) {
+        var arr = JSON.parse(change.body);
+
+        for(var i=0;i<arr.length;i++) {
+            if (arr[i].type == 'SHOT') {
+
+            } else if (arr[i].type == 'MOVE') {
+
+            } else if (arr[i].type == 'HITTING') {
+
+            } else if (arr[i].type == 'CREATESHIP') {
+
+            } else if (arr[i].type == 'DESTROYSHIP') {
+
+            } else if (arr[i].type == 'STOPGAME') {
+
+            }
+
+        }
 
         console.log(JSON.parse(change.body));
     })
@@ -52,8 +70,23 @@ function tryToconnect() {
 
             var arr = JSON.parse(change.body);
 
-            for(var i=0;i<arr.length;i++)
-            if (arr[i].type=='JOIN')
+            for(var i=0;i<arr.length;i++) {
+                if (arr[i].type=='JOIN') {
+
+                }else if (arr[i].type=='CHOOSESIDE') {
+
+                }else if (arr[i].type=='READY') {
+
+                }else if (arr[i].type=='NOREADY') {
+
+                }else if (arr[i].type=='START') {
+
+                }else if (arr[i].type=='LEAVE') {
+
+                }
+
+            }
+
 
 
            console.log(JSON.parse(change.body));
@@ -70,6 +103,7 @@ function tryToconnect() {
 
 
  }
+
  function f(){
      alert('ДАМАГВСЕМ ПИЗДА');
      }
