@@ -16,11 +16,11 @@ var subscription = null;
 var count = 0;
 
 
-function  connect(name) {
+function  connect() {
     if(stompClient==null){
     var  socket = new SockJS('/game');
     stompClient = Stomp.over(socket);
-    stompClient.connect({name:name},function (frame) {
+    stompClient.connect({},function (frame) {
         setConnected(true);
         subscription = stompClient.subscribe('/game/lobby',function (change) {
          //   if (change.body="startGame"){
@@ -38,6 +38,7 @@ function  connect(name) {
         })
 
     })
+
 }}
 function startGame() {
     subscription.unsubscribe();
@@ -48,14 +49,18 @@ function startGame() {
 }
 
 function tryToconnect() {
+    if($('#name').val().length>0)
     $.ajax({
         url: '/login/'+ $('#name').val(),
         success: function(data){
-            if (data == true) {
-                connect();
+            if (data) {
+
+
+                stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
+
             }
+            else alert('Игрок с таким именем уже существует');
 
         }
     });
- //   stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
  }
