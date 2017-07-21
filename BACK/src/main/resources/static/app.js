@@ -22,20 +22,7 @@ function  connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({},function (frame) {
         setConnected(true);
-        subscription = stompClient.subscribe('/game/lobby',function (change) {
-         //   if (change.body="startGame"){
-               // startGame();
-           //     return;
-            //}
 
-            var arr = JSON.parse(change.body);
-
-            for(var i=0;i<arr.length;i++)
-            if (arr[i].type=='JOIN')
-
-
-           console.log(JSON.parse(change.body));
-        })
 
     })
 
@@ -43,6 +30,7 @@ function  connect() {
 function startGame() {
     subscription.unsubscribe();
     subscription = stompClient.subscribe('/game/process',function (change) {
+
         console.log(JSON.parse(change.body));
     })
 
@@ -56,7 +44,23 @@ function tryToconnect() {
             if (data) {
 
 
+         subscription = stompClient.subscribe('/game/lobby',function (change) {
+         //   if (change.body="startGame"){
+               // startGame();
+           //     return;
+            //}
+
+            var arr = JSON.parse(change.body);
+
+            for(var i=0;i<arr.length;i++)
+            if (arr[i].type=='JOIN')
+
+
+           console.log(JSON.parse(change.body));
+        })
                 stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
+
+
 
             }
             else alert('Игрок с таким именем уже существует');
@@ -64,7 +68,8 @@ function tryToconnect() {
         }
     });
 
-   function f(){
-   alert('ДАМАГВСЕМ ПИЗДА');
-   }
+
  }
+ function f(){
+     alert('ДАМАГВСЕМ ПИЗДА');
+     }

@@ -12,7 +12,7 @@ public class HitMessage extends ProcessMessageEntity {
         type = ProcessMessageType.HITTING;
     }
 
-    //Что значит shelId???
+
 
     public String getName() {
         return name;
