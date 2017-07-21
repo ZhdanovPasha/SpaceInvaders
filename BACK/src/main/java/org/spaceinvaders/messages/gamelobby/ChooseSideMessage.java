@@ -6,7 +6,7 @@ import org.spaceinvaders.models.StatusInLobby;
  * Created by Gemini on 19.07.2017.
  */
 public class ChooseSideMessage extends LobbyMessageEntity {
-    StatusInLobby side;//true-розовые false голубые
+    StatusInLobby side;
     String name;
 
     ChooseSideMessage() {

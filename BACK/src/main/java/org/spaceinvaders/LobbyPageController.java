@@ -26,11 +26,16 @@ public class LobbyPageController {
     private LinkedList<LobbyMessageEntity> messages;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    //ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
+
     @MessageMapping("/addJoinMessage")
     private void  addJoinMessage(JoinMessage message) {
         players.push(new Player(message.getName(), StatusInLobby.NONE,false));
         messages.push(message);
     }
+    //ПРОВЕРКА НА ГОТОВНОСТЬ ВСЕХ
+    //ЕСЛИ ИСТИНА, ТО ОТПРАВЛЯЕТСЯ СООБЩЕНИЕ "НАЧАТЬ ИГРУ"(startgame())
     @Scheduled(fixedDelay = 50)
     public  void checkReadyToStart() {
         boolean isReady;
@@ -41,6 +46,7 @@ public class LobbyPageController {
         simpMessagingTemplate.convertAndSend(new StartMessage());
 
     }
+    //Выбор каждым игроком фракции
     @MessageMapping("/addChooseSideMessage")
     public  void addChooseSideMessage(ChooseSideMessage message) {
         messages.push(message);
@@ -50,6 +56,8 @@ public class LobbyPageController {
             }
         }
     }
+
+    //Нажатие на кнопку ГОТОВ!
     @MessageMapping("/addReadyMessage")
     public void addReadyMessage(ReadyMessage message) {
         messages.push(message);
@@ -60,6 +68,9 @@ public class LobbyPageController {
             }
         }
     }
+
+
+    //Не готовность игрока, при нажатии НЕ ГОТОВ!
     @MessageMapping("/addNoreadyMessage")
     public void addNoReadyMessage(NoReadyMessage message) {
         messages.push(message);
@@ -70,13 +81,21 @@ public class LobbyPageController {
             }
         }
     }
+
+
+    //Основная отправка сообщений
     @Scheduled(fixedDelay = 10)
     public void hello() {
         if (!messages.isEmpty()) {
             simpMessagingTemplate.convertAndSend("/game/lobby", messages);
             messages.clear();
-            log.info("send");
-        }
+            for (Player player:players
+                 ) {
+                log.info(player.getName());
+            }
+
+            log.info("=================================");
+            }
 
     }
 

@@ -2,7 +2,7 @@
  * Created by Gemini on 17.07.2017.
  */
 var stompClient = null;
-
+var name = document.getElementById("name");
 var button = document.getElementById('button');
 function setConnected(connected) {
     $("#connect").prop("disabled",connected);
@@ -15,14 +15,14 @@ function setConnected(connected) {
 var subscription = null;
 var count = 0;
 
-function  connect() {
+
+function  connect(name) {
     if(stompClient==null){
     var  socket = new SockJS('/game');
     stompClient = Stomp.over(socket);
-    stompClient.connect({},function (frame) {
+    stompClient.connect({name:name},function (frame) {
         setConnected(true);
         subscription = stompClient.subscribe('/game/lobby',function (change) {
-           console.log('1');
          //   if (change.body="startGame"){
                // startGame();
            //     return;
@@ -32,9 +32,7 @@ function  connect() {
 
             for(var i=0;i<arr.length;i++)
             if (arr[i].type=='JOIN')
-            count++;
 
-            button.innerHTML = count;
 
            console.log(JSON.parse(change.body));
         })
@@ -49,6 +47,15 @@ function startGame() {
 
 }
 
-function newMessage() {
-    stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'id':1}));
-}
+function tryToconnect() {
+    $.ajax({
+        url: '/login/'+ $('#name').val(),
+        success: function(data){
+            if (data == true) {
+                connect();
+            }
+
+        }
+    });
+ //   stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
+ }
