@@ -16,7 +16,7 @@
         {
             text: "Pink",
             handle: function () {
-                alert(name);
+                console.log("Pink: "+name);
                 key.setInputMode(false);
                 game.startLoop('game');
             }
@@ -24,7 +24,7 @@
         {
             text: "Blue",
             handle: function () {
-                alert(name);
+                console.log("blue: "+name);
                 key.setInputMode(false);
                 game.startLoop('game');
             }
@@ -81,7 +81,13 @@
 
 
     game.newLoopFromConstructor('menu', function () {
-        setMenuElements(menuElements);
+        this.entry=function(){
+            console.log("entered menu");
+            game.clear(); // clear screen
+            fon.draw();
+            obj = false;
+            setMenuElements(menuElements);
+        };
         this.update = function () {
             game.clear(); // clear screen
             fon.draw();

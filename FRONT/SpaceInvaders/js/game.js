@@ -181,61 +181,66 @@ var gameInterface = new Interface(pjs);
 gameInterface.initialize(100, scores, enemies.length);
 gameInterface.initializeObjects();
 
-game.newLoop('game', function(){
-	game.clear();
-	fon.draw();
-	if (!gameEnd){
-		
-		ship.draw();
-		ship.control();
-		
-		if (!noEnemy){
-			enemiesCount = 10;
-			addEnemies();
-			noEnemy = true;
-		}
-		enemies.forEach(function (enemy, i, enemies) {
-		    enemy.draw();
-		});
-		fireEnemies();
-		if (Date.now() - lastEnemiesFire > 2000){
-			for (i = 0; i < enemies.length; ++i){
-				addBulletEnemy(i);
-			}
-			//enemiesMoving();
-			lastEnemiesFire = Date.now();
-		}
-		if (Date.now() - lastEnemiesMove > 500){
-			movingEnemies();
-			lastEnemiesMove = Date.now();
-		}
-		fireHero();
-		if (!enemies.length){
-			//game.stop();
-			// var success = game.newTextObject({
-			// 	text: "Вы победили!!Нажмите Enter, чтобы начать заново",
-			// 	size: 20, color: "white",
-			// 	positionC: point(width/2, height/2)
-			// });
-			// success.draw();
-			gameEnd = true;
-		}
-		if (curHP <= 0){
-			// var lose = game.newTextObject({
-			// 	text: "Вы проиграли!!Нажмите Enter, чтобы начать заново",
-			// 	size: 20, color: "white",
-			// 	positionC: point(width/2, height/2)
-			// });
-			// lose.draw();
-			gameEnd = true;
-		}
-	}
-	gameInterface.update(curHP, scores, enemies.length);
-	gameInterface.draw();
-	if (gameEnd && key.isPress('ENTER')){
-		initParameters();
-		game.startLoop('game');
-	}
+game.newLoopFromConstructor('game', function(){
+    this.entry=function(){
+        initParameters();
+        console.log("game has started!");
+    };
+	this.update=function() {
+        game.clear();
+        fon.draw();
+        if (!gameEnd) {
+
+            ship.draw();
+            ship.control();
+
+            if (!noEnemy) {
+                enemiesCount = 10;
+                addEnemies();
+                noEnemy = true;
+            }
+            enemies.forEach(function (enemy, i, enemies) {
+                enemy.draw();
+            });
+            fireEnemies();
+            if (Date.now() - lastEnemiesFire > 2000) {
+                for (i = 0; i < enemies.length; ++i) {
+                    addBulletEnemy(i);
+                }
+                //enemiesMoving();
+                lastEnemiesFire = Date.now();
+            }
+            if (Date.now() - lastEnemiesMove > 500) {
+                movingEnemies();
+                lastEnemiesMove = Date.now();
+            }
+            fireHero();
+            if (!enemies.length) {
+                //game.stop();
+                // var success = game.newTextObject({
+                // 	text: "Вы победили!!Нажмите Enter, чтобы начать заново",
+                // 	size: 20, color: "white",
+                // 	positionC: point(width/2, height/2)
+                // });
+                // success.draw();
+                gameEnd = true;
+            }
+            if (curHP <= 0) {
+                // var lose = game.newTextObject({
+                // 	text: "Вы проиграли!!Нажмите Enter, чтобы начать заново",
+                // 	size: 20, color: "white",
+                // 	positionC: point(width/2, height/2)
+                // });
+                // lose.draw();
+                gameEnd = true;
+            }
+        }
+        gameInterface.update(curHP, scores, enemies.length);
+        gameInterface.draw();
+        if (gameEnd && key.isPress('ENTER')) {
+            game.startLoop('menu');
+        }
+    }
+
 });
 
-game.startLoop('game');
