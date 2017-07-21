@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gemini on 20.07.17.
@@ -16,20 +17,12 @@ import java.util.LinkedList;
 @RequestMapping("/login")
 public class HelloController {
     @Autowired
-    LinkedList<Player> players;
-
+    //LinkedList<Player> players;
+    ConcurrentHashMap<String,Player> players;
 
     @RequestMapping("/{name}")
     @ResponseBody
     Boolean isEnable(@PathVariable String name) {
-        if (players.isEmpty()) return true;
-        for (Player player : players) {
-            if (player.getName().equals(name)) {
-
-                return false;
-            }
-        }
-        return true;
-
+            return !players.containsKey(name);
     }
 }

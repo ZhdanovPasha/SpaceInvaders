@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @SpringBootApplication
 @EnableScheduling
@@ -28,4 +30,6 @@ public class SpaceInvadersApplication {
 	LinkedList<LobbyMessageEntity> lobbyMessages() { return new LinkedList<>();}
 	@Bean
 	LinkedList<Player> getPlayers() {return new LinkedList<Player>();}
+	@Bean
+	ConcurrentHashMap<String,Player> getMap() { return  new ConcurrentHashMap<>();}
 }

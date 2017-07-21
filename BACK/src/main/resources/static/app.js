@@ -73,6 +73,7 @@ function tryToconnect() {
             for(var i=0;i<arr.length;i++) {
                 if (arr[i].type=='JOIN') {
 
+
                 }else if (arr[i].type=='CHOOSESIDE') {
 
                 }else if (arr[i].type=='READY') {
@@ -91,8 +92,9 @@ function tryToconnect() {
 
            console.log(JSON.parse(change.body));
         })
-                stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
 
+
+            stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
 
 
             }
