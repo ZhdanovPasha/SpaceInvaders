@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Gemini on 19.07.2017.
@@ -21,7 +23,7 @@ import java.util.LinkedList;
 public class LobbyPageController {
     private Logger log = LoggerFactory.getLogger(LobbyPageController.class);
     @Autowired
-    private LinkedList<Player> players;
+    private ConcurrentHashMap<String,Player> players;
     @Autowired
     private LinkedList<LobbyMessageEntity> messages;
     @Autowired
@@ -31,7 +33,7 @@ public class LobbyPageController {
 
     @MessageMapping("/addJoinMessage")
     private void  addJoinMessage(JoinMessage message) {
-        players.push(new Player(message.getName(), StatusInLobby.NONE,false));
+        players.put(message.getName(),new Player(message.getName(),StatusInLobby.NONE,false));
         messages.push(message);
     }
     //ПРОВЕРКА НА ГОТОВНОСТЬ ВСЕХ
@@ -40,8 +42,11 @@ public class LobbyPageController {
     public  void checkReadyToStart() {
         boolean isReady;
         if (players.isEmpty()) return;
-        for (Player player: players) {
-            if (!player.getReady()) return;
+
+
+        for (Map.Entry<String,Player> player:players.entrySet()
+                ) {
+                if(!player.getValue().getReady()) return;
         }
         simpMessagingTemplate.convertAndSend(new StartMessage());
 
@@ -50,23 +55,17 @@ public class LobbyPageController {
     @MessageMapping("/addChooseSideMessage")
     public  void addChooseSideMessage(ChooseSideMessage message) {
         messages.push(message);
-        for (Player player :players) {
-            if (player.getName() == message.getName()) {
-                player.setSide(message.getSide()) ;
-            }
-        }
+
+        players.get(message.getName()).setSide(message.getSide());
+
     }
 
     //Нажатие на кнопку ГОТОВ!
     @MessageMapping("/addReadyMessage")
     public void addReadyMessage(ReadyMessage message) {
         messages.push(message);
-        for (Player player : players) {
-            if (player.getName() == message.getName()) {
-                player.setReady(true);
-                break;
-            }
-        }
+
+        players.get(message.getName()).setReady(true);
     }
 
 
@@ -74,24 +73,19 @@ public class LobbyPageController {
     @MessageMapping("/addNoreadyMessage")
     public void addNoReadyMessage(NoReadyMessage message) {
         messages.push(message);
-        for (Player player: players) {
-            if (player.getName() == message.getName()) {
-                player.setReady(false);
-                break;
-            }
-        }
+        players.get(message.getName()).setReady(false);
     }
 
 
     //Основная отправка сообщений
-    @Scheduled(fixedDelay = 10)
+    @Scheduled(fixedDelay = 1)
     public void hello() {
         if (!messages.isEmpty()) {
             simpMessagingTemplate.convertAndSend("/game/lobby", messages);
             messages.clear();
-            for (Player player:players
+            for (Map.Entry<String,Player> player:players.entrySet()
                  ) {
-                log.info(player.getName());
+                log.info(player.getKey());
             }
 
             log.info("=================================");
