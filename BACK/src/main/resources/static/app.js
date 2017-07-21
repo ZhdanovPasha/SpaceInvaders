@@ -63,4 +63,8 @@ function tryToconnect() {
 
         }
     });
+
+   function f(){
+   alert('ДАМАГВСЕМ ПИЗДА');
+   }
  }
