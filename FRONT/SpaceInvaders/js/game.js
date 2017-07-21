@@ -13,6 +13,7 @@ mouse.initMouseControl();
 key.initKeyControl();
 
 //initial parametrs
+//пока здесь, потом надо вынести в отдельный файл
 var bulletSpeed = 1;
 var shipSpeed = 1;
 var shipDX = 10;
@@ -34,11 +35,18 @@ var lastEnemiesFire = Date.now();
 var lastEnemiesMove = Date.now();
 var scores = 0;
 var curHP = 100;
+var playerName = "";
 var damageEnemyBullet = 50; 
 var enemiesCount = 0;
 var killScores = 100;
 var botsMovingX = 5;
 var botsMovingY = 5;
+var noEnemy = false;
+var gameEnd = false;
+
+var gameInterface = new Interface(pjs);
+gameInterface.initialize(100, scores, enemies.length);
+gameInterface.initializeObjects();
 
 var fon = game.newImageObject({
     position: point(0, 0),
@@ -63,6 +71,8 @@ var initParameters = function(){
 	bulletsEnemies.splice(0, bulletsEnemies.length);
 	bulletsHero.splice(0, bulletsHero.length);
 	enemies.splice(0, enemies.length);
+	ship.x = beginPosX;
+	ship.y = beginPosY;
 };
 
 var addBulletHero = function(){
@@ -174,73 +184,45 @@ var fireEnemies = function(){
 	}
 };
 
-var noEnemy = false;
-var gameEnd = false;
-
-var gameInterface = new Interface(pjs);
-gameInterface.initialize(100, scores, enemies.length);
-gameInterface.initializeObjects();
-
-game.newLoopFromConstructor('game', function(){
-    this.entry=function(){
-        initParameters();
-        console.log("game has started!");
-    };
-	this.update=function() {
-        game.clear();
-        fon.draw();
-        if (!gameEnd) {
-
-            ship.draw();
-            ship.control();
-
-            if (!noEnemy) {
-                enemiesCount = 10;
-                addEnemies();
-                noEnemy = true;
-            }
-            enemies.forEach(function (enemy, i, enemies) {
-                enemy.draw();
-            });
-            fireEnemies();
-            if (Date.now() - lastEnemiesFire > 2000) {
-                for (i = 0; i < enemies.length; ++i) {
-                    addBulletEnemy(i);
-                }
-                //enemiesMoving();
-                lastEnemiesFire = Date.now();
-            }
-            if (Date.now() - lastEnemiesMove > 500) {
-                movingEnemies();
-                lastEnemiesMove = Date.now();
-            }
-            fireHero();
-            if (!enemies.length) {
-                //game.stop();
-                // var success = game.newTextObject({
-                // 	text: "Вы победили!!Нажмите Enter, чтобы начать заново",
-                // 	size: 20, color: "white",
-                // 	positionC: point(width/2, height/2)
-                // });
-                // success.draw();
-                gameEnd = true;
-            }
-            if (curHP <= 0) {
-                // var lose = game.newTextObject({
-                // 	text: "Вы проиграли!!Нажмите Enter, чтобы начать заново",
-                // 	size: 20, color: "white",
-                // 	positionC: point(width/2, height/2)
-                // });
-                // lose.draw();
-                gameEnd = true;
-            }
-        }
-        gameInterface.update(curHP, scores, enemies.length);
-        gameInterface.draw();
-        if (gameEnd && key.isPress('ENTER')) {
-            game.startLoop('menu');
-        }
-    }
-
+game.newLoop('game', function(){
+	game.clear();
+	fon.draw();
+	if (!gameEnd){
+		
+		ship.draw();
+		ship.control();
+		
+		if (!noEnemy){
+			enemiesCount = 10;
+			addEnemies();
+			noEnemy = true;
+			console.log(playerName);
+		}
+		enemies.forEach(function (enemy, i, enemies) {
+		    enemy.draw();
+		});
+		fireEnemies();
+		if (Date.now() - lastEnemiesFire > 2000){
+			for (i = 0; i < enemies.length; ++i){
+				addBulletEnemy(i);
+			}
+			lastEnemiesFire = Date.now();
+		}
+		if (Date.now() - lastEnemiesMove > 500){
+			movingEnemies();
+			lastEnemiesMove = Date.now();
+		}
+		fireHero();
+		if (!enemies.length || curHP <= 0){
+			gameEnd = true;
+		}
+	}
+	gameInterface.update(curHP, scores, enemies.length);
+	gameInterface.draw();
+	if (gameEnd && key.isPress('ENTER')){
+		initParameters();
+		game.startLoop('menu');
+	}
 });
 
+//game.startLoop('game');
