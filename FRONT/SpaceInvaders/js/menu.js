@@ -56,7 +56,6 @@
         }
     ];
 
-
     function setMenuElements(elements) {
         items = [];
         elements.forEach(function (elem, i) {
@@ -78,7 +77,6 @@
             }
         });
     }
-
 
     game.newLoopFromConstructor('menu', function () {
         setMenuElements(menuElements);
@@ -139,8 +137,6 @@
                     x: width / 2, y: 50
                 });
             }
-
-        };
-
+        };          
     });
 })(game);
