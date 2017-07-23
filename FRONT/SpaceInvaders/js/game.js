@@ -119,27 +119,27 @@ var fireHero = function(){
 	} 
 };
 
-ship.control = function(){
-	if (key.isDown('LEFT')){
-		ship.x -= shipDX * shipSpeed;
-		if (ship.x <= 0){
-			ship.x = 0;
-		}	
-	}
-	if (key.isDown('RIGHT')){
-		ship.x += shipDX * shipSpeed;
-		var dif = width - ship.w;
-		if (ship.x >= width - ship.w){
-			ship.x = width - ship.w;
-		}
-	}
-	if (key.isDown('SPACE')){
-		if (Date.now() - lastHeroFire > 100 * bulletSpeed){
-			addBulletHero();
-			lastHeroFire = Date.now();
-		}
-	}
-};
+// ship.control = function(){
+// 	if (key.isDown('LEFT')){
+// 		ship.x -= shipDX * shipSpeed;
+// 		if (ship.x <= 0){
+// 			ship.x = 0;
+// 		}	
+// 	}
+// 	if (key.isDown('RIGHT')){
+// 		ship.x += shipDX * shipSpeed;
+// 		var dif = width - ship.w;
+// 		if (ship.x >= width - ship.w){
+// 			ship.x = width - ship.w;
+// 		}
+// 	}
+// 	if (key.isDown('SPACE')){
+// 		if (Date.now() - lastHeroFire > 100 * bulletSpeed){
+// 			addBulletHero();
+// 			lastHeroFire = Date.now();
+// 		}
+// 	}
+// };
 
 // надо исправить числовые значения
 var addEnemies = function(){
@@ -155,9 +155,8 @@ var addEnemies = function(){
     // 	bulletsEnemies[i] = [];
     // }
     for (i = 1; i <= enemiesCount; ++i){
-    	var tmp  = new Ship({x:i*75, y:50},
-			 {w: 80, h: 39, source: 'img/player.png'}, 0); 
-    	ships.push();
+    	var tmp  = new Ship({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i); 
+    	ships.push(tmp);
     }
 };
 
@@ -197,44 +196,56 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		
 		if (!noEnemy){
+			console.log('initialize');
 			ship = new Ship({x:beginPosX, y:beginPosY},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0);
 			ships[0] = ship;
+			console.log('add hero');
 			enemiesCount = 10;
 			addEnemies();
 			noEnemy = true;
+			console.log('end initialization');
 		}
 
+		console.log(ships);
+		console.log(enemiesCount);
 		for (i = 0; i <= enemiesCount; ++i){
+			console.log('draw ship' + i);
 			ships[i].draw();
 		}
-
-		ship.control();
-
-		for (i = 1; i < ships.length; ++i)
-			ship.fire(ship[i]);
-		if (Date.now() - lastEnemiesFire > 2000){
-			for (i = 1; i <= ships.length; ++i){
+		console.log('control');
+		ships[0].control();
+		console.log('endControl');
+		console.log(ships.length);
+		// for (i = 1; i < ships.length; ++i){
+		// 	//console.log('fire' + i);
+		// 	ships[0].fire(i);
+		// 	//console.log('fire' + i);
+		// 	//ships[i].fire(ship[0]);
+		// }
+		console.log('fire');
+		for (i = 1 ; i < ships.length; ++i){
+			if (Date.now() - ships[i].lastFire > 2000){
 				ships[i].addBullet();
-				addBulletEnemy(i);
+				ships[i].lastFire = Date.now();
 			}
-			lastEnemiesFire = Date.now();
+			if (Date.now() - ships[i].lastMove > 500){
+				ships[i].move();
+				ships[i].lastMove = Date.now();
+			}
 		}
-		if (Date.now() - lastEnemiesMove > 500){
-			movingEnemies();
-			lastEnemiesMove = Date.now();
-		}
-		fireHero();
-		if (!enemies.length || curHP <= 0){
+		console.log('check');
+		if (ships.length == 1 || !ships[0].isDead()){
 			gameEnd = true;
 		}
 	}
-	gameInterface.update(curHP, scores, enemies.length);
+	gameInterface.update(ships[0].currentHP, ships[0].scores, ships.length - 1);
 	gameInterface.draw();
 	if (gameEnd && key.isPress('ENTER')){
 		initParameters();
 		game.startLoop('menu');
 	}
+	console.log('new cycle');
 });
 
 //game.startLoop('game');

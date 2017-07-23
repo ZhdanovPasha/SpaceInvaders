@@ -19,4 +19,8 @@ class Bullet{
 		this.obj.y += this.dy;
 		this.obj.draw();
 	}
+
+	draw(){
+		this.obj.draw();
+	}
 }
