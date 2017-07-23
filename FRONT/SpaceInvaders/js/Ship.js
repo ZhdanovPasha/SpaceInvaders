@@ -29,6 +29,10 @@ class Ship{
 		else 
 			return false;
 	}
+
+	getDamage(damage){
+		this.damage -= damage;
+	}
 	
 	addBullet(bullet){ // bullet = {width: , height: , img: }
 		var tmp = game.newImageObject({
@@ -38,25 +42,24 @@ class Ship{
 		});
 		bullets.push(tmp);
 	}
+
+	addEnemy(enemy){
+
+	}
 	
-	fire(){
+	fire(ship){
 		bullets.forEach(function (bullet, i, bullet){
 			var hit = false; 
 			bullet.draw();
 			bullet.y -= bullet.dy;
-			enemies.forEach(function(enemy, j, enemies){
-				if (bullet.isStaticIntersect(enemy.getStaticBox())){
-					hit = false;
-					enemy.getDamage(this.damage);
-					if (enemy.isDead){
-						enemies.splice(j,1);
-					}
-					scores += killScores;
-				}
+			if (bullet.isStaticIntersect(ship.getStaticBox())){
+				hit = true;
+				enemy.getDamage(this.damage);
+				scores += killScores;
 				if (bullet.y <= 0 || hit){
 					bullets.splice(i, 1);
 				}
-			});
+			}
 		});	
 	}
 	

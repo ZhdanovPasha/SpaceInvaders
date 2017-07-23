@@ -6,7 +6,6 @@ class Bullet{
 		this.img = img;
 		this.speed = speed;
 		this.dy = dy;
-		this.damage = damage;
 		this.obj = game.newImageObject({
 			position: point(this.position.x, this.position.y),
 			file: 'bullet.png',
@@ -20,5 +19,4 @@ class Bullet{
 		this.obj.y += this.dy;
 		this.obj.draw();
 	}
-
 }

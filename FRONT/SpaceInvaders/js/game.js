@@ -43,6 +43,8 @@ var botsMovingX = 5;
 var botsMovingY = 5;
 var noEnemy = false;
 var gameEnd = false;
+var ships = [];
+var ship = null;
 
 var gameInterface = new Interface(pjs);
 gameInterface.initialize(100, scores, enemies.length);
@@ -54,11 +56,11 @@ var fon = game.newImageObject({
     file: 'img/terrain.png'
 });
 
-var ship = game.newImageObject({
+/*var ship = game.newImageObject({
 	x: beginPosX ,	y: beginPosY,
 	w: shipWidth,	h: shipHeight,
 	file: 'img/player.png'
-});
+});*/
 
 var initParameters = function(){
 	curHP = 100;
@@ -141,16 +143,21 @@ ship.control = function(){
 
 // надо исправить числовые значения
 var addEnemies = function(){
-	for (i = 0; i < enemiesCount; ++i) {
-        enemies.push(game.newAnimationObject({
-            x: i * 75, y: 50, angle: 90,
-            w: 80, h: 39,
-            animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
-        }));
-    }
-    //initialization bulletEnemies
-    for (i = 0; i < enemiesCount; ++i) {
-    	bulletsEnemies[i] = [];
+	// for (i = 1; i <= enemiesCount; ++i) {
+ //        ships.push(game.newAnimationObject({
+ //            x: i * 75, y: 50, angle: 90,
+ //            w: 80, h: 39,
+ //            animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
+ //        }));
+ //    }
+    // //initialization bulletEnemies
+    // for (i = 0; i < enemiesCount; ++i) {
+    // 	bulletsEnemies[i] = [];
+    // }
+    for (i = 1; i <= enemiesCount; ++i){
+    	var tmp  = new Ship({x:i*75, y:50},
+			 {w: 80, h: 39, source: 'img/player.png'}, 0); 
+    	ships.push();
     }
 };
 
@@ -189,6 +196,53 @@ game.newLoop('game', function(){
 	fon.draw();
 	if (!gameEnd){
 		
+		if (!noEnemy){
+			ship = new Ship({x:beginPosX, y:beginPosY},
+			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0);
+			ships[0] = ship;
+			enemiesCount = 10;
+			addEnemies();
+			noEnemy = true;
+		}
+
+		for (i = 0; i <= enemiesCount; ++i){
+			ships[i].draw();
+		}
+
+		ship.control();
+
+		for (i = 1; i < ships.length; ++i)
+			ship.fire(ship[i]);
+		if (Date.now() - lastEnemiesFire > 2000){
+			for (i = 1; i <= ships.length; ++i){
+				ships[i].addBullet();
+				addBulletEnemy(i);
+			}
+			lastEnemiesFire = Date.now();
+		}
+		if (Date.now() - lastEnemiesMove > 500){
+			movingEnemies();
+			lastEnemiesMove = Date.now();
+		}
+		fireHero();
+		if (!enemies.length || curHP <= 0){
+			gameEnd = true;
+		}
+	}
+	gameInterface.update(curHP, scores, enemies.length);
+	gameInterface.draw();
+	if (gameEnd && key.isPress('ENTER')){
+		initParameters();
+		game.startLoop('menu');
+	}
+});
+
+//game.startLoop('game');
+
+/*game.clear();
+	fon.draw();
+	if (!gameEnd){
+		
 		ship.draw();
 		ship.control();
 		
@@ -222,7 +276,4 @@ game.newLoop('game', function(){
 	if (gameEnd && key.isPress('ENTER')){
 		initParameters();
 		game.startLoop('menu');
-	}
-});
-
-//game.startLoop('game');
+	}*/
