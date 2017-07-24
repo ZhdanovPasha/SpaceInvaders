@@ -35,7 +35,7 @@ var lastEnemiesFire = Date.now();
 var lastEnemiesMove = Date.now();
 var scores = 0;
 var curHP = 100;
-var playerName = "";
+var playerName = "Kal";
 var damageEnemyBullet = 50; 
 var enemiesCount = 0;
 var killScores = 100;
@@ -47,7 +47,7 @@ var ships = [];
 var ship = null;
 
 var gameInterface = new Interface(pjs);
-gameInterface.initialize(100, scores, enemies.length);
+gameInterface.initialize(playerName, 100, scores, enemies.length);
 gameInterface.initializeObjects();
 
 var fon = game.newImageObject({
