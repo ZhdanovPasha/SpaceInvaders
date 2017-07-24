@@ -78,7 +78,7 @@ var initParameters = function(){
 // надо исправить числовые значения
 var addEnemies = function(){
     for (i = 1; i <= enemiesCount; ++i){
-    	var tmp  = new Ship({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i); 
+    	var tmp  = new Ship({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i, 'pink'); 
     	ships.push(tmp);
     }
 };
@@ -95,22 +95,28 @@ game.newLoop('game', function(){
 		if (!noEnemy){
 			console.log('initialize');
 			ship = new Ship({x:beginPosX, y:beginPosY},
-			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0);
+			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue');
 			ships[0] = ship;
 			console.log('add hero');
 			enemiesCount = 10;
 			addEnemies();
 			noEnemy = true;
 			console.log('end initialization');
+			console.log(ships[0].enemies);
 		}
 
 		for (i = 0; i < ships.length; ++i){
 			ships[i].draw();
 		}
 		ships[0].control();
-		for (i = 1 ; i < ships.length; ++i){
-			ships[0].fire(i);
+		ships[0].fire();
+		for (i = 0; i<ships.length; ++i){
+			if (ships[i].isDead()){
+				ships.splice(i,1);
+				i--;
+			}
 		}
+		
 		// for (i = 1; i < ships.length; ++i){
 		// 	//console.log('fire' + i);
 		// 	ships[0].fire(i);

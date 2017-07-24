@@ -13,7 +13,7 @@ mouse.initMouseControl();
 key.initKeyControl();
 
 class Ship{
-	constructor(position, img, id){// image передаем как {source: "", width: , height: }, position = {x: , y: }
+	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.img = img;
 	
 		this.obj = game.newImageObject({
@@ -22,7 +22,8 @@ class Ship{
 			file: this.img.source
 		});
 		
-		this.id = 0;
+		this.id = id;
+		this.fraction = fraction;
 		this.currentHP = this.maxHP = 100;
 		this.scores = 0;
 		this.killScores = 100;
@@ -35,7 +36,6 @@ class Ship{
 		this.bulletHeight = 64;	
 		this.bullets = [];
 		this.lastFire = Date.now();
-		this.enemies = [];
 		this.obj.draw();
 	}
 	
@@ -54,21 +54,21 @@ class Ship{
 		var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
 		this.bullets.push(bullet);
 	}
-
-	addEnemy(enemy){
-
-	}
 	
-	fire(num){
+	fire(){
 		for (var i = 0; i < this.bullets.length; ++i){
 			var hit = false; 
 			var bullet = this.bullets[i];
 			bullet.obj.draw();
 			bullet.obj.y -= bullet.dy;
-			if (bullet.obj.isStaticIntersect(ships[num].obj.getStaticBox())){
-				hit = true;
-				ships[num].getDamage(this.damage);
-				this.scores += this.killScores;
+			for (var j = 0; j < ships.length; ++j){
+				if (ships[j].fraction != this.fraction){
+					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
+						hit = true;
+						ships[j].getDamage(this.damage);
+						this.scores += this.killScores;
+					}
+				}
 			}
 			if (bullet.obj.y <= 0 || hit){
 				this.bullets.splice(i, 1);
