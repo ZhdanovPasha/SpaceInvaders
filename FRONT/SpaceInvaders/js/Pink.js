@@ -30,7 +30,10 @@
             file: 'img/player.png', angle: this.direction == "UP" ? 0 : 180
         });
         this.bots = [];
-        for (var i = -2; i < 2; i++) {
+        for (var i = -2; i < 0; i++) {
+            this.bots.push(new PinkBot({x: params.x + 80 * i, y: params.y, direction: this.direction}));
+        }
+        for (var i = 1; i < 3; i++) {
             this.bots.push(new PinkBot({x: params.x + 80 * i, y: params.y, direction: this.direction}));
         }
 
@@ -45,7 +48,7 @@
     };
     Pink.prototype.attacked = function (BulletObj) {
         if (!this.selfDestroyed) {
-            if (Ship.prototype.attacked.apply(this,arguments)) {
+            if (Ship.prototype.attacked.apply(this, arguments)) {
                 this.destroyed = false; //Но главный пока не "сдох" пока боты не сдохли
                 this.selfDestroyed = true;
                 this.selfDestroyed = this.bots.length == 0 && this.selfDestroyed;
