@@ -45,7 +45,7 @@ public class LobbyPageController {
         boolean isReady;
         if (players.isEmpty()||gameStarted) return;
         if (players.size()==2) {
-            messages.push(new StartMessage());
+            messages.push(new StartMessage(players.values()));
             gameStarted = true;
         }
 
@@ -98,8 +98,7 @@ public class LobbyPageController {
         if (!messages.isEmpty()) {
             simpMessagingTemplate.convertAndSend("/game/lobby", messages);
             messages.clear();
-            for (Map.Entry<String,Player> player:players.entrySet()
-                 ) {
+            for (Map.Entry<String,Player> player:players.entrySet()) {
                 log.info(player.getKey());
                 log.info(String.valueOf(player.getValue().getSide()));
                 log.info(String.valueOf(player.getValue().getReady()));

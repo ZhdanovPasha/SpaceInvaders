@@ -1,5 +1,6 @@
 package org.spaceinvaders.messages.gamelobby;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.spaceinvaders.models.StatusInLobby;
 
 /**
@@ -11,7 +12,7 @@ public class JoinMessage extends LobbyMessageEntity {
     JoinMessage() {
         type = LobbyMessageType.JOIN;
     }
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public StatusInLobby getStat() {
         return stat;
     }

@@ -1,21 +1,21 @@
-var pjs = new PointJS('2d', 400, 400);
-pjs.system.initFullScreen();
+//var pjs = new PointJS('2d', 400, 400);
+//pjs.system.initFullScreen();
 
-var game = pjs.game;
-var mouse = pjs.mouseControl;
-var key = pjs.keyControl;
-var point = pjs.vector.point;
-var width = game.getWH().w;
-var height = game.getWH().h;
+//var game = pjs.game;
+//var mouse = pjs.mouseControl;
+//var key = pjs.keyControl;
+//var point = pjs.vector.point;
+//var width = game.getWH().w;
+//var height = game.getWH().h;
 
 //init mouse and keyboard
-mouse.initMouseControl();
-key.initKeyControl();
+//mouse.initMouseControl();
+//key.initKeyControl();
 
 class Ship{
 	constructor(position, img, name, fraction){
 	// image передаем как {source: "", width: , height: }, position = {x: , y: }
-	    create(name);
+
 		this.img = img;
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
@@ -37,7 +37,7 @@ class Ship{
 		this.bulletHeight = 64;	
 		this.bullets = [];
 		this.lastFire = Date.now();
-		this.obj.draw();
+		//this.obj.draw();
 	}
 	
 	isDead(){
@@ -82,27 +82,58 @@ class Ship{
 		this.obj.draw();
 	}
 
-	move(){
-		this.obj.x += getRandomInt(-1 * this.dx, this.dx);
-		this.draw();
-	}
+	//move(){
+	//	this.obj.x += getRandomInt(-1 * this.dx, this.dx);
+	//	this.draw();
+//	}
+	move(direction,mainship) {
+		if (mainship.fraction==this.fraction){
+            if (direction =='LEFT') {
+                this.obj.x -= this.dx *this.speed;
+                if (this.obj.x <= 0){
+                    this.obj.x = 0;
+                }
+            }
+            if (direction == 'RIGHT') {
+				this.obj.x += this.dx *this.speed;
+                var dif = width - this.obj.w;
+                if (this.obj.x >= dif){
+                    this.obj.x = dif;
+                }
+            }
+		} else{
+            if (direction =='LEFT') {
+                this.obj.x += this.dx *this.speed;
+                var dif = width - this.obj.w;
+                if (this.obj.x >= dif){
+                    this.obj.x = dif;
+                }
+            }
+            if (direction == 'RIGHT') {
+                this.obj.x -= this.dx *this.speed;
+                var dif = width - this.obj.w;
+                if (this.obj.x <= 0){
+                    this.obj.x = 0;
+                }
+            }
 
+		}
+
+
+
+	}
 	//наследуются только для героев
 	control(){
 
 		if (key.isDown('LEFT')){
-		    move(name,'LEFT')
-			this.obj.x -= this.dx * this.speed;
-			if (this.obj.x <= 0){
-				this.obj.x = 0;
-			}	
+		    messageService.move(this.name,'LEFT')
+			this.move('LEFT',this)
+
 		}
 		if (key.isDown('RIGHT')){
-			this.obj.x += this.dx * this.speed;
-			var dif = width - this.obj.w;
-			if (this.obj.x >= dif){
-				this.obj.x = dif;
-			}
+            messageService.move(this.name,'RIGHT')
+            this.move('RIGHT',this)
+
 		}
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){

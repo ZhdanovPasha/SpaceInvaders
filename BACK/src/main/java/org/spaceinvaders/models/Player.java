@@ -1,5 +1,7 @@
 package org.spaceinvaders.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Created by lionnick on 20.07.17.
  */
@@ -10,6 +12,7 @@ public class Player {
     public Player(){
 
     }
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public StatusInLobby getSide() {
         return side;
     }
