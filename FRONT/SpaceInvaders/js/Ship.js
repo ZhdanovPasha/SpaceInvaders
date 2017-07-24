@@ -30,7 +30,7 @@ class Ship{
 		this.dx = 10;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
-		this.damage = 50;
+		this.damage = 100;
 		this.bulletWidth = 27;
 		this.bulletHeight = 64;	
 		this.bullets = [];
@@ -51,37 +51,29 @@ class Ship{
 	}
 	
 	addBullet(bul){ // bullet = {width: , height: , img: }
-		var tmp = game.newImageObject({
-			positionC : point(this.obj.x + (this.obj.w)/2, this.obj.y + (this.obj.h)/2),
-			w: bul.width, h: bul.height,
-			file: bul.img
-		});
-		console.log(tmp);
-		console.log(this.obj.x);
-		console.log(this.obj.w);
-		this.bullets.push(tmp);
+		var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
+		this.bullets.push(bullet);
 	}
 
 	addEnemy(enemy){
 
 	}
 	
-	fire(ship){
-		console.log(ship);
-		for (var j = 0; j < this.bullets.length; ++j){
+	fire(num){
+		for (var i = 0; i < this.bullets.length; ++i){
 			var hit = false; 
-			this.bullets[j].draw();
-			this.bullets[j].y -= this.bullets[j].dy;
-			if (this.bullets[j].isStaticIntersect(ship.getStaticBox())){
+			var bullet = this.bullets[i];
+			bullet.obj.draw();
+			bullet.obj.y -= bullet.dy;
+			if (bullet.obj.isStaticIntersect(ships[num].obj.getStaticBox())){
 				hit = true;
-				ship.getDamage(this.damage);
+				ships[num].getDamage(this.damage);
 				this.scores += this.killScores;
 			}
-			if (this.bullets[j].y <= 0 || hit){
-				this.bullets.splice(j, 1);
-				j--;
+			if (bullet.obj.y <= 0 || hit){
+				this.bullets.splice(i, 1);
+				i--;
 			}
-			console.log("ith bullet is out" + j);
 		}
 	}
 	
@@ -92,7 +84,6 @@ class Ship{
 	move(){
 		this.obj.x += getRandomInt(-1 * this.dx, this.dx);
 		this.draw();
-		//this.position.x = this.obj.x;
 	}
 
 	//наследуются только для героев
@@ -113,16 +104,17 @@ class Ship{
 		}
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
-				console.log('space is pressed');
-				var bul = {width:this.bulletWidth, height: this.bulletHeight, img:
-					'img/bullet.png'};
-				console.log(bul);
+				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y + (this.obj.h)/2},
+					img:{width:this.bulletWidth, height: this.bulletHeight, source:
+					'img/bullet.png'}, speed:1, damage: 50, dy: 5 };
 				this.addBullet(bul);
 				// this.addBullet({width:this.bulletWidth, height: this.bulletHeight, img:
 				// 	'img/bullet.png'});
 				this.lastFire = Date.now();
+				for (i = 0; i < this.bullets.length; ++i)
+					console.log(this.bullets[i]);
 			}
-			console.log(this.bullets);
+			
 		}
 	}
 

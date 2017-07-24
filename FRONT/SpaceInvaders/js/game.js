@@ -63,8 +63,6 @@ var fon = game.newImageObject({
 });*/
 
 var initParameters = function(){
-	curHP = 100;
-	scores = 0;
 	noEnemy = false;
 	gameEnd = false;
 	for (i = 0; i < bulletsEnemies.length; ++i){
@@ -77,83 +75,8 @@ var initParameters = function(){
 	ship.y = beginPosY;
 };
 
-var addBulletHero = function(){
-	var tmp = game.newImageObject({
-		x: ship.x + ((countHeroBullets++)%2)*(ship.w/2), y: ship.y,
-		w: bulletHeroWidth, h:bulletHeroHeight,
-		file: 'img/bullet.png'
-	});
-	bulletsHero.push(tmp);
-};
-
-var addBulletEnemy = function(number){
-	var enemyX = enemies[number].x;
-	var enemyY = enemies[number].y;
-	var enemyWidth = enemies[number].w;
-	var enemyHidth = enemies[number].h;
-	var tmp = game.newImageObject({
-		positionC : point(enemyX + enemyWidth/2, enemyY + enemyHidth/2) ,
-		w: bulletEnemyWidth, h: bulletEnemyHeight,
-		file: 'img/bulletEnemy.png'
-	});
-	bulletsEnemies[number].push(tmp);
-}
-
-var fireHero = function(){
-	for (i = 0; i < bulletsHero.length; ++i){
-		var bullet = bulletsHero[i];
-		var hit = false;
-		bullet.draw();
-		bullet.y -= bulletDY;
-		enemies.forEach(function (enemy, j, enemies) {
-            if (bullet.isStaticIntersect(enemy.getStaticBox())) {
-                hit = true;
-                enemies.splice(j, 1);
-                scores += killScores;
-            }
-    	});
-		if (bullet.y <= 0 || hit){
-			bulletsHero.splice(i, 1);
-			i--;
-		}
-	} 
-};
-
-// ship.control = function(){
-// 	if (key.isDown('LEFT')){
-// 		ship.x -= shipDX * shipSpeed;
-// 		if (ship.x <= 0){
-// 			ship.x = 0;
-// 		}	
-// 	}
-// 	if (key.isDown('RIGHT')){
-// 		ship.x += shipDX * shipSpeed;
-// 		var dif = width - ship.w;
-// 		if (ship.x >= width - ship.w){
-// 			ship.x = width - ship.w;
-// 		}
-// 	}
-// 	if (key.isDown('SPACE')){
-// 		if (Date.now() - lastHeroFire > 100 * bulletSpeed){
-// 			addBulletHero();
-// 			lastHeroFire = Date.now();
-// 		}
-// 	}
-// };
-
 // надо исправить числовые значения
 var addEnemies = function(){
-	// for (i = 1; i <= enemiesCount; ++i) {
- //        ships.push(game.newAnimationObject({
- //            x: i * 75, y: 50, angle: 90,
- //            w: 80, h: 39,
- //            animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
- //        }));
- //    }
-    // //initialization bulletEnemies
-    // for (i = 0; i < enemiesCount; ++i) {
-    // 	bulletsEnemies[i] = [];
-    // }
     for (i = 1; i <= enemiesCount; ++i){
     	var tmp  = new Ship({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i); 
     	ships.push(tmp);
@@ -163,32 +86,6 @@ var addEnemies = function(){
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-var movingEnemies = function(){
-	enemies.forEach(function (enemy, i, enemies) {
-		enemy.x += getRandomInt(-1 * botsMovingX, botsMovingX);
-		enemy.y += getRandomInt(-1 * botsMovingY, botsMovingY);
-	});
-}
-
-var fireEnemies = function(){
-	for (i = 0; i < bulletsEnemies.length; ++i){
-		for (j = 0; j < bulletsEnemies[i].length; ++j){
-			var hit = false;
-			var bullet = bulletsEnemies[i][j];
-			bullet.draw();
-			bullet.y += bulletDY/2;
-			if (bullet.isStaticIntersect(ship.getStaticBox())) {
-	                hit = true;
-	                curHP -= damageEnemyBullet;
-	        }
-	        if (bullet.y >= height - bullet.height || hit){
-				bulletsEnemies[i].splice(j, 1);
-				j--;
-			}
-		}
-	}
-};
 
 game.newLoop('game', function(){
 	game.clear();
@@ -207,13 +104,12 @@ game.newLoop('game', function(){
 			console.log('end initialization');
 		}
 
-		for (i = 0; i <= enemiesCount; ++i){
+		for (i = 0; i < ships.length; ++i){
 			ships[i].draw();
 		}
 		ships[0].control();
 		for (i = 1 ; i < ships.length; ++i){
-			console.log(ship[i]);
-			ships[0].fire(ships[i]);
+			ships[0].fire(i);
 		}
 		// for (i = 1; i < ships.length; ++i){
 		// 	//console.log('fire' + i);
@@ -230,6 +126,10 @@ game.newLoop('game', function(){
 				ships[i].move();
 				ships[i].lastMove = Date.now();
 			}
+			if (ships[i].isDead()){
+				ships.splice(i,1);
+				i--;
+			}
 		}
 		if (ships.length == 1 || ships[0].isDead()){
 			gameEnd = true;
@@ -241,46 +141,6 @@ game.newLoop('game', function(){
 		initParameters();
 		game.startLoop('menu');
 	}
-	console.log('new cycle');
 });
 
 //game.startLoop('game');
-
-/*game.clear();
-	fon.draw();
-	if (!gameEnd){
-		
-		ship.draw();
-		ship.control();
-		
-		if (!noEnemy){
-			enemiesCount = 10;
-			addEnemies();
-			noEnemy = true;
-			console.log(playerName);
-		}
-		enemies.forEach(function (enemy, i, enemies) {
-		    enemy.draw();
-		});
-		fireEnemies();
-		if (Date.now() - lastEnemiesFire > 2000){
-			for (i = 0; i < enemies.length; ++i){
-				addBulletEnemy(i);
-			}
-			lastEnemiesFire = Date.now();
-		}
-		if (Date.now() - lastEnemiesMove > 500){
-			movingEnemies();
-			lastEnemiesMove = Date.now();
-		}
-		fireHero();
-		if (!enemies.length || curHP <= 0){
-			gameEnd = true;
-		}
-	}
-	gameInterface.update(curHP, scores, enemies.length);
-	gameInterface.draw();
-	if (gameEnd && key.isPress('ENTER')){
-		initParameters();
-		game.startLoop('menu');
-	}*/

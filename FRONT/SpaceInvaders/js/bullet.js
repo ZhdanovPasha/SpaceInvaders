@@ -10,7 +10,7 @@ class Bullet{
 		this.h = img.height;
 		this.obj = game.newImageObject({
 			position: point(this.position.x, this.position.y),
-			file: 'bullet.png',
+			file: this.img.source,
 			w: this.img.width, h: this.img.height
 		});
 		console.log(this.img.source);
