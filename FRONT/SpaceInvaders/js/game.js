@@ -56,7 +56,10 @@
             if (key.isPress('SPACE')) {
                 bullets.push(new SpaceInvaders.Bullet({
                     x: player.getX(),
-                    y: player.getY()
+                    y: player.getY(),
+                    speed: 1,
+                    damage: player.damage,
+                    direction: "UP"
                 }))
             }
 
