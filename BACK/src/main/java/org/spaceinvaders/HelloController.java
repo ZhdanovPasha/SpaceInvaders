@@ -23,6 +23,8 @@ public class HelloController {
     @RequestMapping("/{name}")
     @ResponseBody
     Boolean isEnable(@PathVariable String name) {
-            return !players.containsKey(name);
+            return (!players.containsKey(name))&&(players.size()<2);
     }
+
+
 }

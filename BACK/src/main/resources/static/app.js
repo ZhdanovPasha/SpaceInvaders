@@ -54,10 +54,10 @@ function startGame() {
 
 }
 
-function tryToconnect() {
-    if($('#name').val().length>0)
+function tryToconnect(name,side) {
+    if(name.length>0)
     $.ajax({
-        url: '/login/'+ $('#name').val(),
+        url: '/login/'+ name,
         success: function(data){
             if (data) {
 
@@ -81,6 +81,11 @@ function tryToconnect() {
                 }else if (arr[i].type=='NOREADY') {
 
                 }else if (arr[i].type=='START') {
+                    key.setInputMode(false);
+                    startGame();
+                    game.startLoop('game');
+
+
 
                 }else if (arr[i].type=='LEAVE') {
 
@@ -96,7 +101,9 @@ function tryToconnect() {
         })
 
 
-            stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':$('#name').val()}));
+            stompClient.send("/lobby/addJoinMessage",{},JSON.stringify({'type':"JOIN",'name':name,'stat':side}));
+            //stompClient.send("/lobby/addChooseSideMessage",{},JSON.stringify({'type':"CHOOSESIDE",'name':name,'side':side}));
+            //stompClient.send("/lobby/addReadyMessage",{},JSON.stringify({'type':"READY",'name':name}));
 
 
             }
@@ -109,7 +116,7 @@ function tryToconnect() {
  }
 
 window.onbeforeunload = function() {
-                       stompClient.send("/lobby/addLeaveMessage",{},JSON.stringify({'name':$('#name').val()}));
+                       stompClient.send("/lobby/addLeaveMessage",{},JSON.stringify({'name':name}));
                        stompClient.disconnect();
                        setConnected(false);
                        console.log("Disconnected");
@@ -118,3 +125,23 @@ window.onbeforeunload = function() {
  function f(){
      alert('ДАМАГВСЕМ ПИЗДА');
      }
+
+
+
+function move(name,direction){
+
+}
+
+function hit(i,enemy){
+
+}
+
+function shot(name){
+
+}
+
+function destroy(name){
+
+}
+function create(name) {
+}
