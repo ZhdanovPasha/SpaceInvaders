@@ -6,31 +6,36 @@
     var pjs = new PointJS('2D', 1024, 768, style);
     var sys = pjs.system;
     var SpaceInvaders = {
-        pjs:pjs,
+        pjs: pjs,
         game: pjs.game,
         width: sys.getWH().w,
         height: sys.getWH().h,
-        OOP:pjs.OOP,
-        key:pjs.keyControl
+        OOP: pjs.OOP,
+        key: pjs.keyControl
     };
+    SpaceInvaders.fon = SpaceInvaders.game.newImageObject({
+        position: pjs.vector.point(0, 0),
+        w: SpaceInvaders.width, h: SpaceInvaders.height,
+        file: 'img/terrain.png'
+    });
     sys.addEvent("onload", "myEvent", function () {
         console.log("Страница загружена полностью");
         SpaceInvaders.key.initKeyControl();
     });
 
-    var Object=function(){
-        this.obj={};
-        this.destroyed=false;
+    var Object = function () {
+        this.obj = {};
+        this.destroyed = false;
     };
-    Object.prototype.draw=function(){
-        if(this.destroyed) return false;
-        else{
+    Object.prototype.draw = function () {
+        if (this.destroyed) return false;
+        else {
             this.obj.draw();
         }
     };
 
-   SpaceInvaders.Object=Object;
-   window. SpaceInvaders= SpaceInvaders;
+    SpaceInvaders.Object = Object;
+    window.SpaceInvaders = SpaceInvaders;
     // var mouse = pjs.mouseControl;
     // var touch = pjs.touchControl;
     // var vector = pjs.vector;
@@ -51,8 +56,6 @@
     // var limit = math.limit;
     //
     // var isDef = OOP.isDef;
-
-
 
 
 //     sys.setSettings({

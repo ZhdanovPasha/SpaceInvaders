@@ -6,11 +6,6 @@
     var bullets = [];
 
 
-    // var fon = game.newImageObject({
-    //     position: point(0, 0),
-    //     w: width, h: height,
-    //     file: 'img/terrain.png'
-    // });
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
             player = new SpaceInvaders.Blue({x: 100, y: 300});
@@ -27,6 +22,7 @@
 
         this.update = function () {
             game.clear(); // clear screen
+            SpaceInvaders.fon.draw();
             bullets.forEach(function (bullet, i, bullets) {
                 enemies.forEach(function (enemy, j, enemies) {
                     if (bullet.hit(enemy)) {
