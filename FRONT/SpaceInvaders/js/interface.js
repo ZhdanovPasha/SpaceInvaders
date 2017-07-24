@@ -1,12 +1,13 @@
 class Interface{
 	
-	constructor(pjs, game){
+	constructor(pjs){
 		this.pjs = pjs;
 		this.game = pjs.game;
 	}
 	
 	//Инициализация параметров
-	initialize(mHP, sc, en){
+	initialize(name, mHP, sc, en){
+		this.name = name;
 		this.maxHP = this.currHP = mHP;
 		this.scores = sc;
 		this.enemies = en;
@@ -20,9 +21,17 @@ class Interface{
 	}
 	
 	initializeObjects(){
+		this.nicknameText = this.game.newTextObject({
+			text: 'No Name',
+			x: 10,
+			y: 10,
+			color: 'white',
+			size: 0.03 * this.height
+		});
+		
 		this.hpText = this.game.newTextObject({
 			text: 'HP',
-			x: 10,
+			x: this.nicknameText.x + this.nicknameText.w + 5,
 			y: 10,
 			color: 'white',
 			size: 0.03 * this.height
@@ -130,6 +139,8 @@ class Interface{
 	}
 	
 	update(hp, sc, en){//Обновить текущие данные
+		this.nicknameText.text = this.name;
+	
 		if(hp <= 0){
 			this.currHP = 0;
 			this.initialLose();
@@ -163,5 +174,6 @@ class Interface{
 		this.drawScores();
 		this.drawEnemie();
 		this.drawSkills();
+		this.nicknameText.draw();
 	}
 }
