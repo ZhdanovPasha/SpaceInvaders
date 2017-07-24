@@ -13,8 +13,6 @@ class Bullet{
 			file: this.img.source,
 			w: this.img.width, h: this.img.height
 		});
-		console.log(this.img.source);
-		console.log('Yes');
 	}
 
 	move(){

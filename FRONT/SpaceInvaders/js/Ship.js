@@ -15,7 +15,6 @@ key.initKeyControl();
 class Ship{
 	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.img = img;
-	
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
 			w: this.img.width,	h: this.img.height,
@@ -31,7 +30,7 @@ class Ship{
 		this.dx = 10;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
-		this.damage = 100;
+		this.damage = 50;
 		this.bulletWidth = 27;
 		this.bulletHeight = 64;	
 		this.bullets = [];
@@ -50,7 +49,7 @@ class Ship{
 		this.currentHP -= damage;
 	}
 	
-	addBullet(bul){ // bullet = {width: , height: , img: }
+	addBullet(bul){ 
 		var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
 		this.bullets.push(bullet);
 	}
@@ -106,10 +105,8 @@ class Ship{
 			if (Date.now() - this.lastFire > 100 * this.speed){
 				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y + (this.obj.h)/2},
 					img:{width:this.bulletWidth, height: this.bulletHeight, source:
-					'img/bullet.png'}, speed:1, damage: 50, dy: 5 };
+					'img/bullet.png'}, speed:1, damage: 100, dy: 5 };
 				this.addBullet(bul);
-				// this.addBullet({width:this.bulletWidth, height: this.bulletHeight, img:
-				// 	'img/bullet.png'});
 				this.lastFire = Date.now();
 				for (i = 0; i < this.bullets.length; ++i)
 					console.log(this.bullets[i]);
