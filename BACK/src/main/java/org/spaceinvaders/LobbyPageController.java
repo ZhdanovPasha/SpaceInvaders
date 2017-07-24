@@ -76,6 +76,12 @@ public class LobbyPageController {
         players.get(message.getName()).setReady(false);
     }
 
+    @MessageMapping("/addLeaveMessage")
+    public void addLeaveMessage(LeaveMessage message){
+        messages.push(message);
+        players.remove(message.getName());
+    }
+
 
     //Основная отправка сообщений
     @Scheduled(fixedDelay = 1)
