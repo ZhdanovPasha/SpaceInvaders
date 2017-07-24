@@ -35,6 +35,7 @@
             return this.obj[i];
         };
     });
+    //Возвращает true если сдох после того как в него попали
     Ship.prototype.attacked = function (BulletObj) {
         if (BulletObj.obj.isStaticIntersect(this.obj.getStaticBox())) {
             this.currentHP -= BulletObj.damage;

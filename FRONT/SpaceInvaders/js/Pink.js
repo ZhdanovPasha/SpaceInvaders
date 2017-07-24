@@ -11,6 +11,8 @@
             w: 80, h: 39,
             animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
         });
+        this.maxHP = 100;
+        Ship.apply(this, arguments);
     };
     PinkBot.prototype = Object.create(Ship.prototype);
     PinkBot.prototype.constructor = PinkBot;
@@ -20,7 +22,7 @@
         this.speed = 4;
         this.damage = 20;
         this.maxHP = 100;
-        this.killScores = 100;
+        this.killScores = 200;
         this.selfDestroyed = false;
         Ship.apply(this, arguments);
         this.obj = game.newImageObject({
@@ -49,15 +51,17 @@
     Pink.prototype.attacked = function (BulletObj) {
         if (!this.selfDestroyed) {
             if (Ship.prototype.attacked.apply(this, arguments)) {
-                this.destroyed = false; //Но главный пока не "сдох" пока боты не сдохли
-                this.selfDestroyed = true;
-                this.destroyed = this.bots.length == 0 && this.selfDestroyed;
+                if (this.destroyed) {
+                    this.selfDestroyed = true;//Главный сдох
+                    this.destroyed = false; // Но его объект для игры "не сдох" пока боты не сдохли
+                }
+                this.destroyed = this.bots.length == 0 && this.selfDestroyed; //объект для игры сдох когда он и боты сдохли
                 return true;
             }
         }
         if (this.bots.some(function (bot, i, bots) {
                 if (bot.attacked(BulletObj)) {
-                    bots.splice(i, 1);
+                    if (bot.destroyed) bots.splice(i, 1);
                     return true;
                 }
             })) {
