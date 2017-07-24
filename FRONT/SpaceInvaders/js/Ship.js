@@ -1,17 +1,3 @@
-var pjs = new PointJS('2d', 400, 400);
-pjs.system.initFullScreen();
-
-var game = pjs.game;
-var mouse = pjs.mouseControl;
-var key = pjs.keyControl;
-var point = pjs.vector.point;
-var width = game.getWH().w;
-var height = game.getWH().h;
-
-//init mouse and keyboard
-mouse.initMouseControl();
-key.initKeyControl();
-
 class Ship{
 	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.img = img;
@@ -87,7 +73,6 @@ class Ship{
 
 	//наследуются только для героев
 	control(){
-
 		if (key.isDown('LEFT')){
 			this.obj.x -= this.dx * this.speed;
 			if (this.obj.x <= 0){
@@ -108,10 +93,7 @@ class Ship{
 					'img/bullet.png'}, speed:1, damage: 100, dy: 5 };
 				this.addBullet(bul);
 				this.lastFire = Date.now();
-				for (i = 0; i < this.bullets.length; ++i)
-					console.log(this.bullets[i]);
 			}
-			
 		}
 	}
 

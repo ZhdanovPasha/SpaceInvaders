@@ -1,53 +1,22 @@
-var pjs = new PointJS('2d', 400, 400);
-pjs.system.initFullScreen();
-
-var game = pjs.game;
-var mouse = pjs.mouseControl;
-var key = pjs.keyControl;
-var point = pjs.vector.point;
-var width = game.getWH().w;
-var height = game.getWH().h;
-
-//init mouse and keyboard
-mouse.initMouseControl();
-key.initKeyControl();
-
 //initial parametrs
 //пока здесь, потом надо вынести в отдельный файл
-var bulletSpeed = 1;
-var shipSpeed = 1;
 var shipDX = 10;
+var scores = 100;
 var bulletDY = 10;
+var beginPosX = width/2 - 25;
+var beginPosY = height - 50;
 var shipWidth = 50;
 var shipHeight = 50;
 var bulletHeroWidth = 27;
 var bulletHeroHeight = 64;
-var bulletEnemyWidth = 25;
-var bulletEnemyHeight = 50;
-var beginPosX = width/2 - 25;
-var beginPosY = height - 50; 
-var bulletsHero = [];
-var bulletsEnemies = [];
-var enemies = [];
-var countHeroBullets = 0;  
-var lastHeroFire = Date.now();
-var lastEnemiesFire = Date.now();
-var lastEnemiesMove = Date.now();
-var scores = 0;
-var curHP = 100;
 var playerName = "Kal";
-var damageEnemyBullet = 50; 
 var enemiesCount = 0;
-var killScores = 100;
-var botsMovingX = 5;
-var botsMovingY = 5;
 var noEnemy = false;
 var gameEnd = false;
 var ships = [];
-var ship = null;
 
 var gameInterface = new Interface(pjs);
-gameInterface.initialize(playerName, 100, scores, enemies.length);
+gameInterface.initialize(playerName, 100, scores, enemiesCount);
 gameInterface.initializeObjects();
 
 var fon = game.newImageObject({
@@ -57,7 +26,7 @@ var fon = game.newImageObject({
 });
 
 var initParameters = function(){
-	noEnemy = false;
+	init = false;
 	gameEnd = false;
 	ships.splice(0, ships.length);
 }
@@ -79,13 +48,13 @@ game.newLoop('game', function(){
 	fon.draw();
 	if (!gameEnd){
 		
-		if (!noEnemy){
+		if (!init){
 			ship = new Ship({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue');
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();
-			noEnemy = true;
+			init = true;
 		}
 
 		for (i = 0; i < ships.length; ++i){
@@ -94,13 +63,11 @@ game.newLoop('game', function(){
 		ships[0].control();
 		for (i = 0; i < ships.length; ++i)
 			ships[i].fire();
-		
 		for (i = 1 ; i < ships.length; ++i){
 			if (Date.now() - ships[i].lastFire > 2000){
 				var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
 					img:{width:ships[i].bulletWidth, height: ships[i].bulletHeight, source:
-					'img/bullet.png'}, speed:1, damage: 50, dy: -5 };
-				
+					'img/bullet.png'}, speed:1, damage: 50, dy: -5 };				
 				ships[i].addBullet(bul);
 				ships[i].lastFire = Date.now();
 			}
@@ -127,10 +94,4 @@ game.newLoop('game', function(){
 		game.startLoop('menu');
 	
 	}
-	// for (i = 1; i<ships.length; ++i){
-	// 	if (ships[i].isDead()){
-	// 		ships.splice(i,1);
-	// 		i--;
-	// 	}
-	// }
 });
