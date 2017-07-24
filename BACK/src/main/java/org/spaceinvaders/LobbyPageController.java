@@ -5,10 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.spaceinvaders.messages.gamelobby.*;
 import org.spaceinvaders.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,8 +28,6 @@ public class LobbyPageController {
     private HashMap<String,Ship> ships;
     @Autowired
     private ConcurrentHashMap<String,Player> players;
-    @Autowired
-    private LinkedList<LobbyMessageEntity> messages;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
@@ -117,7 +117,6 @@ public class LobbyPageController {
             }
 
             log.info("=================================");
-            }
 
     }
 

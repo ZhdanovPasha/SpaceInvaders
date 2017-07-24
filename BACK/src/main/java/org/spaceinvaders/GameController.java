@@ -9,11 +9,13 @@ import org.spaceinvaders.models.Player;
 import org.spaceinvaders.models.Ship;
 import org.spaceinvaders.models.StatusInLobby;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -132,6 +134,8 @@ public class GameController {
                 simpMessagingTemplate.convertAndSend("/game/process", mes);
                 log.info("send");
             }
+        }
+
 
     }
 
