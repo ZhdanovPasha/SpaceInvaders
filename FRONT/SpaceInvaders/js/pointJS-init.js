@@ -20,7 +20,7 @@
         w: SpaceInvaders.width, h: SpaceInvaders.height,
         file: 'img/terrain.png'
     });
-    SpaceInvaders.scores = 100;
+    SpaceInvaders.scores = 0;
     sys.addEvent("onload", "myEvent", function () {
         console.log("Страница загружена полностью");
         SpaceInvaders.key.initKeyControl();

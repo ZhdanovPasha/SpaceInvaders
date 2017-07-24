@@ -35,6 +35,9 @@
                         bullet.update();
                         bullet.draw();
                     }
+                    else {
+                        SpaceInvaders.scores += player.killScores;
+                    }
                 }
             );
             enemies.forEach(function (enemy, i, enemies) {
