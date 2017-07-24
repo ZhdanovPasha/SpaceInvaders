@@ -1,20 +1,3 @@
-//initial parametrs
-//пока здесь, потом надо вынести в отдельный файл
-var shipDX = 10;
-var scores = 100;
-var bulletDY = 10;
-var beginPosX = width/2 - 25;
-var beginPosY = height - 50;
-var shipWidth = 50;
-var shipHeight = 50;
-var bulletHeroWidth = 27;
-var bulletHeroHeight = 64;
-var playerName = "Kal";
-var enemiesCount = 0;
-var noEnemy = false;
-var gameEnd = false;
-var ships = [];
-
 var gameInterface = new Interface(pjs);
 gameInterface.initialize(playerName, 100, scores, enemiesCount);
 gameInterface.initializeObjects();
@@ -34,7 +17,7 @@ var initParameters = function(){
 // надо исправить числовые значения
 var addEnemies = function(){
     for (i = 1; i <= enemiesCount; ++i){
-    	var tmp  = new Ship({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i, 'pink'); 
+    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i, 'pink'); 
     	ships.push(tmp);
     }
 };
@@ -49,7 +32,7 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		
 		if (!init){
-			ship = new Ship({x:beginPosX, y:beginPosY-shipWidth},
+			ship = new Player({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue');
 			ships[0] = ship;
 			enemiesCount = 10;
