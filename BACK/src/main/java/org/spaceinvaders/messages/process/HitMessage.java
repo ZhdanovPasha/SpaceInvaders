@@ -5,29 +5,25 @@ package org.spaceinvaders.messages.process;
  */
 public class HitMessage extends ProcessMessageEntity {
     private String name;
-    private String nameHit;
     private int numBullet;
 
     public HitMessage() {
         type = ProcessMessageType.HITTING;
     }
 
-
+    public HitMessage(String name, int numBullet) {
+        this();
+        this.name = name;
+        this.numBullet = numBullet;
+    }
 
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNameHit() {
-        return nameHit;
-    }
-
-    public void setNameHit(String nameHit) {
-        this.nameHit = nameHit;
     }
 
     public int getNumBullet() {

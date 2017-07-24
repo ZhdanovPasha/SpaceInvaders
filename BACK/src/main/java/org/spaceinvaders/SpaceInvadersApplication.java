@@ -3,6 +3,7 @@ package org.spaceinvaders;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageType;
 import org.spaceinvaders.messages.process.ProcessMessageEntity;
+import org.spaceinvaders.models.Game;
 import org.spaceinvaders.models.Player;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,4 +33,11 @@ public class SpaceInvadersApplication {
 	LinkedList<Player> getPlayers() {return new LinkedList<Player>();}
 	@Bean
 	ConcurrentHashMap<String,Player> getMap() { return  new ConcurrentHashMap<>();}
+	@Bean
+	LinkedList<Game> games() {
+		LinkedList<Game> games = new LinkedList<>();
+		games.push(new Game());
+		games.push(new Game());
+		return games;
+	}
 }

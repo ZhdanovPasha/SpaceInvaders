@@ -6,10 +6,20 @@ package org.spaceinvaders.models;
 public class Player {
     private StatusInLobby side;
     private String name;
+    private Game game;
     private Boolean ready;
     public Player(){
 
     }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
     public StatusInLobby getSide() {
         return side;
     }

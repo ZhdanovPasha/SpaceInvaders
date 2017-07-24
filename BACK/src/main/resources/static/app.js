@@ -2,7 +2,7 @@
  * Created by Gemini on 17.07.2017.
  */
 var stompClient = null;
-var name = document.getElementById("name");
+var name = null;
 var button = document.getElementById('button');
 function setConnected(connected) {
     $("#connect").prop("disabled",connected);
@@ -14,6 +14,7 @@ function setConnected(connected) {
 }
 var subscription = null;
 var count = 0;
+var satus = null;
 
 
 function  connect() {
@@ -21,12 +22,12 @@ function  connect() {
     var  socket = new SockJS('/game');
     stompClient = Stomp.over(socket);
     stompClient.connect({},function (frame) {
-        setConnected(true);
-
+        //что-о при конекте игрока
 
     })
 
 }}
+
 function startGame() {
     subscription.unsubscribe();
     subscription = stompClient.subscribe('/game/process',function (change) {
@@ -53,6 +54,36 @@ function startGame() {
     })
 
 }
+//ввод имени, проверка на уникальность и заход на сервер в случае успеха
+function tryToReg() {
+    var _name = $('#name').val().length;
+    if(_name > 0)
+        $.ajax({
+            url: '/login/'+ _name,
+            success: function(data) {
+                if (data) {
+                    
+                    subscription = stompClient.subscribe('/game/dest',function (change) {
+                    name = _name;
+                        console.log(change);
+                    });
+                    
+                }}})
+}
+
+function joinLobby() {
+    if (name!==null) {
+        stompClient.unsubscribe(subscription);
+        stompClient.subscribe('/game/lobby/1',function (change) {
+
+        console.log(change);
+        })
+    }
+    
+}
+
+
+
 
 function tryToconnect() {
     if($('#name').val().length>0)
@@ -70,7 +101,7 @@ function tryToconnect() {
 
             var arr = JSON.parse(change.body);
 
-            for(var i=0;i<arr.length;i++) {
+            for(var i=0;i < arr.length;i++) {
                 if (arr[i].type=='JOIN') {
 
 
