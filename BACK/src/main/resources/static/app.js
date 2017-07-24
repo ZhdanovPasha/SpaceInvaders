@@ -84,7 +84,7 @@ function tryToconnect() {
 
                 }else if (arr[i].type=='LEAVE') {
 
-                   
+
 
                 }
 
@@ -109,11 +109,11 @@ function tryToconnect() {
  }
 
 window.onbeforeunload = function() {
-            stompClient.send("/lobby/addLeaveMessage",{},JSON.stringify({'name':$('#name').val()}));
+                       stompClient.send("/lobby/addLeaveMessage",{},JSON.stringify({'name':$('#name').val()}));
                        stompClient.disconnect();
                        setConnected(false);
                        console.log("Disconnected");
-}
+                        }
 
  function f(){
      alert('ДАМАГВСЕМ ПИЗДА');
