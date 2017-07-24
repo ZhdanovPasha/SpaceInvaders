@@ -50,12 +50,15 @@ class Ship{
 		this.currentHP -= damage;
 	}
 	
-	addBullet(bullet){ // bullet = {width: , height: , img: }
+	addBullet(bul){ // bullet = {width: , height: , img: }
 		var tmp = game.newImageObject({
-			positionC : point(this.obj.x + this.img.width/2, this.obj.y + this.img.height/2),
-			w: bullet.width, h: bullet.height,
-			img: bullet.img
+			positionC : point(this.obj.x + (this.obj.w)/2, this.obj.y + (this.obj.h)/2),
+			w: bul.width, h: bul.height,
+			file: bul.img
 		});
+		console.log(tmp);
+		console.log(this.obj.x);
+		console.log(this.obj.w);
 		this.bullets.push(tmp);
 	}
 
@@ -63,27 +66,23 @@ class Ship{
 
 	}
 	
-	fire(num){
-		console.log("i'm firee");
-		console.log(this.bullets.length);
-		console.log(ships);
-		
-		for (j = 0; j < this.bullets.length; ++j){
+	fire(ship){
+		console.log(ship);
+		for (var j = 0; j < this.bullets.length; ++j){
 			var hit = false; 
-			this.bullet[j].draw();
-			this.bullet[j].y -= this.bullet[j].dy;
-			if (this.bullet[j].isStaticIntersect(ships[num].getStaticBox())){
+			this.bullets[j].draw();
+			this.bullets[j].y -= this.bullets[j].dy;
+			if (this.bullets[j].isStaticIntersect(ship.getStaticBox())){
 				hit = true;
-				ships[num].getDamage(this.damage);
+				ship.getDamage(this.damage);
 				this.scores += this.killScores;
 			}
-			if (this.bullet[j].y <= 0 || hit){
+			if (this.bullets[j].y <= 0 || hit){
 				this.bullets.splice(j, 1);
 				j--;
 			}
 			console.log("ith bullet is out" + j);
 		}
-		console.log('end fire');	
 	}
 	
 	draw(){
@@ -91,9 +90,9 @@ class Ship{
 	}
 
 	move(){
-		this.obj.x += dx;
+		this.obj.x += getRandomInt(-1 * this.dx, this.dx);
 		this.draw();
-		this.position.x = this.obj.x;
+		//this.position.x = this.obj.x;
 	}
 
 	//наследуются только для героев
@@ -114,10 +113,16 @@ class Ship{
 		}
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
-				this.addBullet({width:this.bulletWidth, height: this.bulletHeight, img:
-					'img/bullet.png'});
+				console.log('space is pressed');
+				var bul = {width:this.bulletWidth, height: this.bulletHeight, img:
+					'img/bullet.png'};
+				console.log(bul);
+				this.addBullet(bul);
+				// this.addBullet({width:this.bulletWidth, height: this.bulletHeight, img:
+				// 	'img/bullet.png'});
 				this.lastFire = Date.now();
 			}
+			console.log(this.bullets);
 		}
 	}
 
