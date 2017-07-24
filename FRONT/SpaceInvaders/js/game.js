@@ -1,6 +1,6 @@
 (function () {
     var game = SpaceInvaders.game;
-    var key=SpaceInvaders.key;
+    var key = SpaceInvaders.key;
     var player = new SpaceInvaders.Pink({x: 100, y: 300});
     var enemies = [];
     var bullets = [];
@@ -15,8 +15,8 @@
             for (var i = 0; i < 10; i++) {
                 enemies.push(new SpaceInvaders.Pink({x: 40 * i, y: 100}));
             }
-           gameInterface = new Interface(SpaceInvaders.pjs,SpaceInvaders.game);
-            gameInterface.initialize(SpaceInvaders.playerName, 100 ,SpaceInvaders.scores, enemies.length);
+            gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game);
+            gameInterface.initialize(player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
         };
 

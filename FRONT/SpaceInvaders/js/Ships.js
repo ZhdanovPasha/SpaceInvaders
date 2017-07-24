@@ -1,33 +1,35 @@
 (function () {
-    /*
-    params={
-      x: 100, y: 200,
-    }
-     */
+        /*
+        params={
+          x: 100, y: 200,
+        }
+         */
 
-    var game = SpaceInvaders.game;
-    var pjs = SpaceInvaders.pjs;
-    var Ship = function () {
-        this.maxHP = 100;
-        this.killScores = 100;
-        this.dx = 10;
-        this.lastFire = Date.now();
-        this.lastMove = Date.now();
-        this.currentHP = this.maxHP;
-        this.lastMove = Date.now();
-    };
-    Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
-    Ship.prototype.constructor = Ship;
+        var game = SpaceInvaders.game;
+        var pjs = SpaceInvaders.pjs;
+        var Ship = function () {
 
-    Ship.prototype.moveLeft = function () {
+        };
+        Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
+        Ship.prototype.constructor = Ship;
+
+        Ship.prototype.maxHP = 100;
+        Ship.prototype.killScores = 100;
+        Ship.prototype.dx = 10;
+        Ship.prototype.lastFire = Date.now();
+        Ship.prototype.lastMove = Date.now();
+        Ship.prototype.currentHP = Ship.prototype.maxHP;
+        Ship.prototype.lastMove = Date.now();
+        
+        Ship.prototype.moveLeft = function () {
             if (this.obj.x >= 0) {
                 this.obj.x -= this.speed;
             }
-    };
+        };
         Ship.prototype.moveRight = function () {
-                if (this.obj.x <= SpaceInvaders.width) {
-                    this.obj.x += this.speed;
-                }
+            if (this.obj.x <= SpaceInvaders.width) {
+                this.obj.x += this.speed;
+            }
         };
         ["x", "y"].forEach(function (i) {
             Ship.prototype["get" + i.toUpperCase()] = function () {
@@ -70,6 +72,5 @@
         Pink.prototype.damage = 20;
         SpaceInvaders.Pink = Pink;
         SpaceInvaders.Blue = Blue;
-    }
-)
+    })
 (SpaceInvaders);
