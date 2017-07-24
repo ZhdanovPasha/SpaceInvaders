@@ -66,10 +66,8 @@
             gameInterface.draw();
         };
 
-    })
-    ;
+    });
 
-// game.startLoop('battle');
     SpaceInvaders.pjs.system.addEvent("onload", "game.js", function () {
         game.setLoop('menu');
         game.start();

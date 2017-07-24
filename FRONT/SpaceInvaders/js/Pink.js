@@ -21,8 +21,8 @@
     var Pink = function (params) {
         this.speed = 4;
         this.damage = 20;
-        this.maxHP = 100;
-        this.killScores = 200;
+        this.maxHP = 200;
+        this.killScores = 100;
         this.selfDestroyed = false;
         Ship.apply(this, arguments);
         this.obj = game.newImageObject({
