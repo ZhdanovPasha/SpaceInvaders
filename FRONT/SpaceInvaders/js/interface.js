@@ -1,13 +1,10 @@
-class Interface{
+function Interface(pjs, game){
 	
-	constructor(pjs){
 		this.pjs = pjs;
-		this.game = pjs.game;
-	}
-	
+		this.game = game;
+
 	//Инициализация параметров
-	initialize(name, mHP, sc, en){
-		this.name = name;
+	this.initialize=function(mHP, sc, en){
 		this.maxHP = this.currHP = mHP;
 		this.scores = sc;
 		this.enemies = en;
@@ -19,19 +16,11 @@ class Interface{
 
 		this.rectValWidth = 0.2 * this.width;
 	}
-	
-	initializeObjects(){
-		this.nicknameText = this.game.newTextObject({
-			text: 'No Name',
-			x: 10,
-			y: 10,
-			color: 'white',
-			size: 0.03 * this.height
-		});
-		
+
+    this.initializeObjects=function(){
 		this.hpText = this.game.newTextObject({
 			text: 'HP',
-			x: this.nicknameText.x + this.nicknameText.w + 5,
+			x: 10,
 			y: 10,
 			color: 'white',
 			size: 0.03 * this.height
@@ -106,41 +95,39 @@ class Interface{
 			color: "white"
 		});
 	}
-	
-	initialWin(){
+
+    this.initialWin=function(){
 		this.resultBattleText.text = "Вы победили!\nДля продолжения нажмите ENTER"
 		this.resultBattleText.draw();
 	}
-	
-	initialLose(){
+
+    this.initialLose=function(){
 		this.resultBattleText.text = "Вы проиграли!\nДля продолжения нажмите ENTER"
 		this.resultBattleText.draw();
 	}
-	
-	drawHP(){
+
+    this.drawHP=function(){
 		this.hpText.draw();
 		this.hpRectStroke.draw();
 		this.hpRectVal.draw();
 		this.hpVal.draw();
 	}
-	
-	drawScores(){
+
+    this.drawScores=function(){
 		this.scoresText.draw();
 	}
-	
-	drawEnemie(){
+
+    this.drawEnemie=function(){
 		this.enemieText.draw();
 	}
-	
-	drawSkills(){
+
+    this.drawSkills=function(){
 		this.skill_1.draw();
 		this.skill_2.draw();
 		this.skill_3.draw();
 	}
-	
-	update(hp, sc, en){//Обновить текущие данные
-		this.nicknameText.text = this.name;
-	
+
+    this.update=function(hp, sc, en){//Обновить текущие данные
 		if(hp <= 0){
 			this.currHP = 0;
 			this.initialLose();
@@ -168,12 +155,11 @@ class Interface{
 		
 		this.enemieText.text = 'ENEMIES: ' + this.enemies;
 	}
-	
-	draw(){
+
+    this.draw=function(){
 		this.drawHP();
 		this.drawScores();
 		this.drawEnemie();
 		this.drawSkills();
-		this.nicknameText.draw();
 	}
 }

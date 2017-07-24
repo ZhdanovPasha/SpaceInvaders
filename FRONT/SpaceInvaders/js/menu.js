@@ -7,7 +7,7 @@
     var menuWidth = 200;
     var objects = [];
     var name="";
-    var key = pjs.keyControl;
+    var key = SpaceInvaders.key;
     var nameMaxLength = 30;
     var chooseMenuElements = [
         { //0 всегда заголовок
@@ -145,4 +145,4 @@
             }
         };          
     });
-})(game);
+})(SpaceInvaders.game);

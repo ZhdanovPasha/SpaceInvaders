@@ -13,16 +13,16 @@ mouse.initMouseControl();
 key.initKeyControl();
 
 class Ship{
-	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
+	constructor(position, img, id){// image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.img = img;
+	
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
 			w: this.img.width,	h: this.img.height,
 			file: this.img.source
 		});
 		
-		this.id = id;
-		this.fraction = fraction;
+		this.id = 0;
 		this.currentHP = this.maxHP = 100;
 		this.scores = 0;
 		this.killScores = 100;
@@ -35,6 +35,7 @@ class Ship{
 		this.bulletHeight = 64;	
 		this.bullets = [];
 		this.lastFire = Date.now();
+		this.enemies = [];
 		this.obj.draw();
 	}
 	
@@ -49,30 +50,38 @@ class Ship{
 		this.currentHP -= damage;
 	}
 	
-	addBullet(bul){ 
-		var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
-		this.bullets.push(bullet);
+	addBullet(bul){ // bullet = {width: , height: , img: }
+		var tmp = game.newImageObject({
+			positionC : point(this.obj.x + (this.obj.w)/2, this.obj.y + (this.obj.h)/2),
+			w: bul.width, h: bul.height,
+			file: bul.img
+		});
+		// console.log(tmp);
+		// console.log(this.obj.x);
+		// console.log(this.obj.w);
+		this.bullets.push(tmp);
+	}
+
+	addEnemy(enemy){
+
 	}
 	
-	fire(){
-		for (var i = 0; i < this.bullets.length; ++i){
+	fire(ship){
+		// console.log(ship);
+		for (var j = 0; j < this.bullets.length; ++j){
 			var hit = false; 
-			var bullet = this.bullets[i];
-			bullet.obj.draw();
-			bullet.obj.y -= bullet.dy;
-			for (var j = 0; j < ships.length; ++j){
-				if (ships[j].fraction != this.fraction){
-					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
-						hit = true;
-						ships[j].getDamage(this.damage);
-						this.scores += this.killScores;
-					}
-				}
+			this.bullets[j].draw();
+			this.bullets[j].y -= this.bullets[j].dy;
+			if (this.bullets[j].isStaticIntersect(ship.obj.getStaticBox())){
+				hit = true;
+				ship.getDamage(this.damage);
+				this.scores += this.killScores;
 			}
-			if (bullet.obj.y <= 0 || hit){
-				this.bullets.splice(i, 1);
-				i--;
+			if (this.bullets[j].y <= 0 || hit){
+				this.bullets.splice(j, 1);
+				j--;
 			}
+			// console.log("ith bullet is out" + j);
 		}
 	}
 	
@@ -83,6 +92,7 @@ class Ship{
 	move(){
 		this.obj.x += getRandomInt(-1 * this.dx, this.dx);
 		this.draw();
+		//this.position.x = this.obj.x;
 	}
 
 	//наследуются только для героев
@@ -103,15 +113,16 @@ class Ship{
 		}
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
-				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y + (this.obj.h)/2},
-					img:{width:this.bulletWidth, height: this.bulletHeight, source:
-					'img/bullet.png'}, speed:1, damage: 100, dy: 5 };
+				// console.log('space is pressed');
+				var bul = {width:this.bulletWidth, height: this.bulletHeight, img:
+					'img/bullet.png'};
+				// console.log(bul);
 				this.addBullet(bul);
+				// this.addBullet({width:this.bulletWidth, height: this.bulletHeight, img:
+				// 	'img/bullet.png'});
 				this.lastFire = Date.now();
-				for (i = 0; i < this.bullets.length; ++i)
-					console.log(this.bullets[i]);
 			}
-			
+			// console.log(this.bullets);
 		}
 	}
 

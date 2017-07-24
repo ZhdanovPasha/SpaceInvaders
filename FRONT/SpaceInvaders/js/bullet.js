@@ -1,26 +1,24 @@
-class Bullet{
-	//position{x,y}, img={width, height, source}
-	constructor(position, img, speed, dy, damage){
-		console.log('success');
-		this.position = position;
-		this.img = img;
-		this.speed = speed;
-		this.dy = dy;
-		this.w = img.width;
-		this.h = img.height;
-		this.obj = game.newImageObject({
-			position: point(this.position.x, this.position.y),
-			file: this.img.source,
-			w: this.img.width, h: this.img.height
-		});
-	}
+(function () {
+    var game = SpaceInvaders.game;
+    var Bullet = function (params) {
+        this.obj = game.newImageObject({
+            x: params.x, y: params.y,
+            w: 27,
+            h: 64,
+            file: 'img/projectile_bolt_blue_single.png'
+        });
+    };
+    Bullet.prototype = Object.create(SpaceInvaders.Object.prototype);
+    Bullet.prototype.constructor = Bullet;
 
-	move(){
-		this.obj.y += this.dy;
-		this.obj.draw();
-	}
-
-	draw(){
-		this.obj.draw();
-	}
-}
+    Bullet.prototype.update = function () {
+        this.obj.y -= 10;
+    };
+    //Expects SpaceInvaders.Ship as a parameter
+    Bullet.prototype.hit = function (Ship) {
+        this.destroyed = this.obj.isStaticIntersect(Ship.obj.getStaticBox());
+        if (this.destroyed) Ship.attacked();
+        return this.destroyed;
+    };
+    SpaceInvaders.Bullet = Bullet;
+})();
