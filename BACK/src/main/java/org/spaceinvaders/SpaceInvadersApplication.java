@@ -32,4 +32,4 @@ public class SpaceInvadersApplication {
 	LinkedList<Player> getPlayers() {return new LinkedList<Player>();}
 	@Bean
 	ConcurrentHashMap<String,Player> getMap() { return  new ConcurrentHashMap<>();}
-}
+	}

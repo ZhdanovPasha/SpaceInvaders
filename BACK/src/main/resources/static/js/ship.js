@@ -13,7 +13,9 @@ mouse.initMouseControl();
 key.initKeyControl();
 
 class Ship{
-	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
+	constructor(position, img, name, fraction){
+	// image передаем как {source: "", width: , height: }, position = {x: , y: }
+	    create(name);
 		this.img = img;
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
@@ -21,7 +23,7 @@ class Ship{
 			file: this.img.source
 		});
 		
-		this.id = id;
+		this.name = name;
 		this.fraction = fraction;
 		this.currentHP = this.maxHP = 100;
 		this.scores = 0;
@@ -89,6 +91,7 @@ class Ship{
 	control(){
 
 		if (key.isDown('LEFT')){
+		    move(name,'LEFT')
 			this.obj.x -= this.dx * this.speed;
 			if (this.obj.x <= 0){
 				this.obj.x = 0;

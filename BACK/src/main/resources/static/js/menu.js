@@ -17,16 +17,21 @@
             text: "Pink",
             handle: function () {
                 console.log("Pink: "+name);
-                key.setInputMode(false);
-                game.startLoop('game');
+                //key.setInputMode(false);
+                   console.log('1');
+
+                tryToconnect(name,'PINK');
+                obj = false;
             }
         },
         {
             text: "Blue",
             handle: function () {
                 console.log("blue: "+name);
-                key.setInputMode(false);
-                game.startLoop('game');
+                //key.setInputMode(false);
+                console.log('1');
+                tryToconnect(name,'BLUE');
+                obj = false;
             }
         }
     ];
@@ -46,12 +51,16 @@
                 }));
                 key.setInputMode(true);
                 setMenuElements(chooseMenuElements);
+                connect();
+
+
             }
         },
         {
             text: "Выход",
             handle: function () {
-                game.startLoop('game');
+                window.close();
+
             }
         }
     ];
@@ -127,7 +136,8 @@
                     if (iKey == 'BACKSPACE') {
                         name = name.substr(0, name.length - 1);
                     } else if (iKey == 'ENTER') {
-                        name = name;//TODO
+                        name = name;
+                        //TODO
                     }
 
                     if (char) {                     // если вводится символ

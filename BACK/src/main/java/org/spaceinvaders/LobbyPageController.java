@@ -29,11 +29,13 @@ public class LobbyPageController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
+    boolean gameStarted;
+
     //ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
 
     @MessageMapping("/addJoinMessage")
     private void  addJoinMessage(JoinMessage message) {
-        players.put(message.getName(),new Player(message.getName(),StatusInLobby.NONE,false));
+        players.put(message.getName(),new Player(message.getName(),message.getStat(),true));
         messages.push(message);
     }
     //ПРОВЕРКА НА ГОТОВНОСТЬ ВСЕХ
@@ -41,45 +43,52 @@ public class LobbyPageController {
     @Scheduled(fixedDelay = 50)
     public  void checkReadyToStart() {
         boolean isReady;
-        if (players.isEmpty()) return;
-
-
-        for (Map.Entry<String,Player> player:players.entrySet()
-                ) {
-                if(!player.getValue().getReady()) return;
+        if (players.isEmpty()||gameStarted) return;
+        if (players.size()==2) {
+            messages.push(new StartMessage());
+            gameStarted = true;
         }
-        simpMessagingTemplate.convertAndSend(new StartMessage());
+
+        //for (Map.Entry<String,Player> player:players.entrySet()
+         //       ) {
+         //       if(!player.getValue().getReady()) return;
+        //}
+        //simpMessagingTemplate.convertAndSend(new StartMessage());
 
     }
     //Выбор каждым игроком фракции
     @MessageMapping("/addChooseSideMessage")
     public  void addChooseSideMessage(ChooseSideMessage message) {
+        players.get(message.getName()).setSide(message.getSide());
+
         messages.push(message);
 
-        players.get(message.getName()).setSide(message.getSide());
 
     }
 
     //Нажатие на кнопку ГОТОВ!
     @MessageMapping("/addReadyMessage")
     public void addReadyMessage(ReadyMessage message) {
+        players.get(message.getName()).setReady(true);
         messages.push(message);
 
-        players.get(message.getName()).setReady(true);
+
     }
 
 
     //Не готовность игрока, при нажатии НЕ ГОТОВ!
     @MessageMapping("/addNoreadyMessage")
     public void addNoReadyMessage(NoReadyMessage message) {
-        messages.push(message);
         players.get(message.getName()).setReady(false);
+        messages.push(message);
+
     }
 
     @MessageMapping("/addLeaveMessage")
     public void addLeaveMessage(LeaveMessage message){
-        messages.push(message);
         players.remove(message.getName());
+
+        messages.push(message);
     }
 
 
@@ -92,6 +101,9 @@ public class LobbyPageController {
             for (Map.Entry<String,Player> player:players.entrySet()
                  ) {
                 log.info(player.getKey());
+                log.info(String.valueOf(player.getValue().getSide()));
+                log.info(String.valueOf(player.getValue().getReady()));
+
             }
 
             log.info("=================================");

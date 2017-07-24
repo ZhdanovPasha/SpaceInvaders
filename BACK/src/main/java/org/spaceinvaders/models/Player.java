@@ -6,7 +6,7 @@ package org.spaceinvaders.models;
 public class Player {
     private StatusInLobby side;
     private String name;
-    private Boolean ready;
+    private boolean ready;
     public Player(){
 
     }
@@ -30,7 +30,7 @@ public class Player {
         return ready;
     }
 
-    public void setReady(Boolean ready) {
+    public void setReady(boolean ready) {
         ready = ready;
     }
 

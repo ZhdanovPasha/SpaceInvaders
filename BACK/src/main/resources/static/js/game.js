@@ -76,14 +76,16 @@ function getRandomInt(min, max){
 
 game.newLoop('game', function(){
 	game.clear();
+
 	fon.draw();
 	if (!gameEnd){
 		
 		if (!noEnemy){
 			ship = new Ship({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue');
+
 			ships[0] = ship;
-			enemiesCount = 10;
+			enemiesCount = 1;
 			addEnemies();
 			noEnemy = true;
 		}
