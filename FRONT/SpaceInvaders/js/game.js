@@ -32,7 +32,7 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		
 		if (!init){
-			ship = new Player({x:beginPosX, y:beginPosY-shipWidth},
+			var ship = new Player({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue');
 			ships[0] = ship;
 			enemiesCount = 10;
@@ -75,6 +75,5 @@ game.newLoop('game', function(){
 		console.log(gameEnd);
 		initParameters();
 		game.startLoop('menu');
-	
 	}
 });
