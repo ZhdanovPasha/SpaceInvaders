@@ -166,8 +166,8 @@ function getRandomInt(min, max){
 
 var movingEnemies = function(){
 	enemies.forEach(function (enemy, i, enemies) {
-		enemy.x += getRandomInt(-1 * botsMovingX, botsMovingY);
-		enemy.y += getRandomInt(-1 * botsMovingX, botsMovingY);
+		enemy.x += getRandomInt(-1 * botsMovingX, botsMovingX);
+		enemy.y += getRandomInt(-1 * botsMovingY, botsMovingY);
 	});
 }
 
@@ -207,35 +207,31 @@ game.newLoop('game', function(){
 			console.log('end initialization');
 		}
 
-		console.log(ships);
-		console.log(enemiesCount);
 		for (i = 0; i <= enemiesCount; ++i){
-			console.log('draw ship' + i);
 			ships[i].draw();
 		}
-		console.log('control');
 		ships[0].control();
-		console.log('endControl');
-		console.log(ships.length);
+		for (i = 1 ; i < ships.length; ++i){
+			console.log(ship[i]);
+			ships[0].fire(ships[i]);
+		}
 		// for (i = 1; i < ships.length; ++i){
 		// 	//console.log('fire' + i);
 		// 	ships[0].fire(i);
 		// 	//console.log('fire' + i);
 		// 	//ships[i].fire(ship[0]);
 		// }
-		console.log('fire');
 		for (i = 1 ; i < ships.length; ++i){
-			if (Date.now() - ships[i].lastFire > 2000){
-				ships[i].addBullet();
-				ships[i].lastFire = Date.now();
-			}
+			// if (Date.now() - ships[i].lastFire > 2000){
+			// 	ships[i].addBullet();
+			// 	ships[i].lastFire = Date.now();
+			// }
 			if (Date.now() - ships[i].lastMove > 500){
 				ships[i].move();
 				ships[i].lastMove = Date.now();
 			}
 		}
-		console.log('check');
-		if (ships.length == 1 || !ships[0].isDead()){
+		if (ships.length == 1 || ships[0].isDead()){
 			gameEnd = true;
 		}
 	}
