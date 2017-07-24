@@ -1,12 +1,16 @@
 (function (game) {
     var obj;
+    var width = SpaceInvaders.width;
+    var pjs = SpaceInvaders.pjs;
+    var mouse = pjs.mouseControl;
+    mouse.initMouseControl();
+
     var header;
     var items;
     var menuY = 200;
     var menuElemHeight = 40;
     var menuWidth = 200;
     var objects = [];
-    var name="";
     var key = SpaceInvaders.key;
     var nameMaxLength = 30;
     var chooseMenuElements = [
@@ -16,7 +20,8 @@
         {
             text: "Pink",
             handle: function () {
-                console.log("Pink: "+name);
+                SpaceInvaders.fraction = "PINK";
+                SpaceInvaders.playerName = name;
                 key.setInputMode(false);
                 game.startLoop('game');
             }
@@ -24,7 +29,8 @@
         {
             text: "Blue",
             handle: function () {
-                console.log("blue: "+name);
+                SpaceInvaders.fraction = "BLUE";
+                SpaceInvaders.playerName = name;
                 key.setInputMode(false);
                 game.startLoop('game');
             }
@@ -79,7 +85,7 @@
     }
 
     game.newLoopFromConstructor('menu', function () {
-        this.entry=function(){
+        this.entry = function () {
             console.log("entered menu");
             game.clear(); // clear screen
             SpaceInvaders.fon.draw();
@@ -127,7 +133,7 @@
                     if (iKey == 'BACKSPACE') {
                         name = name.substr(0, name.length - 1);
                     } else if (iKey == 'ENTER') {
-                        name = name;//TODO
+                        SpaceInvaders.playerName = name;
                     }
 
                     if (char) {                     // если вводится символ
@@ -143,6 +149,6 @@
                     x: width / 2, y: 50
                 });
             }
-        };          
+        };
     });
 })(SpaceInvaders.game);

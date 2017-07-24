@@ -4,7 +4,7 @@
     var player = new SpaceInvaders.Pink({x: 100, y: 300});
     var enemies = [];
     var bullets = [];
-
+    var gameInterface;
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
@@ -13,8 +13,11 @@
             bullets = [];
 
             for (var i = 0; i < 10; i++) {
-                enemies.push(new SpaceInvaders.Pink({x: 40 * i, y: 0}));
+                enemies.push(new SpaceInvaders.Pink({x: 40 * i, y: 100}));
             }
+           gameInterface = new Interface(SpaceInvaders.pjs,SpaceInvaders.game);
+            gameInterface.initialize(SpaceInvaders.playerName, 100 ,SpaceInvaders.scores, enemies.length);
+            gameInterface.initializeObjects();
         };
 
 
@@ -58,14 +61,16 @@
                     direction: "UP"
                 }))
             }
-
+            gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length - 1);
+            gameInterface.draw();
         };
 
     });
 
 // game.startLoop('battle');
     SpaceInvaders.pjs.system.addEvent("onload", "game.js", function () {
-        game.setLoop('game');
+        game.setLoop('menu');
         game.start();
+
     });
 })();

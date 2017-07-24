@@ -11,13 +11,16 @@
         width: sys.getWH().w,
         height: sys.getWH().h,
         OOP: pjs.OOP,
-        key: pjs.keyControl
+        key: pjs.keyControl,
+        playerName: "unknownName",
+        fraction: "unknown" // "BLUE"/"PINK"
     };
     SpaceInvaders.fon = SpaceInvaders.game.newImageObject({
         position: pjs.vector.point(0, 0),
         w: SpaceInvaders.width, h: SpaceInvaders.height,
         file: 'img/terrain.png'
     });
+    SpaceInvaders.scores = 100;
     sys.addEvent("onload", "myEvent", function () {
         console.log("Страница загружена полностью");
         SpaceInvaders.key.initKeyControl();
@@ -68,6 +71,5 @@
 //     sys.initFullPage();
 //     sys.initFPSCheck();
 
-//     mouse.initMouseControl();
 
 })();
