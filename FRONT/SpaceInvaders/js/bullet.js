@@ -23,8 +23,7 @@
     };
     //Expects SpaceInvaders.Ship as a parameter
     Bullet.prototype.hit = function (Ship) {
-        this.destroyed = this.obj.isStaticIntersect(Ship.obj.getStaticBox());
-        if (this.destroyed) Ship.attacked(this.damage);
+        this.destroyed = Ship.attacked(this);
         return this.destroyed;
     };
     SpaceInvaders.Bullet = Bullet;

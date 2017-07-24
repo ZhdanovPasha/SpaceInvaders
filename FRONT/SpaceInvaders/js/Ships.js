@@ -1,76 +1,51 @@
 (function () {
-        /*
-        params={
-          x: 100, y: 200,
+    /*
+    params={
+      x: 100, y: 200,
+    }
+     */
+
+    var game = SpaceInvaders.game;
+    var pjs = SpaceInvaders.pjs;
+    //expects params.direction="UP"|"DOWN"
+    var Ship = function (params) {
+        this.direction = params.direction;
+        this.currentHP = this.maxHP;
+    };
+    Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
+    Ship.prototype.constructor = Ship;
+
+
+    Ship.prototype.lastFire = Date.now();
+    Ship.prototype.lastMove = Date.now();
+
+
+    Ship.prototype.moveLeft = function () {
+        if (this.obj.x >= 0) {
+            this.obj.x -= this.speed;
         }
-         */
-
-        var game = SpaceInvaders.game;
-        var pjs = SpaceInvaders.pjs;
-        var Ship = function () {
-
+    };
+    Ship.prototype.moveRight = function () {
+        if (this.obj.x <= SpaceInvaders.width) {
+            this.obj.x += this.speed;
+        }
+    };
+    ["x", "y"].forEach(function (i) {
+        Ship.prototype["get" + i.toUpperCase()] = function () {
+            return this.obj[i];
         };
-        Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
-        Ship.prototype.constructor = Ship;
-
-        Ship.prototype.maxHP = 100;
-        Ship.prototype.killScores = 100;
-        Ship.prototype.dx = 10;
-        Ship.prototype.lastFire = Date.now();
-        Ship.prototype.lastMove = Date.now();
-        Ship.prototype.currentHP = Ship.prototype.maxHP;
-        Ship.prototype.lastMove = Date.now();
-        
-        Ship.prototype.moveLeft = function () {
-            if (this.obj.x >= 0) {
-                this.obj.x -= this.speed;
-            }
-        };
-        Ship.prototype.moveRight = function () {
-            if (this.obj.x <= SpaceInvaders.width) {
-                this.obj.x += this.speed;
-            }
-        };
-        ["x", "y"].forEach(function (i) {
-            Ship.prototype["get" + i.toUpperCase()] = function () {
-                return this.obj[i];
-            };
-        });
-        Ship.prototype.attacked = function (damage) {
-            this.currentHP -= damage;
+    });
+    Ship.prototype.attacked = function (BulletObj) {
+        if (BulletObj.obj.isStaticIntersect(this.obj.getStaticBox())) {
+            this.currentHP -= BulletObj.damage;
             if (this.currentHP <= 0) {
                 this.destroyed = true;
             }
             //Взрыв
-        };
-
-
-        var Blue = function (params) {
-            this.obj = game.newImageObject({
-                x: params.x, y: params.y,
-                w: 90,
-                h: 75,
-                file: 'img/player.png'
-            });
-        };
-        Blue.prototype = Object.create(Ship.prototype);
-        Blue.prototype.constructor = Blue;
-        Blue.prototype.speed = 5;
-        Blue.prototype.damage = 50;
-        var Pink = function (params) {
-            this.obj = game.newAnimationObject({
-                x: params.x, y: params.y, angle: 90,
-                w: 80, h: 39,
-
-                animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
-            });
-
-        };
-        Pink.prototype = Object.create(Ship.prototype);
-        Pink.prototype.constructor = Pink;
-        Pink.prototype.speed = 4;
-        Pink.prototype.damage = 20;
-        SpaceInvaders.Pink = Pink;
-        SpaceInvaders.Blue = Blue;
-    })
+            return true;
+        }
+        return false;
+    };
+    SpaceInvaders.Ship = Ship;
+})
 (SpaceInvaders);

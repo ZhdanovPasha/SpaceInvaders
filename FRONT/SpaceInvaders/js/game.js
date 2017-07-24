@@ -8,37 +8,35 @@
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
-            player = new SpaceInvaders.Blue({x: 100, y: 300});
+            player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP"});
             enemies = [];
             bullets = [];
-
-            for (var i = 0; i < 10; i++) {
-                enemies.push(new SpaceInvaders.Pink({x: 40 * i, y: 100}));
-            }
-            gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game);
+            enemies.push(new SpaceInvaders.Pink({x: 160, y: 100, direction: "DOWN"}));
+            enemies.push(new SpaceInvaders.Pink({x: 560, y: 100, direction: "DOWN"}));
+            gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game, SpaceInvaders.playerName);
             gameInterface.initialize(player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
         };
 
 
-        // var obj = false;
-
         this.update = function () {
             game.clear(); // clear screen
             SpaceInvaders.fon.draw();
             bullets.forEach(function (bullet, i, bullets) {
-                enemies.forEach(function (enemy, j, enemies) {
-                    if (bullet.hit(enemy)) {
-                        enemies.splice(j, 1);
+                    if (!enemies.some(function (enemy, j, enemies) {
+                            if (bullet.hit(enemy)) {
+                                if (enemy.destroyed) enemies.splice(j, 1);
+                                if (bullet.destroyed) {
+                                    bullets.splice(i, 1);
+                                    return true;
+                                }
+                            }
+                        })) {
+                        bullet.update();
+                        bullet.draw();
                     }
-                });
-                if (bullet.destroyed) bullets.splice(i, 1);
-                else {
-                    bullet.update();
-                    bullet.draw();
                 }
-
-            });
+            );
             enemies.forEach(function (enemy, i, enemies) {
                 enemy.draw();
             });
@@ -54,18 +52,19 @@
             player.draw();
             if (key.isPress('SPACE')) {
                 bullets.push(new SpaceInvaders.Bullet({
-                    x: player.getX(),
+                    x: player.getX() + player.obj.w / 2,
                     y: player.getY(),
                     speed: 1,
                     damage: player.damage,
-                    direction: "UP"
+                    direction: player.direction
                 }))
             }
-            gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length - 1);
+            gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
             gameInterface.draw();
         };
 
-    });
+    })
+    ;
 
 // game.startLoop('battle');
     SpaceInvaders.pjs.system.addEvent("onload", "game.js", function () {
@@ -73,4 +72,5 @@
         game.start();
 
     });
-})();
+})
+();
