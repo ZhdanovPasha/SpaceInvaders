@@ -31,9 +31,13 @@ class MessageService {
             for(let i=0;i<arr.length;i++) {
 
                 if (arr[i].type == 'SHOT') {
-
+                    for (let j = 0; j < this.ships.length;j++) {
+                        if (arr[i].name == this.ships[j].name ) {
+                            this.ships[j].addBullet(this.ships[0]);
+                        }
+                    }
                 } else if (arr[i].type == 'MOVE') {
-                     for (let j = 1; j < this.ships.length;j++) {
+                     for (let j = 0; j < this.ships.length;j++) {
                          if (arr[i].name == this.ships[j].name ) {
                              this.ships[j].move(arr[i].direction,this.ships[0])
                          }

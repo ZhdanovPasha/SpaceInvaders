@@ -29,6 +29,7 @@ class Ship{
 		this.scores = 0;
 		this.killScores = 100;
 		this.speed = 1;
+		this.bulletSpeed = 5;
 		this.dx = 10;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
@@ -51,17 +52,29 @@ class Ship{
 		this.currentHP -= damage;
 	}
 	
-	addBullet(bul){ 
-		var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
+	addBullet(mainship){
+        var bullet=null;
+		if (mainship.fraction == this.fraction) {
+            console.log(this.obj.y);
+            bullet = new Bullet({x:this.obj.x + (this.obj.w)/2,y:this.obj.y }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
+		} else {
+			console.log(this.obj.y);
+            bullet = new Bullet({x:this.obj.x + (this.obj.w)/2,y:this.obj.y+this.obj.h }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
+		}
+
 		this.bullets.push(bullet);
 	}
 	
-	fire(){
+	fire(mainship){
+
 		for (var i = 0; i < this.bullets.length; ++i){
 			var hit = false; 
 			var bullet = this.bullets[i];
 			bullet.obj.draw();
-			bullet.obj.y -= bullet.dy;
+			if (mainship.fraction == this.fraction)
+				bullet.obj.y -= bullet.dy;
+			else
+				bullet.obj.y += bullet.dy;
 			for (var j = 0; j < ships.length; ++j){
 				if (ships[j].fraction != this.fraction){
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
@@ -71,7 +84,7 @@ class Ship{
 					}
 				}
 			}
-			if (bullet.obj.y <= 0 || hit){
+			if (bullet.obj.y <= 0 || hit||bullet.obj.y>= height ){
 				this.bullets.splice(i, 1);
 				i--;
 			}
@@ -141,12 +154,12 @@ class Ship{
 
 		if (key.isDown('LEFT')){
 		    messageService.move(this.name,'LEFT')
-			this.move('LEFT',this)
+			//this.move('LEFT',this)
 
 		}else
 		if (key.isDown('RIGHT')){
             messageService.move(this.name,'RIGHT')
-            this.move('RIGHT',this)
+            //this.move('RIGHT',this)
 
 		}
 
@@ -154,10 +167,8 @@ class Ship{
 
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
-				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y + (this.obj.h)/2},
-					img:{width:this.bulletWidth, height: this.bulletHeight, source:
-					'img/bullet.png'}, speed:1, damage: 100, dy: 5 };
-				this.addBullet(bul);
+                messageService.shot(this.name);
+				//this.addBullet(this);
 				this.lastFire = Date.now();
 				for (i = 0; i < this.bullets.length; ++i)
 					console.log(this.bullets[i]);

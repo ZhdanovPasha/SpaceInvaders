@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @SpringBootApplication
 @EnableScheduling
@@ -23,8 +24,8 @@ public class SpaceInvadersApplication {
 		SpringApplication.run(SpaceInvadersApplication.class, args);
 	}
 	@Bean
-	LinkedList<ProcessMessageEntity> processMessages() {
-		return new LinkedList<>();
+	LinkedBlockingQueue<ProcessMessageEntity> processMessages() {
+		return new LinkedBlockingQueue<>();
 	}
 	@Bean
 	LinkedList<LobbyMessageEntity> lobbyMessages() { return new LinkedList<>();}

@@ -108,14 +108,14 @@ game.newLoop('game', function(){
             ships[i].draw();
         }
         ships[0].control();
-        //for (i = 0; i < ships.length; ++i)
-        //	ships[i].fire();
+        for (i = 0; i < ships.length; ++i)
+        	ships[i].fire(ship);
 
         //for (i = 1 ; i < ships.length; ++i){
         //	if (Date.now() - ships[i].lastFire > 2000){
         //		var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
         //			img:{width:ships[i].bulletWidth, height: ships[i].bulletHeight, source:
-        //			'img/bullet.png'}, speed:1, damage: 50, dy: -5 };
+        //		'img/bullet.png'}, speed:1, damage: 50, dy: -5 };
 
         //		ships[i].addBullet(bul);
         //		ships[i].lastFire = Date.now();

@@ -3,6 +3,7 @@ class Bullet{
 	constructor(position, img, speed, dy, damage){
 		console.log('success');
 		this.position = position;
+		this.damage = damage;
 		this.img = img;
 		this.speed = speed;
 		this.dy = dy;
@@ -14,10 +15,8 @@ class Bullet{
 			w: this.img.width, h: this.img.height
 		});
 	}
-
 	move(){
-		this.obj.y += this.dy;
-		this.obj.draw();
+		this.obj.y -= this.dy;
 	}
 
 	draw(){

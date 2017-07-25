@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -28,41 +29,50 @@ public class GameController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
-    private LinkedList<ProcessMessageEntity> messages;
+    private LinkedBlockingQueue<ProcessMessageEntity> messages;
 
     @MessageMapping("/addShotMessage")
-    public void  addShotMessage(ShotMessage message) {
-        messages.push(message);
+    public void  addShotMessage(ShotMessage message) throws InterruptedException {
+        messages.put(message);
     }
 
 
     @MessageMapping("/addCreateMessage")
-    public void addCreateMessage(CreateShipMessage message) { messages.push(message);}
+    public void addCreateMessage(CreateShipMessage message) throws InterruptedException {
+        messages.put(message);
+    }
 
 
     @MessageMapping("/addHitMessage")
-    public void addHitMessage(HitMessage message) {
-        messages.push(message);
+    public void addHitMessage(HitMessage message) throws InterruptedException {
+
+        messages.put(message);
     }
 
 
     @MessageMapping("/addMoveMessage")
-    public void addMoveMessage(MoveMessage message) {
-        messages.push(message);
+    public void addMoveMessage(MoveMessage message) throws InterruptedException {
+
+        messages.put(message);
     }
 
 
     @MessageMapping("/addDestroyMessage")
-    public  void addDestroyMessage(DestroyShipMessage message) {
-        messages.push(message);
+    public  void addDestroyMessage(DestroyShipMessage message) throws InterruptedException {
+
+        messages.put(message);
     }
 
 
-    @Scheduled(fixedDelay = 16)
-    public void hello() {
+    @Scheduled(fixedDelay = 1)
+    public void hello() throws InterruptedException {
+        LinkedList<ProcessMessageEntity> mes = new LinkedList<>();
             if (!messages.isEmpty()) {
-                simpMessagingTemplate.convertAndSend("/game/process", messages);
-                messages.clear();
+                int size = messages.size();
+                for (int i = 0; i < size ; i++) {
+                    mes.push(messages.take());
+                }
+                simpMessagingTemplate.convertAndSend("/game/process", mes);
                 log.info("send");
             }
 
