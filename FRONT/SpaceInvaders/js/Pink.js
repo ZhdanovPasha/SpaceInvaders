@@ -12,14 +12,15 @@
             animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
         });
         this.maxHP = 100;
+        Ship.apply(this, arguments);
         this.nameText = game.newTextObject({
-            text: this.name + " bot",
+            text: params.name + " bot",
             x: params.x,
             y: params.y - 15,
             size: 15,
             color: "white"
         });
-        Ship.apply(this, arguments);
+
     };
     PinkBot.prototype = Object.create(Ship.prototype);
     PinkBot.prototype.constructor = PinkBot;
@@ -42,10 +43,10 @@
         });
         this.bots = [];
         for (var i = -2; i < 0; i++) {
-            this.bots.push(new PinkBot({x: params.x + 80 * i, y: params.y, direction: this.direction}));
+            this.bots.push(new PinkBot({x: params.x + 80 * i, y: params.y, direction: this.direction, name:this.name}));
         }
         for (var i = 1; i < 3; i++) {
-            this.bots.push(new PinkBot({x: params.x + 80 * i, y: params.y, direction: this.direction}));
+            this.bots.push(new PinkBot({x: params.x + 80 * i, y: params.y, direction: this.direction, name:this.name}));
         }
 
     };

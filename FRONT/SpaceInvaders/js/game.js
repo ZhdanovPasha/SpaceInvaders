@@ -16,7 +16,7 @@
                 x: 160,
                 y: 100,
                 direction: "DOWN",
-                name: SpaceInvaders.playerName + "enemy1"
+                name: "enemy1"
             }));
             enemies.push(new SpaceInvaders.Pink({
                 x: 560,
