@@ -1,13 +1,13 @@
 var gameInterface = new Interface(pjs);
 gameInterface.initialize(playerName, 100, scores, enemiesCount);
 gameInterface.initializeObjects();
-
+//инициализация фона
 var fon = game.newImageObject({
     position: point(0, 0),
     w: width, h: height,
     file: 'img/terrain.png'
 });
-
+//инициализация параметров перед каждым игровым циклом
 var initParameters = function(){
 	init = false;
 	gameEnd = false;
@@ -30,7 +30,7 @@ game.newLoop('game', function(){
 	game.clear();
 	fon.draw();
 	if (!gameEnd){
-		
+		//инициализация в начале раунда
 		if (!init){
 			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', 'player');
@@ -38,35 +38,28 @@ game.newLoop('game', function(){
 			enemiesCount = 10;
 			addEnemies();
 			init = true;
+			for (i = 0; i < ships.length; ++i){
+				console.log(ships[i]);
+			}
 		}
-
+		//отрисовка кораблей
 		for (i = 0; i < ships.length; ++i){
 			ships[i].draw();
 		}
+		//упраеление кораблем игрока
 		ships[0].control();
+		//огонь всех кораблей
 		for (i = 0; i < ships.length; ++i){
 			ships[i].fire();
 		}
+		//проверка чтобы закончить действие скилов
 		for (i = 0; i < ships.length; ++i){
-			if (ships[i].fraction == 'pink'){
-				if (Date.now() - ships[i].lastChangeMoveSpeed > 5000 && ships[i].fastMoveSpeed == true){
-					ships[i].changeMoveSpeed(ships[i].speed - 5);
-					ships[i].fastMoveSpeed = false;
-					console.log('movespeed decrease');
-				}
-				if (Date.now() - ships[i].lastChangeBulletsSpeed > 5000 && ships[i].fastBulletsSpeed == true){
-					ships[i].changeBulletsSpeed(ships[i].bulletSpeed - 5);
-					ships[i].fastBulletsSpeed = false;
-					console.log('bulletSpeed increase');
-				}
-				if (Date.now() - ships[i].lastSetImmortality > 5000 && ships[i].immortalityOn == true){
-					ships[i].immortalityOn = false;
-					ships[i].immortality = false;
-					console.log(ships[i].immortality);
-					console.log('immortality off');
-				}
+			if (ships[i] instanceof Pink){
+				ships[i].check();
 			}
 		}
+		//временно
+		//цикл для перемещения и стрельбы ботов
 		for (i = 1 ; i < ships.length; ++i){
 			if (Date.now() - ships[i].lastFire > 2000){
 				var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
@@ -84,14 +77,15 @@ game.newLoop('game', function(){
 				i--;
 			}
 		}
+		//условия окончания игры
 		if (ships.length == 1 || ships[0].isDead()){
 			gameEnd = true;
 		}
 	}
-	
+	//отрисовка деталей интерфейса
 	gameInterface.update(ships[0].currentHP, ships[0].scores, ships.length - 1);
 	gameInterface.draw();
-
+	//переход в главное меню
 	if (gameEnd && key.isPress('ENTER')){
 		console.log(gameEnd);
 		initParameters();

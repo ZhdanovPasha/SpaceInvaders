@@ -3,13 +3,13 @@ class Pink extends Player{
 
 	constructor(position, img, id, fraction){
 		super(position, img, id, fraction);
+		this.immortality = false;
 		this.lastChangeMoveSpeed = Date.now();
 		this.lastChangeBulletsSpeed = Date.now();
 		this.lastSetImmortality = Date.now();
 		this.fastMoveSpeed = false;
 		this.fastBulletsSpeed = false;
 		this.immortalityOn = false;
-		this.fraction = 'pink';
 	}
 
 	changeBulletsSpeed(speed){
@@ -52,6 +52,7 @@ class Pink extends Player{
 				this.fastBulletsSpeed = true;
 				this.lastChangeBulletsSpeed = Date.now();
 				this.changeBulletsSpeed(this.bulletSpeed+5);
+				console.log('bulletSpeed is increased');
 			}
 		}
 		if (key.isPress('W')){
@@ -59,30 +60,52 @@ class Pink extends Player{
 				this.fastMoveSpeed = true;
 				this.lastChangeMoveSpeed = Date.now();
 				this.changeMoveSpeed(this.speed + 5);
+				console.log('moveSpeed is increased');
 			}
 		}
 		if (key.isPress('E')){
 			if (Date.now() - this.lastSetImmortality > 10000 && !this.immortalityOn){
 				this.lastSetImmortality = Date.now();
+				this.immortality = true;
 				this.setImmortality(true);
 				this.immortalityOn = true;
 				console.log('setImmortality');
 			}
 		}
-		if (key.isPress('A')){
-			//if (Date.now() - this.lastChangeBulletsSpeed > 10000){
-				this.lastChangeBulletsSpeed = Date.now();
-				this.changeBulletsSpeed(this.bulletSpeed-2);
-			//}
-		}
-		if (key.isPress('S')){
-			this.lastChangeBulletsSpeed = Date.now();
-			this.changeMoveSpeed(this.speed - 1);
-		}
-		if (key.isPress('D')){
-			this.lastChangeBulletsSpeed = Date.now();
-			this.setImmortality(false);
-		}
-
+		// if (key.isPress('A')){
+		// 	//if (Date.now() - this.lastChangeBulletsSpeed > 10000){
+		// 		this.lastChangeBulletsSpeed = Date.now();
+		// 		this.changeBulletsSpeed(this.bulletSpeed-2);
+		// 	//}
+		// }
+		// if (key.isPress('S')){
+		// 	this.lastChangeBulletsSpeed = Date.now();
+		// 	this.changeMoveSpeed(this.speed - 1);
+		// }
+		// if (key.isPress('D')){
+		// 	this.lastChangeBulletsSpeed = Date.now();
+		// 	this.setImmortality(false);
+		// }
 	}
+
+	check(){
+		if (Date.now() - this.lastChangeMoveSpeed > 5000 && this.fastMoveSpeed == true){
+			this.changeMoveSpeed(this.speed - 5);
+			this.fastMoveSpeed = false;
+			console.log('movespeed decrease');
+		}
+		if (Date.now() - this.lastChangeBulletsSpeed > 5000 && this.fastBulletsSpeed == true){
+			this.changeBulletsSpeed(this.bulletSpeed - 5);
+			this.fastBulletsSpeed = false;
+			console.log('bulletSpeed increase');
+		}
+		if (Date.now() - this.lastSetImmortality > 5000 && this.immortality == true){
+			this.immortalityOn = false;
+			this.immortality = false;
+			this.setImmortality(false);
+			console.log(this.immortality);
+			console.log('immortality off');
+		}
+	}
+
 }

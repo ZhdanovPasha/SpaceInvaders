@@ -54,7 +54,7 @@ class Ship{
 					}
 				}
 			}
-			if (bullet.obj.y <= 0 || hit){
+			if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= fon.h || hit){
 				this.bullets.splice(i, 1);
 				i--;
 			}
