@@ -5,6 +5,7 @@
     var enemies = [];
     var bullets = [];
     var gameInterface;
+    var backSound = SpaceInvaders.pjs.audio.newAudio('audio/start.mp3', 0.1);
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
@@ -54,7 +55,7 @@
             }
             player.draw();
             if (key.isDown('SPACE')) {
-               player.fire(bullets);
+                player.fire(bullets);
             }
             gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
             gameInterface.draw();
@@ -65,6 +66,7 @@
     SpaceInvaders.pjs.system.addEvent("onload", "game.js", function () {
         game.setLoop('menu');
         game.start();
+        game.setLoopSound('game', [backSound]);
 
     });
 })

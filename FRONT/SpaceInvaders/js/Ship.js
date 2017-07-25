@@ -8,6 +8,7 @@
 
     var game = SpaceInvaders.game;
     var pjs = SpaceInvaders.pjs;
+    var audio = pjs.audio;
     //expects params.direction="UP"|"DOWN"
     var Ship = function (params) {
         this.direction = params.direction;
@@ -16,6 +17,9 @@
         this.bangStarted = Date.now();
         this.lastFire = Date.now();
         this.lastMove = Date.now();
+        this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
+        this.hurtSound = audio.newAudio('audio/hurt.ogg', 0.2); // file, volume
+        this.explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
     };
     Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
     Ship.prototype.constructor = Ship;
@@ -37,6 +41,7 @@
     });
     Ship.prototype.fire = function (bullets) {
         if (Date.now() - this.lastFire > 1000 / this.bulPerSec) {
+            this.fireSound.replay();
             bullets.push(new SpaceInvaders.Bullet({
                 x: this.obj.x + this.obj.w / 2,
                 y: this.obj.y,
@@ -50,8 +55,10 @@
     //Возвращает true если в него попали
     Ship.prototype.attacked = function (BulletObj) {
         if (BulletObj.obj.isStaticIntersect(this.obj.getStaticBox())) {
+            this.hurtSound.replay();
             this.currentHP -= BulletObj.damage;
             if (this.currentHP <= 0) {
+                this.explosionSound.replay();
                 this.destroyed = true;
             }
             this.bangAnimation = game.newAnimationObject({
