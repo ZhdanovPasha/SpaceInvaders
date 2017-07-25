@@ -10,6 +10,8 @@
     var pjs = SpaceInvaders.pjs;
     var Blue = function (params) {
         this.speed = 5;
+        this.bulPerSec=2;
+        this.bulletSpeed=1;
         this.damage = 50;
         this.maxHP = 100;
         this.killScores = 100;

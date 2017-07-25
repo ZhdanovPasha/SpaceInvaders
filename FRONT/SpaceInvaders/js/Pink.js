@@ -20,6 +20,8 @@
     var pjs = SpaceInvaders.pjs;
     var Pink = function (params) {
         this.speed = 4;
+        this.bulPerSec=2;
+        this.bulletSpeed=1;
         this.damage = 20;
         this.maxHP = 200;
         this.killScores = 100;

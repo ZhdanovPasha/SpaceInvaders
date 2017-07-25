@@ -1,7 +1,8 @@
 (function () {
     /*
     params={
-      x: 100, y: 200,
+      direction:"UP"|"DOWN"
+      name: "Someone"
     }
      */
 
@@ -10,15 +11,14 @@
     //expects params.direction="UP"|"DOWN"
     var Ship = function (params) {
         this.direction = params.direction;
+        this.name = params.name;
         this.currentHP = this.maxHP;
+        this.bangStarted = Date.now();
+        this.lastFire = Date.now();
+        this.lastMove = Date.now();
     };
     Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
     Ship.prototype.constructor = Ship;
-
-
-    Ship.prototype.lastFire = Date.now();
-    Ship.prototype.lastMove = Date.now();
-
 
     Ship.prototype.moveLeft = function () {
         if (this.obj.x >= 0) {
@@ -35,6 +35,18 @@
             return this.obj[i];
         };
     });
+    Ship.prototype.fire = function (bullets) {
+        if (Date.now() - this.lastFire > 1000 / this.bulPerSec) {
+            bullets.push(new SpaceInvaders.Bullet({
+                x: this.obj.x + this.obj.w / 2,
+                y: this.obj.y,
+                speed: this.bulletSpeed,
+                damage: this.damage,
+                direction: this.direction
+            }));
+            this.lastFire = Date.now();
+        }
+    };
     //Возвращает true если в него попали
     Ship.prototype.attacked = function (BulletObj) {
         if (BulletObj.obj.isStaticIntersect(this.obj.getStaticBox())) {
@@ -42,10 +54,23 @@
             if (this.currentHP <= 0) {
                 this.destroyed = true;
             }
-            //Взрыв
+            this.bangAnimation = game.newAnimationObject({
+                x: this.obj.x, y: this.obj.y,
+                w: 80, h: 39,
+                animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 80, 39, 4)
+            });
+            this.bangStarted = Date.now();
             return true;
         }
         return false;
+    };
+    Ship.prototype.draw = function () {
+        if (this.bangAnimation != undefined) {
+            if (Date.now() - this.bangStarted < 1000) {
+                this.bangAnimation.draw();
+            } else this.bangAnimation = undefined;
+        }
+        this.obj.draw();
     };
     SpaceInvaders.Ship = Ship;
 })

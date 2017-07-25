@@ -53,14 +53,8 @@
                 player.moveRight();
             }
             player.draw();
-            if (key.isPress('SPACE')) {
-                bullets.push(new SpaceInvaders.Bullet({
-                    x: player.getX() + player.obj.w / 2,
-                    y: player.getY(),
-                    speed: 1,
-                    damage: player.damage,
-                    direction: player.direction
-                }))
+            if (key.isDown('SPACE')) {
+               player.fire(bullets);
             }
             gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
             gameInterface.draw();
