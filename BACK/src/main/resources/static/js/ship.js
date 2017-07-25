@@ -101,6 +101,11 @@ class Ship{
                     this.obj.x = dif;
                 }
             }
+
+            if(direction == 'NONE'){
+            this.obj.x = this.obj.x;
+            }
+
 		} else{
             if (direction =='LEFT') {
                 this.obj.x += this.dx *this.speed;
@@ -116,6 +121,10 @@ class Ship{
                     this.obj.x = 0;
                 }
             }
+            if(direction == 'NONE'){
+                        this.obj.x = this.obj.x;
+                        }
+
 
 		}
 
@@ -125,16 +134,24 @@ class Ship{
 	//наследуются только для героев
 	control(){
 
+		if ((key.isDown('RIGHT'))&&(key.isDown('LEFT'))){
+                        messageService.move(this.name,'NONE')
+                }
+                else
+
 		if (key.isDown('LEFT')){
 		    messageService.move(this.name,'LEFT')
 			this.move('LEFT',this)
 
-		}
+		}else
 		if (key.isDown('RIGHT')){
             messageService.move(this.name,'RIGHT')
             this.move('RIGHT',this)
 
 		}
+
+
+
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
 				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y + (this.obj.h)/2},

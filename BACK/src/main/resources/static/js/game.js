@@ -36,7 +36,7 @@ var lastEnemiesFire = Date.now();
 var lastEnemiesMove = Date.now();
 var scores = 0;
 var curHP = 100;
-var playerName = "Kal";
+
 var damageEnemyBullet = 50; 
 var enemiesCount = 0;
 var killScores = 100;
@@ -47,9 +47,6 @@ var gameEnd = false;
 var ships = [];
 var ship = null;
 
-var gameInterface = new Interface(pjs);
-gameInterface.initialize(playerName, 100, scores, enemies.length);
-gameInterface.initializeObjects();
 
 var fon = game.newImageObject({
     position: point(0, 0),
@@ -63,6 +60,12 @@ var initParameters = function(){
 	ships.splice(0, ships.length);
 }
 var messageService = new MessageService(ships,game);
+var playerName = name;
+
+var gameInterface = new Interface(pjs);
+gameInterface.initialize(playerName, 100, scores, enemies.length);
+gameInterface.initializeObjects();
+
 
 // надо исправить числовые значения
 //var addEnemies = function(){
@@ -73,9 +76,9 @@ var messageService = new MessageService(ships,game);
 //};
 function newEnemyShip(name){
     if (ship.fraction == 'BLUE'){
-        return new Ship({x:beginPosX, y:0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, 'PINK')
+        return new Ship({x:beginPosX, y:50},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'PINK')
     }
-    return new Ship({x:beginPosX, y:0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, 'BLUE')
+    return new Ship({x:beginPosX, y:50},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'BLUE')
 }
 function newAllyShip(name) {
     return new Ship({x: beginPosX, y: beginPosY - shipWidth},
