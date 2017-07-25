@@ -17,6 +17,7 @@ class Ship{
 		this.damage = 50;
 		this.bullets = [];
 		this.lastFire = Date.now();
+		this.bulletSpeed = 1;
 	}
 	
 	isDead(){
@@ -40,7 +41,7 @@ class Ship{
 			var hit = false; 
 			var bullet = this.bullets[i];
 			bullet.obj.draw();
-			bullet.obj.y -= bullet.dy;
+			bullet.obj.y -= bullet.dy*this.bulletSpeed;
 			for (var j = 0; j < ships.length; ++j){
 				if (ships[j].fraction != this.fraction){
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
