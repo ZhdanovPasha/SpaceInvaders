@@ -15,7 +15,10 @@ class Blue extends Player{
 
 	botsFire(){
 		for (var i = 0; i < this.bots.length; ++i){
-			bots[i].addBullet();
+			var bul = {position:{x:this.bots[i].obj.x + (this.bots[i].obj.w)/2,y:this.bots[i].obj.y + (this.bots[i].obj.h)/2},
+					img:{width:this.bots[i].bulletWidth, height: this.bots[i].bulletHeight, source:
+					'img/bullet.png'}, speed:1, damage: 50, dy: -5 };				 
+			bots[i].bullets.push(bul);
 		}
 	}
 

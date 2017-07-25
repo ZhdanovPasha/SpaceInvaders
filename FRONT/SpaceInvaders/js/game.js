@@ -32,8 +32,8 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		
 		if (!init){
-			var ship = new Player({x:beginPosX, y:beginPosY-shipWidth},
-			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue');
+			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
+			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', 'player');
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();
@@ -44,8 +44,29 @@ game.newLoop('game', function(){
 			ships[i].draw();
 		}
 		ships[0].control();
-		for (i = 0; i < ships.length; ++i)
+		for (i = 0; i < ships.length; ++i){
 			ships[i].fire();
+		}
+		for (i = 0; i < ships.length; ++i){
+			if (ships[i].fraction == 'pink'){
+				if (Date.now() - ships[i].lastChangeMoveSpeed > 5000 && ships[i].fastMoveSpeed == true){
+					ships[i].changeMoveSpeed(ships[i].speed - 5);
+					ships[i].fastMoveSpeed = false;
+					console.log('movespeed decrease');
+				}
+				if (Date.now() - ships[i].lastChangeBulletsSpeed > 5000 && ships[i].fastBulletsSpeed == true){
+					ships[i].changeBulletsSpeed(ships[i].bulletSpeed - 5);
+					ships[i].fastBulletsSpeed = false;
+					console.log('bulletSpeed increase');
+				}
+				if (Date.now() - ships[i].lastSetImmortality > 5000 && ships[i].immortalityOn == true){
+					ships[i].immortalityOn = false;
+					ships[i].immortality = false;
+					console.log(ships[i].immortality);
+					console.log('immortality off');
+				}
+			}
+		}
 		for (i = 1 ; i < ships.length; ++i){
 			if (Date.now() - ships[i].lastFire > 2000){
 				var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},

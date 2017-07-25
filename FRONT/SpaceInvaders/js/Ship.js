@@ -18,6 +18,7 @@ class Ship{
 		this.bullets = [];
 		this.lastFire = Date.now();
 		this.bulletSpeed = 1;
+		this.immortality = false;
 	}
 	
 	isDead(){
@@ -46,8 +47,10 @@ class Ship{
 				if (ships[j].fraction != this.fraction){
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
 						hit = true;
-						ships[j].getDamage(this.damage);
-						this.scores += this.killScores;
+						if (ships[j].immortality == false){
+							ships[j].getDamage(this.damage);
+							this.scores += this.killScores;
+						}
 					}
 				}
 			}

@@ -1,5 +1,10 @@
 class Player extends Ship{	
 	
+	constructor(position, img, id, fraction, name){
+		super(position, img, id, fraction);
+		this.name = name;
+	}
+
 	control(){
 		if (key.isDown('LEFT')){
 			this.obj.x -= this.dx * this.speed;
