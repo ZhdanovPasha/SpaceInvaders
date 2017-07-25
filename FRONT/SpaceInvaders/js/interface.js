@@ -5,8 +5,10 @@ class Interface{
 		this.game = pjs.game;
 	}
 	
-	//Инициализация параметров
-	initialize(name, mHP, sc, en){
+	//Инициализация параметров. Player - Объект, в котором есть имя игрока, его очки и корабль obj
+	initialize(player, mHP, sc, en){
+		this.player = player;
+		
 		this.name = name;
 		this.maxHP = this.currHP = mHP;
 		this.scores = sc;
@@ -20,18 +22,12 @@ class Interface{
 		this.rectValWidth = 0.2 * this.width;
 	}
 	
-	initializeObjects(){
-		this.nicknameText = this.game.newTextObject({
-			text: 'No Name',
-			x: 10,
-			y: 10,
-			color: 'white',
-			size: 0.03 * this.height
-		});
-		
+	initializeObjects(){	
+		this.brush = this.pjs.brush;
+	
 		this.hpText = this.game.newTextObject({
 			text: 'HP',
-			x: this.nicknameText.x + this.nicknameText.w + 5,
+			x: 10,
 			y: 10,
 			color: 'white',
 			size: 0.03 * this.height
@@ -117,6 +113,19 @@ class Interface{
 		this.resultBattleText.draw();
 	}
 	
+	drawName(){
+		if(!this.player.isDead() && this.enemies > 0){
+			this.brush.drawText({
+				x: this.player.obj.x + this.player.obj.w/2,
+				y: this.player.obj.y - 20,
+				text: "Test",
+				color: 'white',
+				size: 18,
+				align: 'center'
+			});
+		}
+	}
+	
 	drawHP(){
 		this.hpText.draw();
 		this.hpRectStroke.draw();
@@ -139,8 +148,6 @@ class Interface{
 	}
 	
 	update(hp, sc, en){//Обновить текущие данные
-		this.nicknameText.text = this.name;
-	
 		if(hp <= 0){
 			this.currHP = 0;
 			this.initialLose();
@@ -174,6 +181,6 @@ class Interface{
 		this.drawScores();
 		this.drawEnemie();
 		this.drawSkills();
-		this.nicknameText.draw();
+		this.drawName();
 	}
 }

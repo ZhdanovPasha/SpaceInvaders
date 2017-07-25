@@ -35,7 +35,7 @@ var lastEnemiesFire = Date.now();
 var lastEnemiesMove = Date.now();
 var scores = 0;
 var curHP = 100;
-var playerName = "Kal";
+var playerName = "";
 var damageEnemyBullet = 50; 
 var enemiesCount = 0;
 var killScores = 100;
@@ -45,10 +45,6 @@ var noEnemy = false;
 var gameEnd = false;
 var ships = [];
 var ship = null;
-
-var gameInterface = new Interface(pjs);
-gameInterface.initialize(playerName, 100, scores, enemies.length);
-gameInterface.initializeObjects();
 
 var fon = game.newImageObject({
     position: point(0, 0),
@@ -61,6 +57,9 @@ var initParameters = function(){
 	gameEnd = false;
 	ships.splice(0, ships.length);
 }
+
+var gameInterface = new Interface(pjs);
+
 
 // надо исправить числовые значения
 var addEnemies = function(){
@@ -86,6 +85,8 @@ game.newLoop('game', function(){
 			enemiesCount = 10;
 			addEnemies();
 			noEnemy = true;
+			gameInterface.initialize(ships[0], 100, scores, enemies.length);
+			gameInterface.initializeObjects();
 		}
 
 		for (i = 0; i < ships.length; ++i){
