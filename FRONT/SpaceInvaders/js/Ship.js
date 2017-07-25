@@ -50,6 +50,14 @@ class Ship{
 						if (ships[j].immortality == false){
 							ships[j].getDamage(this.damage);
 							this.scores += this.killScores;
+							break;
+						}
+					}
+					if (ships[j] instanceof Blue && !hit){
+						for (var k = 0; k < ships[j].bots.length; ++k){
+							hit = true;
+							ships[j].bots[k].getDamage(this.damage);
+							break
 						}
 					}
 				}

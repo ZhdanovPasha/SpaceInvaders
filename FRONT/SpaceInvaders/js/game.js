@@ -32,25 +32,33 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
-			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
+			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', 'player');
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();
 			init = true;
-			for (i = 0; i < ships.length; ++i){
-				console.log(ships[i]);
-			}
 		}
 		//отрисовка кораблей
 		for (i = 0; i < ships.length; ++i){
 			ships[i].draw();
+			if (ships[i] instanceof Blue){
+				for (var j = 0; j < ships[i].bots.length; ++j){
+					ships[i].bots[j].draw();
+				}
+			}
 		}
 		//упраеление кораблем игрока
 		ships[0].control();
 		//огонь всех кораблей
 		for (i = 0; i < ships.length; ++i){
 			ships[i].fire();
+			if (ships[i] instanceof Blue){
+				for (var j = 0; j < ships[i].bots.length; ++j){
+					ships[i].addBulletsForBots();
+					ships[i].fireBots();
+				}
+			}
 		}
 		//проверка чтобы закончить действие скилов
 		for (i = 0; i < ships.length; ++i){
