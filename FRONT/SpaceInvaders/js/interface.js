@@ -74,25 +74,64 @@ class Interface{
 			size: 0.03 * this.height
 		});
 		
-		this.skill_2 = this.game.newRectObject({
-			positionC: this.point(this.game.getWH().w2, this.height - 30),
-			w: 50,
-			h: 50,
-			fillColor: 'black'
+		// this.skill_2 = this.game.newRectObject({
+			// positionC: this.point(this.game.getWH().w2, this.height - 30),
+			// w: 50,
+			// h: 50,
+			// fillColor: 'white',
+			// alpha: 0.5
+		// });
+		
+		this.skill_2 = this.game.newMesh({
+			//positionC: this.point(this.game.getWH().w2, this.height - 30),
+			x: this.game.getWH().w2-25,
+			y: this.height - 80,
+			add:[this.game.newRectObject({
+				//positionC: this.point(this.game.getWH().w2, this.height - 30),
+				w: 50,
+				h: 50,
+				fillColor: 'white',
+				alpha: 0.5
+				}), this.game.newImageObject({
+				file: 'img/fist.png',
+				x: 3,
+				y: 3, 
+				//position: this.point(this.skill_2.x - 60, this.skill_2.y),
+				w: 45,
+				h: 45,
+				color: 'black',
+				//alpha: 0.5
+				})]
 		});
+		
 
-		this.skill_1 = this.game.newRectObject({
-			position: this.point(this.skill_2.x - 60, this.skill_2.y),
-			w: 50,
-			h: 50,
-			fillColor: 'black'
+		this.skill_1 = this.game.newMesh({
+			x: this.skill_2.x - 60,
+			y: this.skill_2.y,
+			add: [this.game.newRectObject({
+				//positionC: this.point(this.game.getWH().w2, this.height - 30),
+				w: 50,
+				h: 50,
+				fillColor: 'white',
+				alpha: 0.5
+				}), this.game.newImageObject({
+				file: 'img/shield.png',
+				x: 3,
+				y: 3, 
+				//position: this.point(this.skill_2.x - 60, this.skill_2.y),
+				w: 45,
+				h: 45,
+				color: 'black',
+				//alpha: 0.5
+				})]
 		});
 
 		this.skill_3 = this.game.newRectObject({
 			position: this.point(this.skill_2.x + 60, this.skill_2.y),
 			w: 50,
 			h: 50,
-			fillColor: 'black'
+			fillColor: 'white',
+			alpha: 0.5
 		});
 		
 		this.resultBattleText = this.game.newTextObject({
