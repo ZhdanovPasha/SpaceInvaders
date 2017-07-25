@@ -95,17 +95,23 @@ class Interface{
 			x: this.game.getWH().w2-25,
 			y: this.height - 80,
 			add:[this.game.newRectObject({
-				w: 50,
-				h: 50,
-				fillColor: 'white',
-				alpha: 0.5
+					w: 50,
+					h: 50,
+					fillColor: 'white',
+					alpha: 0.5
+				}), this.game.newTextObject({
+					x: 35,
+					y: 38,
+					text: 'W',
+					color: "black",
+					size: 12
 				}), this.game.newImageObject({
-				file: 'img/bullet_skill.png',
-				x: 3,
-				y: 3, 
-				w: 45,
-				h: 45,
-				color: 'black',
+					file: 'img/bullet_skill.png',
+					x: 3,
+					y: 3, 
+					w: 45,
+					h: 45,
+					color: 'black',
 				})]
 		});
 		
@@ -122,6 +128,12 @@ class Interface{
 				h: 50,
 				fillColor: 'white',
 				alpha: 0.5
+				}), this.game.newTextObject({
+					x: 35,
+					y: 38,
+					text: 'Q',
+					color: "black",
+					size: 12
 				}), this.game.newImageObject({
 				file: 'img/shield.png',
 				x: 3,
@@ -144,6 +156,12 @@ class Interface{
 				h: 50,
 				fillColor: 'white',
 				alpha: 0.5
+				}), this.game.newTextObject({
+					x: 35,
+					y: 38,
+					text: 'E',
+					color: "black",
+					size: 12
 				}), this.game.newImageObject({
 				file: 'img/rocket.png',
 				x: 3,
