@@ -79,7 +79,7 @@ class Interface{
 	
 	initializeSkills(){
 		var clickSkill = function(){
-			var object = this.getObjects()[1];
+			var object = this.getObjects()[2];
 			if (this.clicked){
 				object.alpha = 0.3;
 				this.clicked = false;
@@ -239,7 +239,7 @@ class Interface{
 	}
 	
 	checkSkill_1(){
-		var obj = this.skill_1.getObjects()[1];
+		var obj = this.skill_1.getObjects()[2];
 		if(this.mouseControl.isInStatic(obj.getStaticBox())){
 			this.brush.drawText({
 				x: this.skill_1.x,
@@ -258,7 +258,7 @@ class Interface{
 	}
 	
 	checkSkill_2(){
-		var obj = this.skill_2.getObjects()[1];
+		var obj = this.skill_2.getObjects()[2];
 		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
 			this.brush.drawText({
 				x: this.skill_2.x,
@@ -275,7 +275,7 @@ class Interface{
 	}
 	
 	checkSkill_3(){
-		var obj = this.skill_3.getObjects()[1];
+		var obj = this.skill_3.getObjects()[2];
 		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
 			this.brush.drawText({
 				x: this.skill_3.x,
