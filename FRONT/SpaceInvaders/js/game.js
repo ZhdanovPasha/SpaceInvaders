@@ -9,11 +9,21 @@
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
-            player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP"});
+            player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
             enemies = [];
             bullets = [];
-            enemies.push(new SpaceInvaders.Pink({x: 160, y: 100, direction: "DOWN"}));
-            enemies.push(new SpaceInvaders.Pink({x: 560, y: 100, direction: "DOWN"}));
+            enemies.push(new SpaceInvaders.Pink({
+                x: 160,
+                y: 100,
+                direction: "DOWN",
+                name: SpaceInvaders.playerName + "enemy1"
+            }));
+            enemies.push(new SpaceInvaders.Pink({
+                x: 560,
+                y: 100,
+                direction: "DOWN",
+                name: "enemy2"
+            }));
             gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game, SpaceInvaders.playerName);
             gameInterface.initialize(player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();

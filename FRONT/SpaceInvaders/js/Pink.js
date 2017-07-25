@@ -12,6 +12,13 @@
             animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 78, 80, 39, 4)
         });
         this.maxHP = 100;
+        this.nameText = game.newTextObject({
+            text: this.name + " bot",
+            x: params.x,
+            y: params.y - 15,
+            size: 15,
+            color: "white"
+        });
         Ship.apply(this, arguments);
     };
     PinkBot.prototype = Object.create(Ship.prototype);
@@ -20,8 +27,8 @@
     var pjs = SpaceInvaders.pjs;
     var Pink = function (params) {
         this.speed = 4;
-        this.bulPerSec=2;
-        this.bulletSpeed=1;
+        this.bulPerSec = 2;
+        this.bulletSpeed = 1;
         this.damage = 20;
         this.maxHP = 200;
         this.killScores = 100;

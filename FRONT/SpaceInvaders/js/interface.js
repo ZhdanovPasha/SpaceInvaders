@@ -163,4 +163,5 @@ function Interface(pjs, game, playerName) {
         this.drawEnemie();
         this.drawSkills();
     }
+
 }

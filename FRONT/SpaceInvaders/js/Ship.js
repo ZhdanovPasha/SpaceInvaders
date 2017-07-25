@@ -20,6 +20,13 @@
         this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
         this.hurtSound = audio.newAudio('audio/hurt.ogg', 0.2); // file, volume
         this.explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
+        this.nameText = game.newTextObject({
+            text: this.name,
+            x: params.x,
+            y: params.y - 15,
+            size: 15,
+            color: "white"
+        });
     };
     Ship.prototype = Object.create(SpaceInvaders.Object.prototype);
     Ship.prototype.constructor = Ship;
@@ -27,11 +34,13 @@
     Ship.prototype.moveLeft = function () {
         if (this.obj.x >= 0) {
             this.obj.x -= this.speed;
+            this.nameText.x -= this.speed;
         }
     };
     Ship.prototype.moveRight = function () {
         if (this.obj.x <= SpaceInvaders.width) {
             this.obj.x += this.speed;
+            this.nameText.x += this.speed;
         }
     };
     ["x", "y"].forEach(function (i) {
@@ -78,6 +87,8 @@
             } else this.bangAnimation = undefined;
         }
         this.obj.draw();
+         this.nameText.draw();
+
     };
     SpaceInvaders.Ship = Ship;
 })
