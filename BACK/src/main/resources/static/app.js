@@ -32,7 +32,12 @@ class MessageService {
                 for (let j = 0; j < sh.length; j++) {
                     for (let k = 0; k < ships.length; k++) {
                         if (sh[j].name == ships[k].name) {
-                            ships[k].moveTo(sh[j].x,ships[0])
+                            ships[k].moveTo(sh[j].x,ships[0]);
+
+                            if (sh[j].dead) {
+                                ships.splice(k,1);
+                            }
+
                         }
 
                     }
@@ -152,9 +157,11 @@ class MessageService {
     }
 
     destroy(name) {
+        this.subscription.unsubscribe();
         this.stompClient.send("/process/addDestroyMessage",{},JSON.stringify({
             'name':name
-        }))
+        }));
+        //ships.splice(0,ships.length);
     }
     create(name,fracton) {
         this.stompClient.send("/process/addCreateMessage",{},JSON.stringify({

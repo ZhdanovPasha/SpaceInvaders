@@ -4,6 +4,7 @@ import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageType;
 import org.spaceinvaders.messages.process.ProcessMessageEntity;
 import org.spaceinvaders.models.Conf;
+import org.spaceinvaders.models.MyBool;
 import org.spaceinvaders.models.Player;
 import org.spaceinvaders.models.Ship;
 import org.springframework.boot.SpringApplication;
@@ -44,5 +45,10 @@ public class SpaceInvadersApplication {
 	Conf getConf() {
 		return  new Conf();
 	}
+	@Bean
+	MyBool isStarted() {
+		return new MyBool();
 	}
+	}
+
 

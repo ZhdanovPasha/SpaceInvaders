@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class Ship {
 
     private int x, y,speed;
+    private boolean dead;
     @JsonIgnore
     private Conf conf;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -69,6 +70,14 @@ public class Ship {
         return y;
     }
 
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
     public void setY(int y) {
         this.y = y;
     }
@@ -76,7 +85,6 @@ public class Ship {
     public StatusInLobby getFraction() {
         return fraction;
     }
-
     public void setFraction(StatusInLobby fraction) {
         this.fraction = fraction;
     }

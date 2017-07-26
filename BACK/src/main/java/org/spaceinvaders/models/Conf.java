@@ -18,7 +18,7 @@ public class Conf {
         return  w/2-25;
     }
     public int getBeginPosY() {
-        return h-50;
+        return h-shipHeight-70;
     }
     public int getW() {
         return w;

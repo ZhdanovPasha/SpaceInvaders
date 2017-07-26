@@ -19,10 +19,10 @@ class Ship{
 		this.img = img;
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
-			w: this.img.width,	h: this.img.height,
-			file: this.img.source
+			w: img.w,	h: img.w,
+			file: img.source
 		});
-		
+		this.dead = false;
 		this.name = name;
 		this.fraction = fraction;
 		this.currentHP = this.maxHP = 100;
@@ -44,7 +44,7 @@ class Ship{
 	isDead(){
 		if(this.currentHP <= 0)
 			return true;
-		else beginPosY - shipWidth
+		else
 			return false;
 	}
 
@@ -92,7 +92,9 @@ class Ship{
 	}
 	
 	draw(){
-		this.obj.draw();
+		if (!this.dead){
+            this.obj.draw();
+		}
 	}
 
 	//move(){
@@ -103,7 +105,7 @@ class Ship{
 		if (mainship.fraction == this.fraction) {
             this.obj.x = x;
 		} else {
-			this.obj.x = game.getWH().w-x;
+			this.obj.x = game.getWH().w-(x+50);
 		}
 
 	}
