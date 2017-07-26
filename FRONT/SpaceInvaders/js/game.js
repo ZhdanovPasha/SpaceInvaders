@@ -1,6 +1,4 @@
-var gameInterface = new Interface(pjs);
-gameInterface.initialize(playerName, 100, scores, enemiesCount);
-gameInterface.initializeObjects();
+
 //инициализация фона
 var fon = game.newImageObject({
     position: point(0, 0),
@@ -35,13 +33,13 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
-			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
-			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', 'player');
+			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
+			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();
 			init = true;
-			gameInterface.initialize(ships[0], 100, scores, enemies.length);
+			gameInterface.initialize(ships[0], 100, scores, ships.length);
 			gameInterface.initializeObjects();
 		}
 		//отрисовка кораблей

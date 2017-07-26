@@ -1,8 +1,8 @@
 class Pink extends Player{
 	//description of skills
 
-	constructor(position, img, id, fraction){
-		super(position, img, id, fraction);
+	constructor(position, img, id, fraction, name){
+		super(position, img, id, fraction, name);
 		this.immortality = false;
 		this.lastChangeMoveSpeed = Date.now();
 		this.lastChangeBulletsSpeed = Date.now();
@@ -10,6 +10,7 @@ class Pink extends Player{
 		this.fastMoveSpeed = false;
 		this.fastBulletsSpeed = false;
 		this.immortalityOn = false;
+		this.brush = pjs.brush;
 	}
 	//изменение скорости пули(включает\выключает скорострельность)
 	changeBulletsSpeed(speed){
@@ -31,6 +32,7 @@ class Pink extends Player{
 				this.fastBulletsSpeed = true;
 				this.lastChangeBulletsSpeed = Date.now();
 				this.changeBulletsSpeed(this.bulletSpeed+5);
+				gameInterface.skill_1.switch();
 				console.log('bulletSpeed is increased');
 			}
 		}
@@ -39,6 +41,7 @@ class Pink extends Player{
 				this.fastMoveSpeed = true;
 				this.lastChangeMoveSpeed = Date.now();
 				this.changeMoveSpeed(this.speed + 5);
+				gameInterface.skill_2.switch();
 				console.log('moveSpeed is increased');
 			}
 		}
@@ -47,6 +50,7 @@ class Pink extends Player{
 				this.lastSetImmortality = Date.now();
 				this.setImmortality(true);
 				this.immortalityOn = true;
+				gameInterface.skill_3.switch();
 				console.log('setImmortality');
 			}
 		}
@@ -69,6 +73,30 @@ class Pink extends Player{
 			this.setImmortality(false);
 			console.log(this.immortality);
 			console.log('immortality off');
+		}
+	}
+	
+	draw(){
+		super.draw();
+		if (ships[0] instanceof Pink){
+			this.brush.drawText({
+				x: this.obj.x + this.obj.w/2,
+				y: this.obj.y - 20,
+				text: this.name,
+				color: 'white',
+				size: 18,
+				align: 'center'
+			});
+		}
+		else{
+			this.brush.drawText({
+				x: this.obj.x + this.obj.w/2,
+				y: this.obj.y + this.obj.h + 2,
+				text: this.name,
+				color: 'white',
+				size: 18,
+				align: 'center'
+			});
 		}
 	}
 
