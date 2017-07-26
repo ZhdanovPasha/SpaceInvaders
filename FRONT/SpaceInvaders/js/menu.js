@@ -51,7 +51,7 @@
         {
             text: "Выход",
             handle: function () {
-                game.startLoop('game');
+                window.close();
             }
         }
     ];

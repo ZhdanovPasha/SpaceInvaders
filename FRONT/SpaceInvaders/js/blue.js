@@ -4,7 +4,6 @@ class Blue extends Player{
 		super(position, img, id, fraction);
 		this.fraction = 'blue';
 		this.bots = [];
-		this.useSkill= false;
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();
 	}
@@ -43,14 +42,6 @@ class Blue extends Player{
 				this.obj.x = 0;
 			}
 			this.moveBots();
-			// else {
-			// 	for (var i = 0; i < this.bots.length; ++i){
-			// 		this.bots[i].obj.x -= this.dx * this.speed;
-			// 		if (this.bots[i].obj.x <= 0){
-			// 			this.bots[i].obj.x = 0;
-			// 		}
-			// 	}	
-			// }
 		}
 		if (key.isDown('RIGHT')){
 			this.obj.x += this.dx * this.speed;
@@ -59,14 +50,6 @@ class Blue extends Player{
 				this.obj.x = dif;
 			}
 			this.moveBots();
-			// else {
-			// 	for (var i = 0; i < this.bots.length; ++i){
-			// 		this.bots[i].obj.x += this.dx*this.speed;
-			// 		if (this.bots[i].obj.x >= dif){
-			// 			this.bots[i].obj.x = dif;
-			// 		}
-			// 	}
-			// }
 		}
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
@@ -78,10 +61,9 @@ class Blue extends Player{
 			}
 		}
 		if(key.isPress('Q')){
-			if (Date.now() - this.lastTimeCreateBots > 3000 && !this.useSkill){
+			if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length){
 				this.createBots(2);
 				this.lastTimeCreateBots = Date.now();
-				this.useSkill = true;
 			}
 		}
 	}
@@ -113,5 +95,4 @@ class Blue extends Player{
 			}
 		}
 	}
-
 }
