@@ -12,7 +12,7 @@
         this.entry = function () {
             enemies.clear();
             bullets.clear();
-            if (fraction == 'blue') {
+            if (SpaceInvaders.fraction == 'BLUE') {
                 player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
 
                 enemies.push(new SpaceInvaders.Pink({
@@ -40,7 +40,7 @@
 
             }
             gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game, SpaceInvaders.playerName);
-            gameInterface.initialize(player.maxHP, 0, enemies.length);
+            gameInterface.initialize(player, player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
         };
 
