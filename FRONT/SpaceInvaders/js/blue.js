@@ -23,7 +23,7 @@ class Blue extends Player{
 				var bul = {position:{x:this.bots[i].obj.x + (this.bots[i].obj.w)/2,y:this.bots[i].obj.y + (this.bots[i].obj.h)/2},
 						img:{width:this.bots[i].bulletWidth, height: this.bots[i].bulletHeight, source:
 						'img/bullet.png'}, speed:1, damage: 25, dy: -5 };				 
-				var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dmg, bul.dy);
+				var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
 				this.bots[i].bullets.push(bullet);
 			}
 			this.lastTimeBotsFire = Date.now();
@@ -82,22 +82,24 @@ class Blue extends Player{
 	fireBots(){
 		for (var i = 0; i < this.bots.length; ++i){
 			for (var j = 0; j < this.bots[i].bullets.length; ++j){
+				console.log(this.bots[i].bullets[j]);
+				this.bots[i].bullets[j].draw();
 				var bullet = this.bots[i].bullets[j];
 				console.log(bullet);
 				bullet.draw();
-				bullet.obj += bullet.dy;
+				bullet.obj.y += bullet.dy;
 				var hit = false;
 				for (var k = 0; k < ships.length; ++k){
 					if (ships[k] instanceof Pink){
-						if (bullet.obj.isStaticIntersect(ships[k].obj.getStaticBox())){
-						hit = true;
-						if (ships[k].immortality == false){
-							ships[k].getDamage(this.damage);
-							this.scores += this.killScores;
-							break;
-						}
-					}
-					}
+				 		if (bullet.obj.isStaticIntersect(ships[k].obj.getStaticBox())){
+					 		hit = true;
+					 		if (ships[k].immortality == false){
+					 			ships[k].getDamage(this.damage);
+					 			this.scores += this.killScores;
+								break;
+							}
+					 	}
+				 	}
 				}
 			}
 		}
