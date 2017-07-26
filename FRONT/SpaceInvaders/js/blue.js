@@ -9,6 +9,23 @@ class Blue extends Player{
 	}
 	//создание ботов
 	createBots(num){
+		var botsArea = (this.obj.w + this.obj.w/2 - 10)* num; 
+		if (num%2){
+			for (var i = 0; i < num; ++i){
+				var tmp = new Bot({x:this.obj.x + (i)*this.obj.w/2 - 10, y:this.obj.y-this.obj.w - 10},
+					{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
+				this.bots.push(tmp);
+			}
+		}
+		else {
+			for (var i = 0; i < num; ++i){
+				var tmp = new Bot({x:this.obj.x + (i)*this.obj.w/2 - 10, y:this.obj.y-this.obj.w - 10},
+					{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
+				this.bots.push(tmp);
+			}
+		}
+
+
 		for (var i = 0; i < num; ++i){
 			var tmp = new Bot({x:this.obj.x + (i)*this.obj.w/2 - 10, y:this.obj.y-this.obj.w - 10},
 			 {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue')
