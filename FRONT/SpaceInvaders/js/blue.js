@@ -90,7 +90,7 @@ class Blue extends Player{
 				bullet.obj.y += bullet.dy;
 				var hit = false;
 				for (var k = 0; k < ships.length; ++k){
-					if (ships[k] instanceof Pink){
+					if (ships[k] instanceof Pink || ships[k] instanceof Bot){
 				 		if (bullet.obj.isStaticIntersect(ships[k].obj.getStaticBox())){
 					 		hit = true;
 					 		if (ships[k].immortality == false){
@@ -101,6 +101,10 @@ class Blue extends Player{
 					 	}
 				 	}
 				}
+				if (bullet.obj.y <= 0 || bullet.obj.y >= fon.w || hit){
+			 		this.bots[i].bullets.splice(j, 1);
+			 		j--;
+			 	}
 			}
 		}
 	}
