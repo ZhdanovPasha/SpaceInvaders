@@ -5,8 +5,10 @@ class Interface{
 		this.game = pjs.game;
 	}
 	
-	//Инициализация параметров
-	initialize(name, mHP, sc, en){
+	//Инициализация параметров. Player - Объект, в котором есть имя игрока, его очки и корабль obj
+	initialize(player, mHP, sc, en){
+		this.player = player;
+		
 		this.name = name;
 		this.maxHP = this.currHP = mHP;
 		this.scores = sc;
@@ -16,22 +18,16 @@ class Interface{
 		this.height = this.game.getWH().h;
 		
 		this.point = this.pjs.vector.point;
+		
+		this.mouseControl = this.pjs.mouseControl;
 
 		this.rectValWidth = 0.2 * this.width;
 	}
 	
-	initializeObjects(){
-		this.nicknameText = this.game.newTextObject({
-			text: 'No Name',
-			x: 10,
-			y: 10,
-			color: 'white',
-			size: 0.03 * this.height
-		});
-		
+	initializeHP(){
 		this.hpText = this.game.newTextObject({
 			text: 'HP',
-			x: this.nicknameText.x + this.nicknameText.w + 5,
+			x: 10,
 			y: 10,
 			color: 'white',
 			size: 0.03 * this.height
@@ -61,7 +57,9 @@ class Interface{
 			color: 'white',
 			size: 0.03 * this.height
 		});
-		
+	}
+	
+	initializeText(){
 		this.scoresText = this.game.newTextObject({
 			text: 'SCORES: 1000',
 			x: this.hpRectStroke.x + this.hpRectStroke.w + 10,
@@ -77,27 +75,116 @@ class Interface{
 			color: 'white',
 			size: 0.03 * this.height
 		});
+	}
+	
+	initializeSkills(){
+		var clickSkill = function(){
+			var object = this.getObjects()[2];
+			if (!this.clicked){
+				object.alpha = 0.31;
+				this.clicked = true;
+			}
+			else{
+				object.alpha = 1;
+				this.clicked = false;
+			}
+		}
 		
-		this.skill_2 = this.game.newRectObject({
-			positionC: this.point(this.game.getWH().w2, this.height - 30),
-			w: 50,
-			h: 50,
-			fillColor: 'black'
+		this.skill_2 = this.game.newMesh({
+			//positionC: this.point(this.game.getWH().w2, this.height - 30),
+			x: this.game.getWH().w2-25,
+			y: this.height - 80,
+			add:[this.game.newRectObject({
+					w: 50,
+					h: 50,
+					fillColor: 'white',
+					alpha: 0.5
+				}), this.game.newTextObject({
+					x: 35,
+					y: 38,
+					text: 'W',
+					color: "black",
+					size: 12
+				}), this.game.newImageObject({
+					file: 'img/bullet_skill.png',
+					x: 3,
+					y: 3, 
+					w: 45,
+					h: 45,
+					color: 'black',
+				})]
 		});
+		
+		this.skill_2.description = "Увеличение скорости пуль";
+		this.skill_2.isClicked = false;
+		this.skill_2.onClick = clickSkill;
+		
 
-		this.skill_1 = this.game.newRectObject({
-			position: this.point(this.skill_2.x - 60, this.skill_2.y),
-			w: 50,
-			h: 50,
-			fillColor: 'black'
+		this.skill_1 = this.game.newMesh({
+			x: this.skill_2.x - 60,
+			y: this.skill_2.y,
+			add: [this.game.newRectObject({
+				w: 50,
+				h: 50,
+				fillColor: 'white',
+				alpha: 0.5
+				}), this.game.newTextObject({
+					x: 35,
+					y: 38,
+					text: 'Q',
+					color: "black",
+					size: 12
+				}), this.game.newImageObject({
+				file: 'img/shield.png',
+				x: 3,
+				y: 3, 
+				w: 45,
+				h: 45,
+				color: 'black',
+				})]
 		});
+		
+		this.skill_1.description = "Активация щита";
+		this.skill_1.isClicked = false;
+		this.skill_1.onClick = clickSkill;
 
-		this.skill_3 = this.game.newRectObject({
-			position: this.point(this.skill_2.x + 60, this.skill_2.y),
-			w: 50,
-			h: 50,
-			fillColor: 'black'
+		this.skill_3 = this.game.newMesh({
+			x: this.skill_2.x + 60,
+			y: this.skill_2.y,
+			add: [this.game.newRectObject({
+				w: 50,
+				h: 50,
+				fillColor: 'white',
+				alpha: 0.5
+				}), this.game.newTextObject({
+					x: 35,
+					y: 38,
+					text: 'E',
+					color: "black",
+					size: 12
+				}), this.game.newImageObject({
+				file: 'img/rocket.png',
+				x: 3,
+				y: 3, 
+				w: 45,
+				h: 45,
+				color: 'black',
+				})]
 		});
+		
+		this.skill_3.description = "Увеличение скорости коробля";
+		this.skill_3.isClicked = false;
+		this.skill_3.onClick = clickSkill;
+	}
+	
+	initializeObjects(){	
+		this.brush = this.pjs.brush;
+	
+		this.initializeHP();
+		
+		this.initializeText();
+		
+		this.initializeSkills();
 		
 		this.resultBattleText = this.game.newTextObject({
 			text: "Вы победили!\nДля продолжения нажмите ENTER",
@@ -115,6 +202,19 @@ class Interface{
 	initialLose(){
 		this.resultBattleText.text = "Вы проиграли!\nДля продолжения нажмите ENTER"
 		this.resultBattleText.draw();
+	}
+	
+	drawName(){
+		if(!this.player.isDead() && this.enemies > 0){
+			this.brush.drawText({
+				x: this.player.obj.x + this.player.obj.w/2,
+				y: this.player.obj.y - 20,
+				text: "Test",
+				color: 'white',
+				size: 18,
+				align: 'center'
+			});
+		}
 	}
 	
 	drawHP(){
@@ -138,9 +238,66 @@ class Interface{
 		this.skill_3.draw();
 	}
 	
-	update(hp, sc, en){//Обновить текущие данные
-		this.nicknameText.text = this.name;
+	checkSkill_1(){
+		var obj = this.skill_1.getObjects()[2];
+		if(this.mouseControl.isInStatic(obj.getStaticBox())){
+			this.brush.drawText({
+				x: this.skill_1.x,
+				y: this.skill_1.y - 25,
+				text: this.skill_1.description,
+				align: 'center',
+				size: 18,
+				color: 'white'
+			});
+			
+			if(this.mouseControl.isPress('LEFT'))
+				this.skill_1.onClick();
+			
+			console.log("Описание скилла: "+ this.skill_1.description);
+		}
+	}
 	
+	checkSkill_2(){
+		var obj = this.skill_2.getObjects()[2];
+		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
+			this.brush.drawText({
+				x: this.skill_2.x,
+				y: this.skill_2.y - 25,
+				text: this.skill_2.description,
+				align: 'center',
+				size: 18,
+				color: 'white'
+			});
+			if(this.mouseControl.isPress('LEFT'))
+				this.skill_2.onClick();
+			console.log("Описание скилла: "+ this.skill_2.description);
+		}
+	}
+	
+	checkSkill_3(){
+		var obj = this.skill_3.getObjects()[2];
+		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
+			this.brush.drawText({
+				x: this.skill_3.x,
+				y: this.skill_3.y - 25,
+				text: this.skill_3.description,
+				align: 'center',
+				size: 18,
+				color: 'white'
+			});
+			if(this.mouseControl.isPress('LEFT'))
+				this.skill_3.onClick();
+			console.log("Описание скилла: "+ this.skill_3.description);
+		}
+	}
+	
+	checkMouse(){
+		this.checkSkill_1();
+		this.checkSkill_2();
+		this.checkSkill_3();
+	}
+	
+	update(hp, sc, en){//Обновить текущие данные
 		if(hp <= 0){
 			this.currHP = 0;
 			this.initialLose();
@@ -167,6 +324,7 @@ class Interface{
 		this.scoresText.text = 'SCORES: ' + this.scores;
 		
 		this.enemieText.text = 'ENEMIES: ' + this.enemies;
+		this.checkMouse();
 	}
 	
 	draw(){
@@ -174,6 +332,6 @@ class Interface{
 		this.drawScores();
 		this.drawEnemie();
 		this.drawSkills();
-		this.nicknameText.draw();
+		this.drawName();
 	}
 }
