@@ -20,7 +20,7 @@ var gameInterface = new Interface(pjs);
 // надо исправить числовые значения
 var addEnemies = function(){
     for (i = 1; i <= enemiesCount; ++i){
-    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i, 'pink'); 
+    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/enemyBlue1.png'}, i, 'pink'); 
     	ships.push(tmp);
     }
 };
@@ -35,13 +35,13 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
-			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
+			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', 'player');
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();
 			init = true;
-			gameInterface.initialize(ships[0], 100, scores, enemies.length);
+			gameInterface.initialize(ships[0], 100, scores, ships.length);
 			gameInterface.initializeObjects();
 		}
 		//отрисовка кораблей

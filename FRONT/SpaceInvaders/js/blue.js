@@ -82,8 +82,23 @@ class Blue extends Player{
 	fireBots(){
 		for (var i = 0; i < this.bots.length; ++i){
 			for (var j = 0; j < this.bots[i].bullets.length; ++j){
-				console.log(this.bots[i].bullets[j]);
-				this.bots[i].bullets[j].draw();
+				var bullet = this.bots[i].bullets[j];
+				console.log(bullet);
+				bullet.draw();
+				bullet.obj += bullet.dy;
+				var hit = false;
+				for (var k = 0; k < ships.length; ++k){
+					if (ships[k] instanceof Pink){
+						if (bullet.obj.isStaticIntersect(ships[k].obj.getStaticBox())){
+						hit = true;
+						if (ships[k].immortality == false){
+							ships[k].getDamage(this.damage);
+							this.scores += this.killScores;
+							break;
+						}
+					}
+					}
+				}
 			}
 		}
 	}
