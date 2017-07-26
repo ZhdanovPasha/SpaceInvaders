@@ -5,7 +5,7 @@
       name: "Someone"
     }
      */
-
+    var bullets = SpaceInvaders.bullets;
     var game = SpaceInvaders.game;
     var pjs = SpaceInvaders.pjs;
     var audio = pjs.audio;
@@ -48,7 +48,7 @@
             return this.obj[i];
         };
     });
-    Ship.prototype.fire = function (bullets) {
+    Ship.prototype.fire = function () {
         if (Date.now() - this.lastFire > 1000 / this.bulPerSec) {
             this.fireSound.replay();
             bullets.push(new SpaceInvaders.Bullet({
@@ -87,7 +87,7 @@
             } else this.bangAnimation = undefined;
         }
         this.obj.draw();
-         this.nameText.draw();
+        this.nameText.draw();
 
     };
     SpaceInvaders.Ship = Ship;

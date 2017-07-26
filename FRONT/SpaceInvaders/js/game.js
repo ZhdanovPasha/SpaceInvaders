@@ -2,16 +2,16 @@
     var game = SpaceInvaders.game;
     var key = SpaceInvaders.key;
     var player = new SpaceInvaders.Pink({x: 100, y: 300});
-    var enemies = [];
-    var bullets = [];
+    var enemies = SpaceInvaders.enemies;
+    var bullets = SpaceInvaders.bullets;
     var gameInterface;
     var backSound = SpaceInvaders.pjs.audio.newAudio('audio/start.mp3', 0.1);
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
             player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
-            enemies = [];
-            bullets = [];
+            enemies.clear();
+            bullets.clear();
             enemies.push(new SpaceInvaders.Pink({
                 x: 160,
                 y: 100,
@@ -54,7 +54,7 @@
             enemies.forEach(function (enemy, i, enemies) {
                 enemy.draw();
             });
-
+            player.draw();
 
             if (key.isDown('LEFT')) {
                 player.moveLeft();
@@ -63,9 +63,11 @@
             if (key.isDown('RIGHT')) {
                 player.moveRight();
             }
-            player.draw();
             if (key.isDown('SPACE')) {
-                player.fire(bullets);
+                player.fire();
+            }
+            if (key.isDown('S')) {
+                player.skill();
             }
             gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
             gameInterface.draw();

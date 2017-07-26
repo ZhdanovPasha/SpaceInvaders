@@ -5,6 +5,9 @@
     };
     var pjs = new PointJS('2D', 1024, 768, style);
     var sys = pjs.system;
+    Array.prototype.clear = function () {
+        this.splice(0, this.length);
+    };
     var SpaceInvaders = {
         pjs: pjs,
         game: pjs.game,
@@ -13,7 +16,9 @@
         OOP: pjs.OOP,
         key: pjs.keyControl,
         playerName: "unknownName",
-        fraction: "unknown" // "BLUE"/"PINK"
+        fraction: "unknown", // "BLUE"/"PINK"
+        bullets: [],
+        enemies: [],
     };
     SpaceInvaders.fon = SpaceInvaders.game.newImageObject({
         position: pjs.vector.point(0, 0),
