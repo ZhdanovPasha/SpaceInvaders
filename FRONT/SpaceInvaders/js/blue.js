@@ -17,6 +17,12 @@ class Blue extends Player{
 		}
 	}
 
+	moveBots(){
+		for (var i = 0; i < this.bots.length; ++i){
+			this.bots[i].obj.x = this.obj.x + (i)*this.obj.w/2 - 10;
+		}
+	}
+
 	addBulletsForBots(){
 		if (Date.now() - this.lastTimeBotsFire > 3000){
 			for (var i = 0; i < this.bots.length; ++i){
@@ -36,14 +42,15 @@ class Blue extends Player{
 			if (this.obj.x <= 0){
 				this.obj.x = 0;
 			}
-			else {
-				for (var i = 0; i < this.bots.length; ++i){
-					this.bots[i].obj.x -= this.dx * this.speed;
-					if (this.bots[i].obj.x <= 0){
-						this.bots[i].obj.x = 0;
-					}
-				}	
-			}
+			this.moveBots();
+			// else {
+			// 	for (var i = 0; i < this.bots.length; ++i){
+			// 		this.bots[i].obj.x -= this.dx * this.speed;
+			// 		if (this.bots[i].obj.x <= 0){
+			// 			this.bots[i].obj.x = 0;
+			// 		}
+			// 	}	
+			// }
 		}
 		if (key.isDown('RIGHT')){
 			this.obj.x += this.dx * this.speed;
@@ -51,14 +58,15 @@ class Blue extends Player{
 			if (this.obj.x >= dif){
 				this.obj.x = dif;
 			}
-			else {
-				for (var i = 0; i < this.bots.length; ++i){
-					this.bots[i].obj.x += this.dx*this.speed;
-					if (this.bots[i].obj.x >= dif){
-						this.bots[i].obj.x = dif;
-					}
-				}
-			}
+			this.moveBots();
+			// else {
+			// 	for (var i = 0; i < this.bots.length; ++i){
+			// 		this.bots[i].obj.x += this.dx*this.speed;
+			// 		if (this.bots[i].obj.x >= dif){
+			// 			this.bots[i].obj.x = dif;
+			// 		}
+			// 	}
+			// }
 		}
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
@@ -71,7 +79,7 @@ class Blue extends Player{
 		}
 		if(key.isPress('Q')){
 			if (Date.now() - this.lastTimeCreateBots > 3000 && !this.useSkill){
-				this.createBots(1);
+				this.createBots(2);
 				this.lastTimeCreateBots = Date.now();
 				this.useSkill = true;
 				console.log('createBots');
