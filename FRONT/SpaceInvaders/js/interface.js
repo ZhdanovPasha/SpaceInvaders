@@ -81,7 +81,7 @@ class Interface{
 		var clickSkill = function(){
 			var object = this.getObjects()[2];
 			if (!this.clicked){
-				object.alpha = 0.3;
+				object.alpha = 0.31;
 				this.clicked = true;
 			}
 			else{
