@@ -27,11 +27,21 @@ class MessageService {
         this.subscription.unsubscribe();
         this.subscription = this.stompClient.subscribe('/game/process',(function (change) {
             let arr = JSON.parse(change.body);
+            if (arr.type == 'STATE') {
+                let sh = arr.ships;
+                for (let j = 0; j < sh.length; j++) {
+                    for (let k = 0; k < ships.length; k++) {
+                        if (sh[j].name == ships[k].name) {
+                            ships[k].moveTo(sh[j].x,ships[0])
+                        }
 
+                    }
+                }
+            }
             for(let i=0;i<arr.length;i++) {
 
                 if (arr[i].type == 'SHOT') {
-                    for (let j = 0; j < this.ships.length;j++) {
+                    for (let j = 1; j < this.ships.length;j++) {
                         if (arr[i].name == this.ships[j].name ) {
                             this.ships[j].addBullet(this.ships[0]);
                         }
@@ -53,6 +63,7 @@ class MessageService {
                 }
 
             }
+
 
             console.log(JSON.parse(change.body));
         }).bind(this))
@@ -84,11 +95,17 @@ class MessageService {
 
                                     } else if (arr[i].type == 'START') {
                                         key.setInputMode(false);
-                                        createShip(this.name,this.side);
-                                        for( let j = 0; j< arr[i].players.length;j++) {
-                                            let player = arr[i].players[j];
+                                        for( let j = 0; j< arr[i].ships.length;j++) {
+                                            let player = arr[i].ships[j];
+                                            if (player.name == this.name) {
+                                                createShip(player.name,player.fraction,player.x,player.y,player.speed);
+                                                break;
+                                            }
+                                        }
+                                        for( let j = 0; j< arr[i].ships.length;j++) {
+                                            let player = arr[i].ships[j];
                                             if (player.name !== this.name) {
-                                                createShip(player.name,player.side);
+                                                createShip(player.name,player.fraction,player.x,player.y,player.speed);
                                             }
                                         }
                                         this.startGame();

@@ -3,7 +3,9 @@ package org.spaceinvaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spaceinvaders.messages.gamelobby.*;
+import org.spaceinvaders.models.Conf;
 import org.spaceinvaders.models.Player;
+import org.spaceinvaders.models.Ship;
 import org.spaceinvaders.models.StatusInLobby;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,6 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,12 +26,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LobbyPageController {
     private Logger log = LoggerFactory.getLogger(LobbyPageController.class);
     @Autowired
+    private HashMap<String,Ship> ships;
+    @Autowired
     private ConcurrentHashMap<String,Player> players;
     @Autowired
     private LinkedList<LobbyMessageEntity> messages;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-
+    @Autowired
+    private Conf conf;
     boolean gameStarted;
 
     //ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
@@ -45,7 +51,13 @@ public class LobbyPageController {
         boolean isReady;
         if (players.isEmpty()||gameStarted) return;
         if (players.size()==2) {
-            messages.push(new StartMessage(players.values()));
+
+            for (Map.Entry<String,Player> player:players.entrySet()) {
+                Player player1 = player.getValue();
+                ships.put(player1.getName(),new Ship(player1.getName(),conf.getBeginPosX(),
+                        conf.getBeginPosY(),conf.getSpeed(),player1.getSide()));
+            }
+            messages.push(new StartMessage(ships.values()));
             gameStarted = true;
         }
 

@@ -13,7 +13,7 @@
 //key.initKeyControl();
 
 class Ship{
-	constructor(position, img, name, fraction){
+	constructor(position, img, name, fraction,speed){
 	// image передаем как {source: "", width: , height: }, position = {x: , y: }
 
 		this.img = img;
@@ -30,7 +30,7 @@ class Ship{
 		this.killScores = 100;
 		this.speed = 1;
 		this.bulletSpeed = 5;
-		this.dx = 10;
+		this.dx = speed;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
 		this.damage = 50;
@@ -44,7 +44,7 @@ class Ship{
 	isDead(){
 		if(this.currentHP <= 0)
 			return true;
-		else 
+		else beginPosY - shipWidth
 			return false;
 	}
 
@@ -56,10 +56,10 @@ class Ship{
         var bullet=null;
 		if (mainship.fraction == this.fraction) {
             console.log(this.obj.y);
-            bullet = new Bullet({x:this.obj.x + (this.obj.w)/2,y:this.obj.y }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
+            bullet = new Bullet({x:this.obj.x + (this.obj.w)/2-this.bulletWidth/2,y:this.obj.y }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
 		} else {
 			console.log(this.obj.y);
-            bullet = new Bullet({x:this.obj.x + (this.obj.w)/2,y:this.obj.y+this.obj.h }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
+            bullet = new Bullet({x:this.obj.x + (this.obj.w)/2-this.bulletWidth/2,y:this.obj.y+this.obj.h }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
 		}
 
 		this.bullets.push(bullet);
@@ -99,6 +99,14 @@ class Ship{
 	//	this.obj.x += getRandomInt(-1 * this.dx, this.dx);
 	//	this.draw();
 //	}
+	moveTo(x,mainship) {
+		if (mainship.fraction == this.fraction) {
+            this.obj.x = x;
+		} else {
+			this.obj.x = game.getWH().w-x;
+		}
+
+	}
 	move(direction,mainship) {
 		if (mainship.fraction==this.fraction){
             if (direction =='LEFT') {
@@ -136,7 +144,7 @@ class Ship{
             }
             if(direction == 'NONE'){
                         this.obj.x = this.obj.x;
-                        }
+			}
 
 
 		}
@@ -159,7 +167,7 @@ class Ship{
 		}else
 		if (key.isDown('RIGHT')){
             messageService.move(this.name,'RIGHT')
-            //this.move('RIGHT',this)
+           // this.move('RIGHT',this)
 
 		}
 
@@ -168,7 +176,7 @@ class Ship{
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
                 messageService.shot(this.name);
-				//this.addBullet(this);
+				this.addBullet(this);
 				this.lastFire = Date.now();
 				for (i = 0; i < this.bullets.length; ++i)
 					console.log(this.bullets[i]);
