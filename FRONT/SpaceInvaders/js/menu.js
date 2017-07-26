@@ -18,6 +18,7 @@
             handle: function () {
                 console.log("Pink: "+name);
                 key.setInputMode(false);
+                SpaceInvaders.fraction='pink';
                 game.startLoop('game');
             }
         },
@@ -26,6 +27,7 @@
             handle: function () {
                 console.log("blue: "+name);
                 key.setInputMode(false);
+                SpaceInvaders.fraction='pink';
                 game.startLoop('game');
             }
         }
@@ -127,7 +129,7 @@
                     if (iKey == 'BACKSPACE') {
                         name = name.substr(0, name.length - 1);
                     } else if (iKey == 'ENTER') {
-                        name = name;//TODO
+                        SpaceInvaders.name = name;
                     }
 
                     if (char) {                     // если вводится символ

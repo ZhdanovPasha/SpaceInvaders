@@ -1,5 +1,5 @@
-var pjs = new PointJS('2d', 400, 400);
-pjs.system.initFullScreen();
+var pjs = new PointJS('2d', 800, 600);
+// pjs.system.initFullScreen();
 
 var game = pjs.game;
 var mouse = pjs.mouseControl;
@@ -7,7 +7,7 @@ var key = pjs.keyControl;
 var point = pjs.vector.point;
 var width = game.getWH().w;
 var height = game.getWH().h;
-
+var SpaceInvaders={};
 //init mouse and keyboard
 mouse.initMouseControl();
 key.initKeyControl();

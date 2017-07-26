@@ -1,7 +1,7 @@
 class Bullet{
 	//position{x,y}, img={width, height, source}
 	constructor(position, img, speed, dy, damage){
-		console.log('success');
+		// console.log('success');
 		this.speed = speed;
 		this.dy = dy;
 		this.damage = damage;
