@@ -80,13 +80,13 @@ class Interface{
 	initializeSkills(){
 		var clickSkill = function(){
 			var object = this.getObjects()[2];
-			if (this.clicked){
+			if (!this.clicked){
 				object.alpha = 0.3;
-				this.clicked = false;
+				this.clicked = true;
 			}
 			else{
 				object.alpha = 1;
-				this.clicked = true;
+				this.clicked = false;
 			}
 		}
 		
