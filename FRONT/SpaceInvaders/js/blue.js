@@ -82,7 +82,6 @@ class Blue extends Player{
 				this.createBots(2);
 				this.lastTimeCreateBots = Date.now();
 				this.useSkill = true;
-				console.log('createBots');
 			}
 		}
 	}
@@ -90,10 +89,8 @@ class Blue extends Player{
 	fireBots(){
 		for (var i = 0; i < this.bots.length; ++i){
 			for (var j = 0; j < this.bots[i].bullets.length; ++j){
-				console.log(this.bots[i].bullets[j]);
 				this.bots[i].bullets[j].draw();
 				var bullet = this.bots[i].bullets[j];
-				console.log(bullet);
 				bullet.draw();
 				bullet.obj.y += bullet.dy;
 				var hit = false;

@@ -53,13 +53,19 @@ class Ship{
 							break;
 						}
 					}
-					// if (ships[j] instanceof Blue && !hit){
-					// 	for (var k = 0; k < ships[j].bots.length; ++k){
-					// 		hit = true;
-					// 		ships[j].bots[k].getDamage(this.damage);
-					// 		break;
-					// 	}
-					// }
+					if (ships[j] instanceof Blue && !hit){
+						for (var k = 0; k < ships[j].bots.length; ++k){
+							if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox())){
+								hit = true;
+								ships[j].bots[k].getDamage(this.damage);
+								if (ships[j].bots[k].isDead()){
+									ships[j].bots.splice(k, 1);
+									k--;
+								}
+								break;
+							}
+						}
+					}
 				}
 			}
 			if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= fon.h || hit){
