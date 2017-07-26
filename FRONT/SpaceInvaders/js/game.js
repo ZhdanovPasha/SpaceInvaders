@@ -4,26 +4,41 @@
     var player = new SpaceInvaders.Pink({x: 100, y: 300});
     var enemies = SpaceInvaders.enemies;
     var bullets = SpaceInvaders.bullets;
+    var fraction = SpaceInvaders.fraction;
     var gameInterface;
     var backSound = SpaceInvaders.pjs.audio.newAudio('audio/start.mp3', 0.1);
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
-            player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
             enemies.clear();
             bullets.clear();
-            enemies.push(new SpaceInvaders.Pink({
-                x: 160,
-                y: 100,
-                direction: "DOWN",
-                name: "enemy1"
-            }));
-            enemies.push(new SpaceInvaders.Pink({
-                x: 560,
-                y: 100,
-                direction: "DOWN",
-                name: "enemy2"
-            }));
+            if (fraction == 'blue') {
+                player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
+
+                enemies.push(new SpaceInvaders.Pink({
+                    x: 160,
+                    y: 100,
+                    direction: "DOWN",
+                    name: "enemy1"
+                }));
+                enemies.push(new SpaceInvaders.Pink({
+                    x: 560,
+                    y: 100,
+                    direction: "DOWN",
+                    name: "enemy2"
+                }));
+            } else {
+                player = new SpaceInvaders.Pink({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
+                for (var i = 0; i < 3; i++) {
+                    enemies.push(new SpaceInvaders.Blue({
+                        x: 160 + 100 * i,
+                        y: 100,
+                        direction: "DOWN",
+                        name: "enemy1"
+                    }));
+                }
+
+            }
             gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game, SpaceInvaders.playerName);
             gameInterface.initialize(player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();

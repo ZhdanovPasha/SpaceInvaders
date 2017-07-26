@@ -23,7 +23,6 @@
                 SpaceInvaders.fraction = "PINK";
                 SpaceInvaders.playerName = name;
                 key.setInputMode(false);
-                console.log("BUGPINK");
                 game.startLoop('game');
             }
         },
@@ -33,7 +32,6 @@
                 SpaceInvaders.fraction = "BLUE";
                 SpaceInvaders.playerName = name;
                 key.setInputMode(false);
-                console.log("BUG");
                 game.startLoop('game');
             }
         }
