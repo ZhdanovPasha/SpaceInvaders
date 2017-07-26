@@ -1,12 +1,11 @@
-class Player{	
-	constructor(){
-		this.id = 0;
-		this.name = "no name";
-		this.scores = 0;
-	}
+class Player extends Ship{	
 	
-	//Увеличить количество очков игрока
-	incrScores(incr){
-		this.scores += incr;
+	constructor(position, img, id, fraction, name){
+		super(position, img, id, fraction);
+		this.name = name;
+	}
+
+	control(){
+		super.control();
 	}
 }
