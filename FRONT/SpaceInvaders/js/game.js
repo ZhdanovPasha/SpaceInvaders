@@ -46,11 +46,11 @@ game.newLoop('game', function(){
 			var ship = null;
 			if (playerFraction == 'blue'){
 				ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
-				{w: shipWidth,	h: shipHeight, source: bluePlayer}, 0, 'blue', playerFraction);
+				{w: shipWidth,	h: shipHeight, source: bluePlayer}, 0, 'blue', playerName);
 			}
 			else {
 				ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
-				{w: shipWidth,	h: shipHeight, source: pinkPlayer}, 0, 'pink', playerFraction);	
+				{w: shipWidth,	h: shipHeight, source: pinkPlayer}, 0, 'pink', playerName);	
 			}
 			ships[0] = ship;
 			enemiesCount = 10;
