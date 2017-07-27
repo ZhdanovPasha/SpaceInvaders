@@ -8,6 +8,7 @@ class Ship{
 		this.id = id;
 		this.fraction = fraction;
 		this.currentHP = this.maxHP = 100;
+		this.bangStarted = Date.now();
 		this.scores = 0;
 		this.killScores = 100;
 		this.speed = 1;
@@ -19,6 +20,9 @@ class Ship{
 		this.lastFire = Date.now();
 		this.bulletSpeed = 1;
 		this.immortality = false;
+		this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
+        this.explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
+		this.bangStarted = Date.now();
 	}
 	
 	isDead(){
@@ -35,6 +39,7 @@ class Ship{
 	addBullet(bul){ 
 		var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
 		this.bullets.push(bullet);
+		this.fireSound.replay();
 	}
 	
 	fire(){
@@ -48,7 +53,16 @@ class Ship{
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
 						hit = true;
 						if (ships[j].immortality == false){
+							this.bangAnimation = game.newAnimationObject({
+				                x: ships[j].obj.x, y: ships[j].obj.y,
+				                w: 80, h: 70,
+				                animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 80, 39, 4)
+				            });
+				            this.bangStarted = Date.now();
 							ships[j].getDamage(this.damage);
+							if (ships[j].isDead()){
+								this.explosionSound.replay();
+							}
 							this.scores += this.killScores;
 							break;
 						}
@@ -58,6 +72,12 @@ class Ship{
 							if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox())){
 								hit = true;
 								ships[j].bots[k].getDamage(this.damage);
+								this.bangAnimation = game.newAnimationObject({
+					                x: ships[j].bots[k].obj.x, y: ships[j].bots[k].obj.y,
+					                w: 80, h: 70,
+					                animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 80, 39, 4)
+				            	});
+				            	this.bangStarted = Date.now();
 								if (ships[j].bots[k].isDead()){
 									ships[j].bots.splice(k, 1);
 									k--;
@@ -100,10 +120,17 @@ class Ship{
  			}
  		}
 	}
-
 	
 	draw(){
 		this.obj.draw();
+		if (this.bangAnimation != undefined) {
+            if (Date.now() - this.bangStarted < 1000) {
+                this.bangAnimation.draw();
+            }
+            else {
+            	this.bangAnimation = undefined;
+        	}
+        }
 	}
 
 }

@@ -7,6 +7,7 @@ var key = pjs.keyControl;
 var point = pjs.vector.point;
 var width = game.getWH().w;
 var height = game.getWH().h;
+var audio = pjs.audio;
 
 //init mouse and keyboard
 mouse.initMouseControl();

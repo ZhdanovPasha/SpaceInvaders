@@ -13,6 +13,7 @@ var initParameters = function(){
 }
 
 var gameInterface = new Interface(pjs);
+var backSound = audio.newAudio('audio/start.mp3', 0.1);
 
 //временно
 var addEnemies = function(){
@@ -32,6 +33,7 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
+			backSound.replay();
 			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
 			ships[0] = ship;
