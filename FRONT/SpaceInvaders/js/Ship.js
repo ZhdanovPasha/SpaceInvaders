@@ -48,6 +48,11 @@ class Ship{
 			var bullet = this.bullets[i];
 			bullet.obj.draw();
 			bullet.obj.y -= bullet.dy*this.bulletSpeed;
+			if (this.id == 0){
+				console.log(bullet.dy);
+				console.log(this.bulletSpeed);
+				console.log(bullet.obj.y);
+			}
 			for (var j = 0; j < ships.length; ++j){
 				if (ships[j].fraction != this.fraction){
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
@@ -112,9 +117,16 @@ class Ship{
  		}
  		if (key.isDown('SPACE')){
  			if (Date.now() - this.lastFire > 100 * this.speed){
+ 				var bulletImg, bulletdy = 5;
+ 				if (this.fraction == 'blue'){
+ 					bulletImg = blueBullet;
+ 				}
+ 				else {
+ 					bulletImg = pinkBullet;
+ 				}
  				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y + (this.obj.h)/2},
  					img:{width:this.bulletWidth, height: this.bulletHeight, source:
- 					'img/bullet.png'}, speed:1, damage: 100, dy: 5 };
+ 					bulletImg}, speed:1, damage: 100, dy: bulletdy };
  				this.addBullet(bul);
  				this.lastFire = Date.now();
  			}

@@ -18,7 +18,7 @@ var playerName = "";
             handle: function () {
                 console.log("Pink: "+playerName);
                 key.setInputMode(false);
-                playerClass = 'Pink';
+                playerFraction = 'pink';
                 game.startLoop('game');
 				playerName = playerName;
             }
@@ -28,7 +28,7 @@ var playerName = "";
             handle: function () {
                 console.log("blue: "+playerName);
                 key.setInputMode(false);
-                playerClass = 'Blue';
+                playerFraction = 'blue';
                 game.startLoop('game');
 				playerName = playerName;
             }
