@@ -5,10 +5,12 @@ class Bullet{
 		this.speed = speed;
 		this.dy = dy;
 		this.damage = damage;
+		this.img = img;
+		this.position = position;
 		this.obj = game.newImageObject({
-			position: point(position.x, position.y),
-			file: img.source,
-			w: img.width, h: img.height
+			position: point(this.position.x, this.position.y),
+			file: this.img.source,
+			w: this.img.width, h: this.img.height
 		});
 		console.log('this.obj');
 		console.log(this.obj);

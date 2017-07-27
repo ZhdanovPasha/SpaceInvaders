@@ -93,7 +93,6 @@ class Pink extends Player{
 			this.immortalityOn = false;
 			this.immortality = false;
 			this.setImmortality(false);
-			console.log(this.immortality);
 			console.log('immortality off');
 		}
 	}

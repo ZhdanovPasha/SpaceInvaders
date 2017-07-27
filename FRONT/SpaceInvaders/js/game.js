@@ -14,11 +14,10 @@ var initParameters = function(){
 
 var gameInterface = new Interface(pjs);
 
-
-// надо исправить числовые значения
+//временно
 var addEnemies = function(){
     for (i = 1; i <= enemiesCount; ++i){
-    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i, 'pink'); 
+    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/enemyBlue1.png'}, i, 'pink'); 
     	ships.push(tmp);
     }
 };
