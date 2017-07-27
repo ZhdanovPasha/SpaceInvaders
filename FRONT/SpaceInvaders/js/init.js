@@ -1,5 +1,5 @@
-var pjs = new PointJS('2d', 400, 400);
-pjs.system.initFullScreen();
+var pjs = new PointJS('2d', 1024, 600);
+//pjs.system.initFullScreen();
 
 var game = pjs.game;
 var mouse = pjs.mouseControl;
