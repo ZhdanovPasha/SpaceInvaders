@@ -13,11 +13,21 @@ var initParameters = function(){
 }
 
 var gameInterface = new Interface(pjs);
+var backSound = audio.newAudio('audio/start.mp3', 0.1);
 
 //временно
 var addEnemies = function(){
+    var enemyFraction, enemyImage;
+    if (playerFraction == 'blue'){
+    	enemyFraction = 'pink';
+    	enemyImage = pinkPlayer;
+    }
+    else {
+    	enemyFraction = 'blue';
+    	enemyImage = bluePlayer;
+    }
     for (i = 1; i <= enemiesCount; ++i){
-    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/enemyBlue1.png'}, i, 'pink'); 
+    	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: enemyImage}, i, enemyFraction ); 
     	ships.push(tmp);
     }
 };
@@ -32,8 +42,16 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
-			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
-			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
+			backSound.replay();
+			var ship = null;
+			if (playerFraction == 'blue'){
+				ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
+				{w: shipWidth,	h: shipHeight, source: bluePlayer}, 0, 'blue', playerFraction);
+			}
+			else {
+				ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
+				{w: shipWidth,	h: shipHeight, source: pinkPlayer}, 0, 'pink', playerFraction);	
+			}
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();
@@ -72,9 +90,16 @@ game.newLoop('game', function(){
 		//цикл для перемещения и стрельбы ботов
 		for (i = 1 ; i < ships.length; ++i){
 			if (Date.now() - ships[i].lastFire > 2000){
+				var bulletImg;
+ 				if (ships[i].fraction == 'blue'){
+ 					bulletImg = blueBullet;
+ 				}
+ 				else {
+ 					bulletImg = pinkBullet;
+ 				}
 				var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
 					img:{width:ships[i].bulletWidth, height: ships[i].bulletHeight, source:
-					'img/bullet.png'}, speed:1, damage: 50, dy: -5 };				
+					bulletImg}, speed:1, damage: 50, dy: -5 };				
 				ships[i].addBullet(bul);
 				ships[i].lastFire = Date.now();
 			}

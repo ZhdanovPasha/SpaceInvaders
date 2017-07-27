@@ -7,6 +7,7 @@ var key = pjs.keyControl;
 var point = pjs.vector.point;
 var width = game.getWH().w;
 var height = game.getWH().h;
+var audio = pjs.audio;
 
 //init mouse and keyboard
 mouse.initMouseControl();
@@ -27,3 +28,8 @@ var enemiesCount = 0;
 var init = false;
 var gameEnd = false;
 var ships = [];
+var playerFraction = 'bot';
+var pinkPlayer = 'img/pinkPlayer.png';
+var bluePlayer = 'img/bluePlayer.png';
+var pinkBullet = 'img/pinkBullet.png';
+var blueBullet = 'img/blueBullet.png';
