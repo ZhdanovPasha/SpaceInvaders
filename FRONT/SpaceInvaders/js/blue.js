@@ -6,6 +6,13 @@ class Blue extends Player{
 		this.bots = [];
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();
+		
+		this.skill_1 = new Object();
+		
+		this.skill_1.img = "img/bot_skill.png";
+		this.skill_1.description = "Позвать рабов";
+		this.skill_1.duration = 5000;
+		this.skill_1.cooldown = 10000;
 	}
 	//создание ботов
 	createBots(num){
@@ -64,10 +71,12 @@ class Blue extends Player{
 				this.lastFire = Date.now();
 			}
 		}
-		if(key.isPress('Q')){
-			if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length){
+		if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length){
+			gameInterface.skill_1.switchOn();
+			if(key.isPress('Q')){
 				this.createBots(4);
 				this.lastTimeCreateBots = Date.now();
+				gameInterface.skill_1.switchOff();
 			}
 		}
 	}

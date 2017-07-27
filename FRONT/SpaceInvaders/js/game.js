@@ -32,7 +32,7 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
-			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
+			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
 			ships[0] = ship;
 			enemiesCount = 10;
