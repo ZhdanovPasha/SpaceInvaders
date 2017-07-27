@@ -1,11 +1,12 @@
 class Blue extends Player{
 
-	constructor(position, img, id, fraction){
-		super(position, img, id, fraction);
+	constructor(position, img, id, fraction, name){
+		super(position, img, id, fraction, name);
 		this.fraction = 'blue';
 		this.bots = [];
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();
+		this.brush = pjs.brush;
 		
 		this.skill_1 = new Object();
 		
@@ -106,6 +107,30 @@ class Blue extends Player{
 			 		j--;
 			 	}
 			}
+		}
+	}
+	
+	draw(){
+		super.draw();
+		if (ships[0] instanceof Blue){
+			this.brush.drawText({
+				x: this.obj.x + this.obj.w/2,
+				y: this.obj.y - 20,
+				text: this.name,
+				color: 'white',
+				size: 18,
+				align: 'center'
+			});
+		}
+		else{
+			this.brush.drawText({
+				x: this.obj.x + this.obj.w/2,
+				y: this.obj.y + this.obj.h + 2,
+				text: this.name,
+				color: 'white',
+				size: 18,
+				align: 'center'
+			});
 		}
 	}
 }
