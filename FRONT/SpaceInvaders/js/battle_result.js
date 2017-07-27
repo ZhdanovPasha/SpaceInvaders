@@ -50,7 +50,7 @@ var initTable = function(){
 		objects[3].text = players[i].scores;
 		rows.push(tmp);
 	}
-	
+
 }
 
 var drawTable = function(){
@@ -67,7 +67,7 @@ game.newLoop('battle_result',function(){
 	}
 	game.clear();
 	fon.draw();
-	drawTable();	
+	drawTable();
 	pjs.brush.drawText({
 		x: 512,
 		y: rows[rows.length-1].y + 50,
@@ -80,6 +80,7 @@ game.newLoop('battle_result',function(){
 		players.splice(0, players.length);
 		rows.splice(0, rows.length);
 		tableIsInit = false;
+        key.setInputMode(true);
 		game.startLoop('menu');
 	}
 });
