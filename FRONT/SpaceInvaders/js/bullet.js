@@ -10,6 +10,10 @@ class Bullet{
 			file: img.source,
 			w: img.width, h: img.height
 		});
+		console.log('this.obj');
+		console.log(this.obj);
+		console.log('this');
+		console.log(this);
 	}
 
 	move(){

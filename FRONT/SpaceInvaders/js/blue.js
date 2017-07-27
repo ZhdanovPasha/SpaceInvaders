@@ -20,9 +20,19 @@ class Blue extends Player{
 	addBulletsForBots(){
 		if (Date.now() - this.lastTimeBotsFire > 3000){
 			for (var i = 0; i < this.bots.length; ++i){
-				var bul = {position:{x:this.bots[i].obj.x + (this.bots[i].obj.w)/2,y:this.bots[i].obj.y + (this.bots[i].obj.h)/2},
-						img:{width:this.bots[i].bulletWidth, height: this.bots[i].bulletHeight, source:
-						'img/bullet.png'}, speed:1, damage: 25, dy: -5 };				 
+				var bul = {
+					position:{
+						x:this.bots[i].obj.x + (this.bots[i].obj.w)/2,
+						y:this.bots[i].obj.y + (this.bots[i].obj.h)/2},
+					img:{
+							width:this.bots[i].bulletWidth,
+							height: this.bots[i].bulletHeight,
+							source:	'img/bullet.png'
+						},
+					speed:1,
+					damage: 25,
+					dy: -5
+				};				 
 				var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dmg, bul.dy);
 				this.bots[i].bullets.push(bullet);
 			}
@@ -82,7 +92,6 @@ class Blue extends Player{
 	fireBots(){
 		for (var i = 0; i < this.bots.length; ++i){
 			for (var j = 0; j < this.bots[i].bullets.length; ++j){
-				console.log(this.bots[i].bullets[j]);
 				this.bots[i].bullets[j].draw();
 			}
 		}

@@ -5,7 +5,7 @@ class Player extends Ship{
 		this.name = name;
 	}
 
-	control(){
-		super.control();
-	}
+	// control(){
+		// super.control();
+	// }
 }
