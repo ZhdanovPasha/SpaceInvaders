@@ -18,6 +18,7 @@ var playerName = "";
             handle: function () {
                 console.log("Pink: "+playerName);
                 key.setInputMode(false);
+                playerClass = 'Pink';
                 game.startLoop('game');
 				playerName = playerName;
             }
@@ -27,6 +28,7 @@ var playerName = "";
             handle: function () {
                 console.log("blue: "+playerName);
                 key.setInputMode(false);
+                playerClass = 'Blue';
                 game.startLoop('game');
 				playerName = playerName;
             }

@@ -34,8 +34,15 @@ game.newLoop('game', function(){
 		//инициализация в начале раунда
 		if (!init){
 			backSound.replay();
-			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
-			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
+			var ship = null;
+			if (playerClass == 'Blue'){
+				ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
+				{w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
+			}
+			else {
+				ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
+				{w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'pink', playerName);	
+			}
 			ships[0] = ship;
 			enemiesCount = 10;
 			addEnemies();

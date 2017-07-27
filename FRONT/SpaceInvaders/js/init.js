@@ -27,3 +27,4 @@ var enemiesCount = 0;
 var init = false;
 var gameEnd = false;
 var ships = [];
+var playerClass = 'bot';

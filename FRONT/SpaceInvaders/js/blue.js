@@ -36,6 +36,7 @@ class Blue extends Player{
 
 	addBulletsForBots(){
 		if (Date.now() - this.lastTimeBotsFire > 3000){
+			this.fireSound.replay();
 			for (var i = 0; i < this.bots.length; ++i){
 				var bul = {position:{x:this.bots[i].obj.x + (this.bots[i].obj.w)/2,y:this.bots[i].obj.y + (this.bots[i].obj.h)/2},
 						img:{width:this.bots[i].bulletWidth, height: this.bots[i].bulletHeight, source:
