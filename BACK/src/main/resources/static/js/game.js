@@ -59,7 +59,7 @@ var initParameters = function(){
 	gameEnd = false;
 	ships.splice(0, ships.length);
 }
-var messageService = new MessageService(ships,game);
+var messageService = new MessageService2(ships,game);
 var playerName = name;
 
 var gameInterface = new Interface(pjs);

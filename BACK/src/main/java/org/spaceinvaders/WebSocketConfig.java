@@ -25,19 +25,12 @@ import java.util.LinkedList;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-    @Autowired
-    CustomDecoratorFactory factory;
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         stompEndpointRegistry.addEndpoint("/game").withSockJS();
     }
 
-    @Override
-    public void configureWebSocketTransport(final WebSocketTransportRegistration registration) {
-        registration.addDecoratorFactory(factory);
 
-        super.configureWebSocketTransport(registration);
-    }
 
 }
 

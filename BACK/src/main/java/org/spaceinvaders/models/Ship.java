@@ -53,7 +53,6 @@ public class Ship {
             x = dif;
         }
     }
-
     public int getSpeed() {
         return speed;
     }

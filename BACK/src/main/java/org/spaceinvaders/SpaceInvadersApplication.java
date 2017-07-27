@@ -3,10 +3,7 @@ package org.spaceinvaders;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageType;
 import org.spaceinvaders.messages.process.ProcessMessageEntity;
-import org.spaceinvaders.models.Conf;
-import org.spaceinvaders.models.MyBool;
-import org.spaceinvaders.models.Player;
-import org.spaceinvaders.models.Ship;
+import org.spaceinvaders.models.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +46,13 @@ public class SpaceInvadersApplication {
 	MyBool isStarted() {
 		return new MyBool();
 	}
+	@Bean
+	LinkedList<Game> games() {
+		LinkedList<Game> games = new LinkedList<>();
+		games.push(new Game(getConf()));
+		games.push(new Game(getConf()));
+		return games;
 	}
+}
 
 
