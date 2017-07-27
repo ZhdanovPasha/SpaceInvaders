@@ -335,7 +335,7 @@ class Interface{
 			console.log("Описание скилла: "+ this.skill_2.description);
 		}
 		
-		if(this.skill_2.switchState == 'off'){
+		if(this.skill_2.switchState == 'off' && player instanceof Pink){
 			var time = this.skill_2.duration - Date.now() + this.skill_2.lastLaunch;
 			if(time < 0) time = 0;
 			var obj = this.skill_2.getObjects()[3];
@@ -371,9 +371,9 @@ class Interface{
 			this.checkSkill_2();
 			this.checkSkill_3();
 		}
-		// else{
-			// this.checkSkill_1();
-		// }
+		else{
+			this.checkSkill_1();
+		}
 	}
 	
 	update(hp, sc, en){//Обновить текущие данные
