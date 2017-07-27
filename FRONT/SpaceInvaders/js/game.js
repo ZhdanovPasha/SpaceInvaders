@@ -32,7 +32,7 @@ game.newLoop('game', function(){
 	if (!gameEnd){
 		//инициализация в начале раунда
 		if (!init){
-			var ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
+			var ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},
 			 {w: shipWidth,	h: shipHeight, source: 'img/player.png'}, 0, 'blue', playerName);
 			ships[0] = ship;
 			enemiesCount = 10;
@@ -83,12 +83,24 @@ game.newLoop('game', function(){
 				ships[i].lastMove = Date.now();
 			}
 			if (ships[i].isDead()){
+				let tmp = new Object();
+				tmp.scores = ships[i].scores;
+				tmp.name = ships[i].name;
+				players.push(tmp);
+				
 				ships.splice(i,1);
 				i--;
 			}
 		}
+		
 		//условия окончания игры
 		if (ships.length == 1 || ships[0].isDead()){
+			for(var i = 0; i < ships.length; ++i){
+				var tmp = new Object();
+				tmp.scores = ships[i].scores;
+				tmp.name = ships[i].name;
+				players.push(tmp);
+			}
 			gameEnd = true;
 		}
 	}
@@ -99,6 +111,7 @@ game.newLoop('game', function(){
 	if (gameEnd && key.isPress('ENTER')){
 		console.log(gameEnd);
 		initParameters();
-		game.startLoop('menu');
+		game.startLoop('battle_result');
+		//game.startLoop('menu');
 	}
 });
