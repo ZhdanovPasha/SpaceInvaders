@@ -1,337 +1,423 @@
-function Interface(pjs, game, playerName) {
-    //TODO: use playerName
+(function () {
+    var Pink = SpaceInvaders.Pink;
+    var Blue = SpaceInvaders.Blue;
 
-    this.pjs = pjs;
-    this.game = game;
+    class Interface {
 
-    //Инициализация параметров. Player - Объект, в котором есть имя игрока, его очки и корабль obj
-    this.initialize = function (player, mHP, sc, en) {
-        this.player = player;
+        constructor(pjs) {
+            this.pjs = pjs;
+            this.game = pjs.game;
+        }
 
-        this.name = name;
-        this.maxHP = this.currHP = mHP;
-        this.scores = sc;
-        this.enemies = en;
+        //Инициализация параметров. Player - Объект, в котором есть имя игрока, его очки и корабль obj
+        initialize(player, mHP, sc, en) {
+            this.player = player;
 
-        this.width = this.game.getWH().w;
-        this.height = this.game.getWH().h;
+            this.name = name;
+            this.maxHP = this.currHP = mHP;
+            this.scores = sc;
+            this.enemies = en;
 
-        this.point = this.pjs.vector.point;
+            this.width = this.game.getWH().w;
+            this.height = this.game.getWH().h;
 
-        this.mouseControl = this.pjs.mouseControl;
+            this.point = this.pjs.vector.point;
 
-        this.rectValWidth = 0.2 * this.width;
-    }
+            this.mouseControl = this.pjs.mouseControl;
 
-    this.initializeHP = function () {
-        this.hpText = this.game.newTextObject({
-            text: 'HP',
-            x: 10,
-            y: 10,
-            color: 'white',
-            size: 0.03 * this.height
-        });
+            this.rectValWidth = 0.2 * this.width;
+        }
 
-        this.hpRectStroke = this.game.newRectObject({
-            x: this.hpText.x + this.hpText.w + 5,
-            y: this.hpText.y - 5,
-            w: this.rectValWidth,
-            h: 0.052 * this.height,
-            fillColor: 'black',
-            strokeColor: '#FFFFFF',
-            strokeWidth: 2
-        });
+        initializeHP() {
+            this.hpText = this.game.newTextObject({
+                text: 'HP',
+                x: 10,
+                y: 10,
+                color: 'white',
+                size: 0.03 * this.height
+            });
 
-        this.hpRectVal = this.game.newRectObject({
-            x: this.hpText.x + this.hpText.w + 7,
-            y: this.hpText.y - 3,
-            w: this.hpRectStroke.w - 2,
-            h: this.hpRectStroke.h - 2,
-            fillColor: 'red'
-        });
+            this.hpRectStroke = this.game.newRectObject({
+                x: this.hpText.x + this.hpText.w + 5,
+                y: this.hpText.y - 5,
+                w: this.rectValWidth,
+                h: 0.052 * this.height,
+                fillColor: 'black',
+                strokeColor: '#FFFFFF',
+                strokeWidth: 2
+            });
 
-        this.hpVal = this.game.newTextObject({
-            text: '100/100',
-            positionC: this.point(this.hpRectVal.x + this.hpRectVal.w / 2, this.hpRectVal.y + this.hpRectVal.h / 2),
-            color: 'white',
-            size: 0.03 * this.height
-        });
-    }
+            this.hpRectVal = this.game.newRectObject({
+                x: this.hpText.x + this.hpText.w + 7,
+                y: this.hpText.y - 3,
+                w: this.hpRectStroke.w - 2,
+                h: this.hpRectStroke.h - 2,
+                fillColor: 'red'
+            });
 
-    this.initializeText = function () {
-        this.scoresText = this.game.newTextObject({
-            text: 'SCORES: 1000',
-            x: this.hpRectStroke.x + this.hpRectStroke.w + 10,
-            y: this.hpText.y,
-            color: 'white',
-            size: 0.03 * this.height
-        });
+            this.hpVal = this.game.newTextObject({
+                text: '100/100',
+                positionC: this.point(this.hpRectVal.x + this.hpRectVal.w / 2, this.hpRectVal.y + this.hpRectVal.h / 2),
+                color: 'white',
+                size: 0.03 * this.height
+            });
+        }
 
-        this.enemieText = this.game.newTextObject({
-            text: 'ENEMIES: 100',
-            x: this.scoresText.x + this.scoresText.w + 10,
-            y: this.scoresText.y,
-            color: 'white',
-            size: 0.03 * this.height
-        });
-    }
+        initializeText() {
+            this.scoresText = this.game.newTextObject({
+                text: 'SCORES: 1000',
+                x: this.hpRectStroke.x + this.hpRectStroke.w + 10,
+                y: this.hpText.y,
+                color: 'white',
+                size: 0.03 * this.height
+            });
 
-    this.initializeSkills = function () {
-        var clickSkill = function () {
-            var object = this.getObjects()[2];
-            if (!this.clicked) {
-                object.alpha = 0.31;
-                this.clicked = true;
+            this.enemieText = this.game.newTextObject({
+                text: 'ENEMIES: 100',
+                x: this.scoresText.x + this.scoresText.w + 10,
+                y: this.scoresText.y,
+                color: 'white',
+                size: 0.03 * this.height
+            });
+        }
+
+        initializeSkills() {
+            var switchOn = function () {
+                this.switchState = "on";
+                this.lastLaunch = Date.now();
+                this.getObjects()[2].alpha = 1;
+            }
+
+            var switchOff = function () {
+                this.switchState = "off";
+                this.getObjects()[2].alpha = 0.3;
+            }
+
+            if (this.player instanceof Blue) {
+                this.skill_2 = this.game.newMesh({
+                    //positionC: this.point(this.game.getWH().w2, this.height - 30),
+                    x: this.game.getWH().w2 - 25,
+                    y: this.height - 80,
+                    add: [this.game.newRectObject({
+                        w: 50,
+                        h: 50,
+                        fillColor: 'white',
+                        alpha: 0.5
+                    }),
+                        this.game.newTextObject({
+                        x: 35,
+                        y: 38,
+                        text: 'W',
+                        color: "black",
+                        size: 12
+                    }), this.game.newImageObject({
+                        file: this.player.skill_2.img,
+                        x: 3,
+                        y: 3,
+                        w: 45,
+                        h: 45,
+                        alpha: 0.3,
+                        color: 'black',
+                    }), this.game.newRectObject({
+                        w: 0,
+                        h: 3,
+                        fillColor: 'red'
+                    })]
+                });
+
+                this.skill_2.description = this.player.skill_2.description;
+                this.skill_2.isClicked = false;
+                this.skill_2.switchOn = switchOn;
+                this.skill_2.switchOff = switchOff;
+                this.skill_2.duration = this.player.skill_2.duration;
+                this.skill_2.cooldown = this.player.skill_2.cooldown;
+                this.skill_2.lastLaunch = Date.now();
+
+
+                this.skill_1 = this.game.newMesh({
+                    x: this.skill_2.x - 60,
+                    y: this.skill_2.y,
+                    add: [this.game.newRectObject({
+                        w: 50,
+                        h: 50,
+                        fillColor: 'white',
+                        alpha: 0.5
+                    }), this.game.newTextObject({
+                        x: 35,
+                        y: 38,
+                        text: 'Q',
+                        color: "black",
+                        size: 12
+                    }), this.game.newImageObject({
+                        file: this.player.skill_1.img,
+                        x: 3,
+                        y: 3,
+                        w: 45,
+                        h: 45,
+                        alpha: 0.3,
+                        color: 'black',
+                    }), this.game.newRectObject({
+                        w: 0,
+                        h: 3,
+                        fillColor: 'red'
+                    })]
+                });
+
+                this.skill_1.description = this.player.skill_1.description;
+                this.skill_1.switchOn = switchOn;
+                this.skill_1.switchOff = switchOff;
+                this.skill_1.duration = this.player.skill_1.duration;
+                this.skill_1.cooldown = this.player.skill_1.cooldown;
+                this.skill_1.lastLaunch = Date.now();
+
+                this.skill_3 = this.game.newMesh({
+                    x: this.skill_2.x + 60,
+                    y: this.skill_2.y,
+                    add: [this.game.newRectObject({
+                        w: 50,
+                        h: 50,
+                        fillColor: 'white',
+                        alpha: 0.5
+                    }), this.game.newTextObject({
+                        x: 35,
+                        y: 38,
+                        text: 'E',
+                        color: "black",
+                        size: 12
+                    }), this.game.newImageObject({
+                        file: this.player.skill_3.img,
+                        x: 3,
+                        y: 3,
+                        w: 45,
+                        h: 45,
+                        alpha: 0.3,
+                        color: 'black',
+                    }), this.game.newRectObject({
+                        w: 0,
+                        h: 3,
+                        fillColor: 'red'
+                    })]
+                });
+
+                this.skill_3.description = this.player.skill_3.description;
+                this.skill_3.switchState = "on";
+                this.skill_3.switchOn = switchOn;
+                this.skill_3.switchOff = switchOff;
+                this.skill_3.duration = this.player.skill_3.duration;
+                this.skill_3.cooldown = this.player.skill_3.cooldown;
+                this.skill_3.lastLaunch = Date.now();
             }
             else {
-                object.alpha = 1;
-                this.clicked = false;
+                this.skill_1 = this.game.newMesh({
+                    //positionC: this.point(this.game.getWH().w2, this.height - 30),
+                    x: this.game.getWH().w2 - 25,
+                    y: this.height - 80,
+                    add: [this.game.newRectObject({
+                        w: 50,
+                        h: 50,
+                        fillColor: 'white',
+                        alpha: 0.5
+                    }), this.game.newTextObject({
+                        x: 35,
+                        y: 38,
+                        text: 'Q',
+                        color: "black",
+                        size: 12
+                    }), this.game.newImageObject({
+                        file: this.player.skill_1.img,
+                        x: 3,
+                        y: 3,
+                        w: 45,
+                        h: 45,
+                        alpha: 0.3,
+                        color: 'black',
+                    }), this.game.newRectObject({
+                        w: 0,
+                        h: 3,
+                        fillColor: 'red'
+                    })]
+                });
+
+                this.skill_1.description = this.player.skill_1.description;
+                this.skill_1.isClicked = false;
+                this.skill_1.switchOn = switchOn;
+                this.skill_1.switchOff = switchOff;
+                this.skill_1.duration = this.player.skill_1.duration;
+                this.skill_1.cooldown = this.player.skill_1.cooldown;
+                this.skill_1.lastLaunch = Date.now();
+            }
+
+
+        }
+
+        initializeObjects() {
+            this.brush = this.pjs.brush;
+
+            this.initializeHP();
+
+            this.initializeText();
+
+            this.initializeSkills();
+
+            this.resultBattleText = this.game.newTextObject({
+                text: "Вы победили! Для продолжения нажмите ENTER",
+                positionC: this.point(this.game.getWH().w2, this.game.getWH().h2),
+                size: 20,
+                color: "white"
+            });
+        }
+
+        initialWin() {
+            this.resultBattleText.text = "Вы победили!Для продолжения нажмите ENTER"
+            this.resultBattleText.draw();
+        }
+
+        initialLose() {
+            this.resultBattleText.text = "Вы проиграли!Для продолжения нажмите ENTER"
+            this.resultBattleText.draw();
+        }
+
+        drawHP() {
+            this.hpText.draw();
+            this.hpRectStroke.draw();
+            this.hpRectVal.draw();
+            this.hpVal.draw();
+        }
+
+        drawScores() {
+            this.scoresText.draw();
+        }
+
+        drawEnemy() {
+            this.enemieText.draw();
+        }
+
+        drawSkills() {
+            if (this.player instanceof Blue) {
+                this.skill_1.draw();
+                this.skill_2.draw();
+                this.skill_3.draw();
+            }
+            else {
+                this.skill_1.draw();
             }
         }
 
-        this.skill_2 = this.game.newMesh({
-            //positionC: this.point(this.game.getWH().w2, this.height - 30),
-            x: this.game.getWH().w2 - 25,
-            y: this.height - 80,
-            add: [this.game.newRectObject({
-                w: 50,
-                h: 50,
-                fillColor: 'white',
-                alpha: 0.5
-            }), this.game.newTextObject({
-                x: 35,
-                y: 38,
-                text: 'W',
-                color: "black",
-                size: 12
-            }), this.game.newImageObject({
-                file: 'img/bullet_skill.png',
-                x: 3,
-                y: 3,
-                w: 45,
-                h: 45,
-                color: 'black',
-            })]
-        });
+        checkSkill_1() {
+            var obj = this.skill_1.getObjects()[2];
+            if (this.mouseControl.isInStatic(obj.getStaticBox())) {
+                this.brush.drawText({
+                    x: this.skill_1.x,
+                    y: this.skill_1.y - 25,
+                    text: this.skill_1.description,
+                    align: 'center',
+                    size: 18,
+                    color: 'white'
+                });
 
-        this.skill_2.description = "Увеличение скорости пуль";
-        this.skill_2.isClicked = false;
-        this.skill_2.onClick = clickSkill;
+                console.log("Описание скилла: " + this.skill_1.description);
+            }
+
+            if (this.skill_1.switchState == 'off') {
+                var time = this.skill_1.duration - (Date.now() - this.skill_1.lastLaunch);
+                if (time < 0) time = 0;
+                var obj = this.skill_1.getObjects()[3];
+                obj.w = 50 * time / this.skill_1.duration;
+            }
+        }
+
+        checkSkill_2() {
+            var obj = this.skill_2.getObjects()[2];
+            if (this.pjs.mouseControl.isInStatic(obj.getStaticBox())) {
+                this.brush.drawText({
+                    x: this.skill_2.x,
+                    y: this.skill_2.y - 25,
+                    text: this.skill_2.description,
+                    align: 'center',
+                    size: 18,
+                    color: 'white'
+                });
+                console.log("Описание скилла: " + this.skill_2.description);
+            }
+
+            if (this.skill_2.switchState == 'off' && player instanceof Blue) {
+                var time = this.skill_2.duration - Date.now() + this.skill_2.lastLaunch;
+                if (time < 0) time = 0;
+                var obj = this.skill_2.getObjects()[3];
+                obj.w = 50 * time / this.skill_2.duration;
+            }
+        }
+
+        checkSkill_3() {
+            var obj = this.skill_3.getObjects()[2];
+            if (this.pjs.mouseControl.isInStatic(obj.getStaticBox())) {
+                this.brush.drawText({
+                    x: this.skill_3.x,
+                    y: this.skill_3.y - 25,
+                    text: this.skill_3.description,
+                    align: 'center',
+                    size: 18,
+                    color: 'white'
+                });
+                console.log("Описание скилла: " + this.skill_3.description);
+            }
+
+            if (this.skill_3.switchState == 'off') {
+                var time = this.skill_3.duration - Date.now() + this.skill_3.lastLaunch;
+                if (time < 0) time = 0;
+                var obj = this.skill_3.getObjects()[3];
+                obj.w = 50 * time / this.skill_3.duration;
+            }
+        }
+
+        checkSkills() {
+            if (this.player instanceof Blue) {
+                this.checkSkill_1();
+                this.checkSkill_2();
+                this.checkSkill_3();
+            }
+            else {
+                this.checkSkill_1();
+            }
+        }
+
+        update(hp, sc, en) {//Обновить текущие данные
+            if (hp <= 0) {
+                this.currHP = 0;
+                this.initialLose();
+            }
+            else if (hp > this.maxHP)
+                this.currHP = maxHP;
+            else
+                this.currHP = hp;
+
+            if (en == 0)
+                this.initialWin();
+
+            this.enemies = en;
+
+            if (sc < 0)
+                this.scores = 0;
+            else
+                this.scores = sc;
 
 
-        this.skill_1 = this.game.newMesh({
-            x: this.skill_2.x - 60,
-            y: this.skill_2.y,
-            add: [this.game.newRectObject({
-                w: 50,
-                h: 50,
-                fillColor: 'white',
-                alpha: 0.5
-            }), this.game.newTextObject({
-                x: 35,
-                y: 38,
-                text: 'Q',
-                color: "black",
-                size: 12
-            }), this.game.newImageObject({
-                file: 'img/shield.png',
-                x: 3,
-                y: 3,
-                w: 45,
-                h: 45,
-                color: 'black',
-            })]
-        });
+            this.hpRectVal.w = (this.rectValWidth - 2) * this.currHP / this.maxHP;
+            this.hpVal.text = this.currHP + '/' + this.maxHP;
 
-        this.skill_1.description = "Активация щита";
-        this.skill_1.isClicked = false;
-        this.skill_1.onClick = clickSkill;
+            this.scoresText.text = 'SCORES: ' + this.scores;
 
-        this.skill_3 = this.game.newMesh({
-            x: this.skill_2.x + 60,
-            y: this.skill_2.y,
-            add: [this.game.newRectObject({
-                w: 50,
-                h: 50,
-                fillColor: 'white',
-                alpha: 0.5
-            }), this.game.newTextObject({
-                x: 35,
-                y: 38,
-                text: 'E',
-                color: "black",
-                size: 12
-            }), this.game.newImageObject({
-                file: 'img/rocket.png',
-                x: 3,
-                y: 3,
-                w: 45,
-                h: 45,
-                color: 'black',
-            })]
-        });
+            this.enemieText.text = 'ENEMIES: ' + this.enemies;
+            this.checkSkills();
+        }
 
-        this.skill_3.description = "Увеличение скорости коробля";
-        this.skill_3.isClicked = false;
-        this.skill_3.onClick = clickSkill;
-    }
-
-    this.initializeObjects = function () {
-        this.brush = this.pjs.brush;
-
-        this.initializeHP();
-
-        this.initializeText();
-
-        this.initializeSkills();
-
-        this.resultBattleText = this.game.newTextObject({
-            text: "Вы победили!\nДля продолжения нажмите ENTER",
-            positionC: this.point(this.game.getWH().w2, this.game.getWH().h2),
-            size: 20,
-            color: "white"
-        });
-    }
-
-    this.initialWin = function () {
-        this.resultBattleText.text = "Вы победили!\nДля продолжения нажмите ENTER"
-        this.resultBattleText.draw();
-    }
-
-    this.initialLose = function () {
-        this.resultBattleText.text = "Вы проиграли!\nДля продолжения нажмите ENTER"
-        this.resultBattleText.draw();
-    }
-
-    this.drawName = function () {
-        if (!this.player.destroyed && this.enemies > 0) {
-            this.brush.drawText({
-                x: this.player.obj.x + this.player.obj.w / 2,
-                y: this.player.obj.y - 20,
-                text: "Test",
-                color: 'white',
-                size: 18,
-                align: 'center'
-            });
+        draw() {
+            this.drawHP();
+            this.drawScores();
+            this.drawEnemy();
+            this.drawSkills();
         }
     }
 
-    this.drawHP = function () {
-        this.hpText.draw();
-        this.hpRectStroke.draw();
-        this.hpRectVal.draw();
-        this.hpVal.draw();
-    }
-
-    this.drawScores = function () {
-        this.scoresText.draw();
-    }
-
-    this.drawEnemie = function () {
-        this.enemieText.draw();
-    }
-
-    this.drawSkills = function () {
-        this.skill_1.draw();
-        this.skill_2.draw();
-        this.skill_3.draw();
-    }
-
-    this.checkSkill_1 = function () {
-        var obj = this.skill_1.getObjects()[2];
-        if (this.mouseControl.isInStatic(obj.getStaticBox())) {
-            this.brush.drawText({
-                x: this.skill_1.x,
-                y: this.skill_1.y - 25,
-                text: this.skill_1.description,
-                align: 'center',
-                size: 18,
-                color: 'white'
-            });
-
-            if (this.mouseControl.isPress('LEFT'))
-                this.skill_1.onClick();
-
-            console.log("Описание скилла: " + this.skill_1.description);
-        }
-    }
-
-    this.checkSkill_2 = function () {
-        var obj = this.skill_2.getObjects()[2];
-        if (this.pjs.mouseControl.isInStatic(obj.getStaticBox())) {
-            this.brush.drawText({
-                x: this.skill_2.x,
-                y: this.skill_2.y - 25,
-                text: this.skill_2.description,
-                align: 'center',
-                size: 18,
-                color: 'white'
-            });
-            if (this.mouseControl.isPress('LEFT'))
-                this.skill_2.onClick();
-            console.log("Описание скилла: " + this.skill_2.description);
-        }
-    }
-
-    this.checkSkill_3 = function () {
-        var obj = this.skill_3.getObjects()[2];
-        if (this.pjs.mouseControl.isInStatic(obj.getStaticBox())) {
-            this.brush.drawText({
-                x: this.skill_3.x,
-                y: this.skill_3.y - 25,
-                text: this.skill_3.description,
-                align: 'center',
-                size: 18,
-                color: 'white'
-            });
-            if (this.mouseControl.isPress('LEFT'))
-                this.skill_3.onClick();
-            console.log("Описание скилла: " + this.skill_3.description);
-        }
-    }
-
-    this.checkMouse = function () {
-        this.checkSkill_1();
-        this.checkSkill_2();
-        this.checkSkill_3();
-    }
-
-    this.update = function (hp, sc, en) {//Обновить текущие данные
-        if (hp <= 0) {
-            this.currHP = 0;
-            this.initialLose();
-        }
-        else if (hp > this.maxHP)
-            this.currHP = this.maxHP;
-        else
-            this.currHP = hp;
-
-        if (en == 0)
-            this.initialWin();
-
-        this.enemies = en;
-
-        if (sc < 0)
-            this.scores = 0;
-        else
-            this.scores = sc;
-
-
-        this.hpRectVal.w = (this.rectValWidth - 2) * this.currHP / this.maxHP;
-        this.hpVal.text = this.currHP + '/' + this.maxHP;
-
-        this.scoresText.text = 'SCORES: ' + this.scores;
-
-        this.enemieText.text = 'ENEMIES: ' + this.enemies;
-        this.checkMouse();
-    }
-
-    this.draw = function () {
-        this.drawHP();
-        this.drawScores();
-        this.drawEnemie();
-        this.drawSkills();
-        this.drawName();
-    }
-
-}
+    SpaceInvaders.Interface = Interface;
+})();

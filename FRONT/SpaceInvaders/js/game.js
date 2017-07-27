@@ -6,6 +6,7 @@
     var bullets = SpaceInvaders.bullets;
     var fraction = SpaceInvaders.fraction;
     var gameInterface;
+    var Interface = SpaceInvaders.Interface;
     var backSound = SpaceInvaders.pjs.audio.newAudio('audio/start.mp3', 0.1);
 
     game.newLoopFromConstructor('game', function () {

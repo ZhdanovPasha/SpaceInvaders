@@ -3,7 +3,7 @@
         backgroundColor: '#767676'
         // other
     };
-    var pjs = new PointJS('2D', 1024, 768, style);
+    var pjs = new PointJS('2D', 1024, 600, style);
     var sys = pjs.system;
     Array.prototype.clear = function () {
         this.splice(0, this.length);
@@ -31,16 +31,20 @@
         SpaceInvaders.key.initKeyControl();
     });
 
-    var Object = function () {
-        this.obj = {};
-        this.destroyed = false;
-    };
-    Object.prototype.draw = function () {
-        if (this.destroyed) return false;
-        else {
-            this.obj.draw();
-        }
-    };
+    class Object {
+        constructor() {
+            this.obj = {};
+            this.destroyed = false;
+        };
+
+        draw() {
+            if (this.destroyed) return false;
+            else {
+                this.obj.draw();
+            }
+        };
+
+    }
 
     SpaceInvaders.Object = Object;
     window.SpaceInvaders = SpaceInvaders;
