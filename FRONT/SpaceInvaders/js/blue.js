@@ -9,33 +9,20 @@ class Blue extends Player{
 	}
 	//создание ботов
 	createBots(num){
-		var botsArea = (this.obj.w + this.obj.w/2 - 10)* num; 
-		if (num%2){
-			for (var i = 0; i < num; ++i){
-				var tmp = new Bot({x:this.obj.x + (i)*this.obj.w/2 - 10, y:this.obj.y-this.obj.w - 10},
-					{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
-				this.bots.push(tmp);
-			}
-		}
-		else {
-			for (var i = 0; i < num; ++i){
-				var tmp = new Bot({x:this.obj.x + (i)*this.obj.w/2 - 10, y:this.obj.y-this.obj.w - 10},
-					{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
-				this.bots.push(tmp);
-			}
-		}
-
-
+		var botsArea = (this.obj.w/2+10)* num; 	
 		for (var i = 0; i < num; ++i){
-			var tmp = new Bot({x:this.obj.x + (i)*this.obj.w/2 - 10, y:this.obj.y-this.obj.w - 10},
-			 {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue')
+			var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:this.obj.y-this.obj.w - 10},
+				{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
 			this.bots.push(tmp);
 		}
 	}
 
 	moveBots(){
-		for (var i = 0; i < this.bots.length; ++i){
-			this.bots[i].obj.x = this.obj.x + (i)*this.obj.w/2 - 10;
+		var num = this.bots.length;
+		var botsArea = (this.obj.w/2+10)* num; 
+		//this is black magic
+		for (var i = 0; i < num; ++i){
+			this.bots[i].obj.x = this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17;
 		}
 	}
 
@@ -79,7 +66,7 @@ class Blue extends Player{
 		}
 		if(key.isPress('Q')){
 			if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length){
-				this.createBots(2);
+				this.createBots(4);
 				this.lastTimeCreateBots = Date.now();
 			}
 		}

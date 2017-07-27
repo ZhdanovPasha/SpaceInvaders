@@ -61,6 +61,7 @@ class Ship{
 								if (ships[j].bots[k].isDead()){
 									ships[j].bots.splice(k, 1);
 									k--;
+									ships[j].moveBots();
 								}
 								break;
 							}
