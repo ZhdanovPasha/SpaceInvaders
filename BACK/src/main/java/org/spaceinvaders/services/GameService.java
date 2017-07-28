@@ -1,11 +1,9 @@
 package org.spaceinvaders.services;
 
 import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
-import org.spaceinvaders.models.Conf;
-import org.spaceinvaders.models.Game;
-import org.spaceinvaders.models.Player;
-import org.spaceinvaders.models.StatusInLobby;
+import org.spaceinvaders.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,6 +17,14 @@ public class GameService {
     private LinkedList<Game> games;
     @Autowired
     private ConcurrentHashMap<String,Player> players;
+
+
+    @Scheduled(fixedDelay = 16)
+    void updateBullets() {
+        for (Ship ship:getAllShips()) {
+          ship.moveBullets();
+        }
+    }
     public   Player findPlayerByName (String name) {
         return   players.get(name);
     }
@@ -27,6 +33,13 @@ public class GameService {
         players.put(name, new Player(name, StatusInLobby.NONE,false));
         return true;
     }
+    public LinkedList<Ship> getAllShips() {
+        LinkedList<Ship> ships = new LinkedList<>();
+         for (Game game: games) {
+             ships.addAll(game.getShips().values());
+         }
+        return ships;
+     }
     public Game findGameById(int index) {
         return games.get(index);
     }

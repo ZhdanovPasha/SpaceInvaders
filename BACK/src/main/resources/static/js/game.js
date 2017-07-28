@@ -25,8 +25,8 @@ var bulletHeroWidth = 27;
 var bulletHeroHeight = 64;
 var bulletEnemyWidth = 25;
 var bulletEnemyHeight = 50;
-var beginPosX = width/2 - 25;
-var beginPosY = height - 50; 
+var beginPosX = width/2 - shipWidth/2;
+var beginPosY = height - shipHeight;
 var bulletsHero = [];
 var bulletsEnemies = [];
 var enemies = [];
@@ -140,6 +140,7 @@ game.newLoop('game', function(){
 	gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){
+	    messageService.leaveServer();
 		console.log(gameEnd);
 		initParameters();
 		game.startLoop('menu');

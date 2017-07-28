@@ -28,6 +28,7 @@ public class DevLobbyPageController {
     @MessageMapping("{id}/addJoinMessage")
     private void  addJoinMessage(@DestinationVariable Integer id, JoinMessageDev message) {
         gameService.addPlayerToGame(message.getName(),id);
+        log.info(message.getName() + " вошел в лобби "+ id);
     }
     //ПРОВЕРКА НА ГОТОВНОСТЬ ВСЕХ
     //ЕСЛИ ИСТИНА, ТО ОТПРАВЛЯЕТСЯ СООБЩЕНИЕ "НАЧАТЬ ИГРУ"(startgame())
@@ -35,8 +36,7 @@ public class DevLobbyPageController {
     public  void checkReadyToStart() {
         for (int i = 0; i < gameService.getGamesCount() ; i++) {
             Game game = gameService.findGameById(i);
-            game.startGame();
-            if (game.getStarted()) {
+            if (game.startGame()) {
                 game.getLobbyMessages().push(new StartMessage(game.getShips().values()));
             }
         }
@@ -53,7 +53,7 @@ public class DevLobbyPageController {
     @MessageMapping("{id}/addReadyMessage")
     public void addReadyMessage(ReadyMessage message) {
         gameService.findPlayerByName(message.getName()).setReady(true);
-        log.info(String.valueOf(gameService.findPlayerByName(message.getName()).getReady()));
+        log.info(message.getName()+" готов");
     }
     //Не готовность игрока, при нажатии НЕ ГОТОВ!
     @MessageMapping("{id}/addNoReadyMessage")
@@ -69,12 +69,14 @@ public class DevLobbyPageController {
     //Отправка  сообщений в лобби игры
     @Scheduled(fixedDelay = 100)
     public void hello() {
-        for (int i = 0; i <gameService.getGamesCount() ; i++) {
-            if (!gameService.findGameById(i).getLobbyMessages().isEmpty()) {
-                simpMessagingTemplate.convertAndSend("/game/lobby/"+i, gameService.findGameById(i).getLobbyMessages());
-                gameService.findGameById(i).getLobbyMessages().clear();
-            }
-        }
+        for (int i = 0; i < gameService.getGamesCount() ; i++) {
+            Game game = gameService.findGameById(i);
+                 if (!game.getLobbyMessages().isEmpty()) {
+                     simpMessagingTemplate.convertAndSend("/game/lobby/" + i, game.getLobbyMessages());
+                     game.getLobbyMessages().clear();
+                 }
+             }
+
     }
 
 

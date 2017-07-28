@@ -18,7 +18,15 @@ class Bullet{
 	move(){
 		this.obj.y -= this.dy;
 	}
-
+	moveTo(x,y,ship,mainship) {
+		if (mainship.fraction==ship.fraction) {
+			this.x = x;
+			this.y = y;
+		} else {
+			this.x = game.getWH().w-(x+this.obj.w);
+			this.y = game.game.getWH().h -(y+this.obj.y);
+		}
+	}
 	draw(){
 		this.obj.draw();
 	}

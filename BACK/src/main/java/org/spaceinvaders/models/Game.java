@@ -45,15 +45,17 @@ public class Game {
         player.setSide(StatusInLobby.NONE);
         player.setGame(null);
     }
-    public void startGame () {
+    public boolean startGame () {
         if (!isStarted&&readyCheck()) {
             for (Map.Entry<String,Player> player:players.entrySet()) {
                 Player player1 = player.getValue();
                 ships.put(player1.getName(),new Ship(player1.getName(),conf.getBeginPosX(),
-                        conf.getBeginPosY(),conf.getSpeed(),player1.getSide()));
+                        conf.getBeginPosY(),player1.getSide(),this));
             }
             isStarted = true;
+            return true;
         }
+        return false;
     }
 
     public ConcurrentHashMap<String, Ship> getShips() {

@@ -78,7 +78,10 @@ class Ship{
 			for (var j = 0; j < ships.length; ++j){
 				if (ships[j].fraction != this.fraction){
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
+
 						hit = true;
+                        if (this == mainship)
+                            messageService.hit(this.name,ships[j].name,i);
 						ships[j].getDamage(this.damage);
 						this.scores += this.killScores;
 					}
@@ -86,6 +89,8 @@ class Ship{
 			}
 			if (bullet.obj.y <= 0 || hit||bullet.obj.y>= height ){
 				this.bullets.splice(i, 1);
+
+
 				i--;
 			}
 		}
@@ -105,9 +110,14 @@ class Ship{
 		if (mainship.fraction == this.fraction) {
             this.obj.x = x;
 		} else {
-			this.obj.x = game.getWH().w-(x+50);
+			this.obj.x = game.getWH().w-(x+this.obj.w);
 		}
 
+	}
+	moveBullets (bullets,mainship) {
+		for (let i = 0 ; i < this.bullets.length; i++) {
+			this.bullets[i].bullets[i].moveTo(bullets[i].x,bullets[i].y,this,mainship);
+		}
 	}
 	move(direction,mainship) {
 		if (mainship.fraction==this.fraction){

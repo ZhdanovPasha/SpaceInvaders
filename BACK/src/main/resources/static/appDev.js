@@ -31,10 +31,12 @@ class MessageService2 {
                         this.side = side;
                         this.connected = true;
                         this.joinServer();
-                        this.joinLobby(this.gameId);
+                        setTimeout((function () {
+                            this.joinLobby(this.gameId);
+                        }).bind(this) ,200);
                         setTimeout((function () {
                             this.chooseSide();
-                        }).bind(this) ,200);
+                        }).bind(this) ,300);
                         setTimeout((function () {
                             this.setReady();
                         }).bind(this) ,400);
@@ -53,6 +55,7 @@ class MessageService2 {
                 for (let j = 0; j < sh.length; j++) {
                     for (let k = 0; k < ships.length; k++) {
                         if (sh[j].name == ships[k].name) {
+                            ships[k].moveBullets(sh[j].bullets,ships[0]);
                             ships[k].moveTo(sh[j].x,ships[0]);
                             if (sh[j].dead) {
                                 ships.splice(k,1);
@@ -111,7 +114,8 @@ class MessageService2 {
     }
     shot(name) {
         this.stompClient.send("/processDev/"+this.gameId+"/addShotMessage",{},JSON.stringify({
-            'name':name
+            'name':name,
+            'timeStamp' : Date.now()
         }))
     }
 
@@ -130,11 +134,14 @@ class MessageService2 {
     }
     disconnect() {
         if (this.connected) {
-            this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
+            this.leaveServer();
             this.stompClient.disconnect();
             console.log("Disconnected");
         }
 
+    }
+    leaveServer() {
+        this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
     }
     joinServer() {
         this.stompClient.send("/joinServer",{},JSON.stringify({'name':this.name}));
