@@ -1,4 +1,4 @@
-class Ship{
+﻿class Ship{
 	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
@@ -144,5 +144,5 @@ class Ship{
         	}
         }
 	}
-
+	
 }

@@ -4,8 +4,4 @@ class Player extends Ship{
 		super(position, img, id, fraction);
 		this.name = name;
 	}
-
-	// control(){
-		// super.control();
-	// }
 }
