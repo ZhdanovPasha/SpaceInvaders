@@ -115,9 +115,9 @@ class Ship{
  				this.obj.x = dif;
  			}
  		}
- 		if (key.isDown('SPACE')){
+ 		if (key.isPress('SPACE')){
  			if (Date.now() - this.lastFire > 100 * this.speed){
- 				var bulletImg, bulletdy = 5;
+ 				var bulletImg, bulletdy = 3;
  				if (this.fraction == 'blue'){
  					bulletImg = blueBullet;
  				}

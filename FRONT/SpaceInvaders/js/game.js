@@ -99,7 +99,7 @@ game.newLoop('game', function(){
  				}
 				var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
 					img:{width:ships[i].bulletWidth, height: ships[i].bulletHeight, source:
-					bulletImg}, speed:1, damage: 50, dy: -5 };				
+					bulletImg}, speed:1, damage: 50, dy: -3 };				
 				ships[i].addBullet(bul);
 				ships[i].lastFire = Date.now();
 			}

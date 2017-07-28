@@ -9,7 +9,6 @@ class Pink extends Player{
 		this.lastSetImmortality = Date.now();
 		this.fastMoveSpeed = false;
 		this.fastBulletsSpeed = false;
-		this.immortalityOn = false;
 		this.brush = pjs.brush;
 		
 		this.skill_1 = new Object();
@@ -61,17 +60,16 @@ class Pink extends Player{
 			if (key.isPress('W')){
 				this.fastMoveSpeed = true;
 				this.lastChangeMoveSpeed = Date.now();
-				this.changeMoveSpeed(this.speed + 5);
+				this.changeMoveSpeed(this.speed + 1);
 				gameInterface.skill_2.switchOff();
 				console.log('moveSpeed is increased');
 			}
 		}
-		if (Date.now() - this.lastSetImmortality > this.skill_3.cooldown && !this.immortalityOn){
+		if (Date.now() - this.lastSetImmortality > this.skill_3.cooldown && !this.immortality){
 				gameInterface.skill_3.switchOn();
 			if (key.isPress('E')){
 				this.lastSetImmortality = Date.now();
 				this.setImmortality(true);
-				this.immortalityOn = true;
 				gameInterface.skill_3.switchOff();
 				console.log('setImmortality');
 			}
@@ -79,19 +77,17 @@ class Pink extends Player{
 	}
 	// проверка для выключения скилов
 	check(){
-		if (Date.now() - this.lastChangeMoveSpeed > this.skill_2.duration && this.fastMoveSpeed == true){
-			this.changeMoveSpeed(this.speed - 5);
-			this.fastMoveSpeed = false;
-			console.log('movespeed decrease');
-		}
 		if (Date.now() - this.lastChangeBulletsSpeed > this.skill_1.duration && this.fastBulletsSpeed == true){
 			this.changeBulletsSpeed(this.bulletSpeed - 5);
 			this.fastBulletsSpeed = false;
 			console.log('bulletSpeed increase');
 		}
+		if (Date.now() - this.lastChangeMoveSpeed > this.skill_2.duration && this.fastMoveSpeed == true){
+			this.changeMoveSpeed(this.speed - 1);
+			this.fastMoveSpeed = false;
+			console.log('movespeed decrease');
+		}
 		if (Date.now() - this.lastSetImmortality > this.skill_3.duration && this.immortality == true){
-			this.immortalityOn = false;
-			this.immortality = false;
 			this.setImmortality(false);
 			console.log('immortality off');
 		}
