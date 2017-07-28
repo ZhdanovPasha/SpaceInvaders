@@ -1,4 +1,4 @@
-class Pink extends Player{
+class Pink extends Ship{
 	//description of skills
 
 	constructor(position, img, id, fraction, name){

@@ -1,11 +1,12 @@
-﻿class Ship{
-	constructor(position, img, id, fraction){// image передаем как {source: "", width: , height: }, position = {x: , y: }
+class Ship{
+	constructor(position, img, id, fraction, name){// image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
 			w: img.width,	h: img.height,
 			file: img.source
 		});
 		this.id = id;
+		this.name = name;
 		this.fraction = fraction;
 		this.currentHP = this.maxHP = 100;
 		this.bangStarted = Date.now();

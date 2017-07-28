@@ -70,7 +70,9 @@ game.newLoop('game', function(){
 		}
 		//упраеление кораблем игрока
 		ships[0].control();
-		ships[0].moveBots();
+		if (ships[0] instanceof Blue){
+			ships[0].moveBots();
+		}
 		//огонь всех кораблей
 		for (i = 0; i < ships.length; ++i){
 			ships[i].fire();

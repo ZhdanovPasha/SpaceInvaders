@@ -1,4 +1,4 @@
-class Blue extends Player{
+class Blue extends Ship{
 
 	constructor(position, img, id, fraction, name){
 		super(position, img, id, fraction, name);
