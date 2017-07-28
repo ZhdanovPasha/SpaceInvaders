@@ -70,6 +70,7 @@ game.newLoop('game', function(){
 		}
 		//упраеление кораблем игрока
 		ships[0].control();
+		ships[0].moveBots();
 		//огонь всех кораблей
 		for (i = 0; i < ships.length; ++i){
 			ships[i].fire();
@@ -99,7 +100,7 @@ game.newLoop('game', function(){
  				}
 				var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
 					img:{width:ships[i].bulletWidth, height: ships[i].bulletHeight, source:
-					bulletImg}, speed:1, damage: 50, dy: -3 };				
+					bulletImg}, speed:1, damage: 50, dy: -5 };				
 				ships[i].addBullet(bul);
 				ships[i].lastFire = Date.now();
 			}

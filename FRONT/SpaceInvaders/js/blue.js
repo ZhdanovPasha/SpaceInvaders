@@ -19,7 +19,7 @@ class Blue extends Player{
 	createBots(num){
 		var botsArea = (this.obj.w/2+10)* num; 	
 		for (var i = 0; i < num; ++i){
-			var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:this.obj.y-this.obj.w - 10},
+			var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:(ships[0] instanceof Blue)?600: -this.obj.h},
 				{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
 			this.bots.push(tmp);
 		}
@@ -31,6 +31,12 @@ class Blue extends Player{
 		//this is black magic
 		for (var i = 0; i < num; ++i){
 			this.bots[i].obj.x = this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17;
+			if(this.bots[i].obj.y != this.obj.y-this.obj.w - 10){
+				if(ships[0] instanceof  Blue)
+					this.bots[i].obj.y -= 1;
+				else 
+					this.bots[i].obj.y += 1;
+			}
 		}
 	}
 
@@ -40,7 +46,7 @@ class Blue extends Player{
 			for (var i = 0; i < this.bots.length; ++i){
 				var bul = {position:{x:this.bots[i].obj.x + (this.bots[i].obj.w)/2,y:this.bots[i].obj.y + (this.bots[i].obj.h)/2},
 						img:{width:this.bots[i].bulletWidth, height: this.bots[i].bulletHeight, source:
-						blueBullet}, speed:1, damage: 25, dy: -3 };				 
+						blueBullet}, speed:1, damage: 25, dy: -5 };				 
 				var bullet = new Bullet(bul.position, bul.img, bul.speed, bul.dy, bul.damage);
 				this.bots[i].bullets.push(bullet);
 			}
@@ -65,11 +71,11 @@ class Blue extends Player{
 			this.moveBots();
 		}
 		//возможно, что достаточно в ship
-		if (key.isPress('SPACE')){
+		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
 				var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y - (this.obj.h)/2},
 					img:{width:this.bulletWidth, height: this.bulletHeight, source:
-					blueBullet}, speed:1, damage: 100, dy: 3};
+					blueBullet}, speed:1, damage: 100, dy: 5};
 				this.addBullet(bul);
 				this.lastFire = Date.now();
 			}
