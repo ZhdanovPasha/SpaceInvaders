@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class GameService {
     @Autowired
-    private Conf conf;
-    @Autowired
     private LinkedList<Game> games;
     @Autowired
     private ConcurrentHashMap<String,Player> players;

@@ -48,6 +48,7 @@ class MessageService {
                 if (arr[i].type == 'SHOT') {
                     for (let j = 1; j < this.ships.length;j++) {
                         if (arr[i].name == this.ships[j].name ) {
+
                             this.ships[j].addBullet(this.ships[0]);
                         }
                     }

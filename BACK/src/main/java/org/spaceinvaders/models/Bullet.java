@@ -6,27 +6,34 @@ package org.spaceinvaders.models;
 public class Bullet {
     private int x, y;
     private int speed;
-    private boolean destroyed;
-
-    public Bullet(int x,int y,int speed) {
+    private boolean enabled;
+    private Ship owner;
+    public Bullet(int x,int y,Ship ship) {
         this.x = x;
         this.y = y;
-        this.speed = speed;
+        owner = ship;
+        this.speed = ship.getBulletSpeed();
     }
-    void move() {
-        y-= speed;
+   public  void move() {
+        if (enabled)
+        y -= speed;
     }
-
+    public void shot() {
+        x = owner.getX() + Conf.getShipWidth()/2-Conf.getBulletWidth()/2;
+        y = owner.getY();
+        speed = owner.getBulletSpeed();
+        enabled = true;
+    }
     public void destroyBull() {
-        this.destroyed = true;
+        this.enabled = false;
     }
 
-    public boolean isDestroyed() {
-        return destroyed;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public int getX() {

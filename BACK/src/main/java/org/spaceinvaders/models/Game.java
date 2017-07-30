@@ -13,14 +13,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by gemini on 24.07.17.
  */
 public class Game {
-    private Conf conf;
+
     private LinkedList<LobbyMessageEntity> lobbyMessages;
     private LinkedBlockingQueue<ProcessMessageEntity> processMessages;
     private  ConcurrentHashMap<String,Ship> ships;
     private Boolean isStarted;
     private ConcurrentHashMap<String,Player> players;
-    public Game(Conf conf) {
-        this.conf = conf;
+    public Game() {
         lobbyMessages = new LinkedList<>();
         processMessages = new LinkedBlockingQueue<>();
         players = new ConcurrentHashMap<>();
@@ -49,8 +48,8 @@ public class Game {
         if (!isStarted&&readyCheck()) {
             for (Map.Entry<String,Player> player:players.entrySet()) {
                 Player player1 = player.getValue();
-                ships.put(player1.getName(),new Ship(player1.getName(),conf.getBeginPosX(),
-                        conf.getBeginPosY(),player1.getSide(),this));
+                ships.put(player1.getName(),new Ship(player1.getName(),Conf.getBeginPosX(),
+                        Conf.getBeginPosY(),player1.getSide(),this));
             }
             isStarted = true;
             return true;

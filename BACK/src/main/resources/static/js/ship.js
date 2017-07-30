@@ -37,24 +37,25 @@ class Ship{
 		this.bulletWidth = 27;
 		this.bulletHeight = 64;	
 		this.bullets = [];
+		for (let i = 0 ; i<10;i++){
+            this.bullets.push(new Bullet(this, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}));
+		}
+
 		this.lastFire = Date.now();
 		//this.obj.draw();
 	}
 	
 	isDead(){
-		if(this.currentHP <= 0)
-			return true;
-		else
-			return false;
+		return this.currentHP <= 0;
 	}
 
 	getDamage(damage){
 		this.currentHP -= damage;
 	}
-	
-	addBullet(mainship){
-        var bullet=null;
-		if (mainship.fraction == this.fraction) {
+	//deprecated
+	addBullet(){
+        var bullet = null;
+		if (ship.fraction === this.fraction) {
             console.log(this.obj.y);
             bullet = new Bullet({x:this.obj.x + (this.obj.w)/2-this.bulletWidth/2,y:this.obj.y }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
 		} else {
@@ -64,36 +65,39 @@ class Ship{
 
 		this.bullets.push(bullet);
 	}
-	
-	fire(mainship){
-
-		for (var i = 0; i < this.bullets.length; ++i){
-			var hit = false; 
-			var bullet = this.bullets[i];
-			bullet.obj.draw();
-			if (mainship.fraction == this.fraction)
-				bullet.obj.y -= bullet.dy;
-			else
-				bullet.obj.y += bullet.dy;
-			for (var j = 0; j < ships.length; ++j){
-				if (ships[j].fraction != this.fraction){
-					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
-
-						hit = true;
-                        if (this == mainship)
-                            messageService.hit(this.name,ships[j].name,i);
-						ships[j].getDamage(this.damage);
-						this.scores += this.killScores;
-					}
-				}
-			}
-			if (bullet.obj.y <= 0 || hit||bullet.obj.y>= height ){
-				this.bullets.splice(i, 1);
-
-
-				i--;
-			}
+	shot() {
+		for ( let i = 0; i < this.bullets.length; i++ ) {
+           if (!this.bullets[i].enabled) {
+               this.bullets[i].shot();
+               return i;
+		   }
 		}
+		return -1;
+	}
+	
+	fire(){
+
+		for (let i = 0; i < this.bullets.length; ++i){
+			let hit = false;
+			let bullet = this.bullets[i];
+			bullet.move();
+			bullet.draw();
+			for (let j = 0; j < ships.length; ++j) {
+				 if (bullet.checkHitting(ships[j])) {
+                     hit = true;
+                     if (this === ship)
+                         messageService.hit(this.name,ships[j].name,i);
+                     ships[j].getDamage(bullet.damage);
+                     this.scores += this.killScores;
+
+                 }
+			}
+            if (bullet.obj.y <= 0 || hit || bullet.obj.y >= height ){
+				bullet.enabled = false;
+            }
+		}
+
+
 	}
 	
 	draw(){
@@ -102,25 +106,21 @@ class Ship{
 		}
 	}
 
-	//move(){
-	//	this.obj.x += getRandomInt(-1 * this.dx, this.dx);
-	//	this.draw();
-//	}
-	moveTo(x,mainship) {
-		if (mainship.fraction == this.fraction) {
+	moveTo(x) {
+		if (ship.fraction == this.fraction) {
             this.obj.x = x;
 		} else {
 			this.obj.x = game.getWH().w-(x+this.obj.w);
 		}
 
 	}
-	moveBullets (bullets,mainship) {
+	moveBullets (bullets) {
 		for (let i = 0 ; i < this.bullets.length; i++) {
-			this.bullets[i].bullets[i].moveTo(bullets[i].x,bullets[i].y,this,mainship);
+			this.bullets[i].moveTo(bullets[i].x,bullets[i].y);
 		}
 	}
-	move(direction,mainship) {
-		if (mainship.fraction==this.fraction){
+	move(direction) {
+		if (ship.fraction==this.fraction){
             if (direction =='LEFT') {
                 this.obj.x -= this.dx *this.speed;
                 if (this.obj.x <= 0){
@@ -187,11 +187,10 @@ class Ship{
 
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
-                messageService.shot(this.name);
-				this.addBullet(this);
+				let k = this.shot();
+				if (k != -1)
+                messageService.shot(this.name,k);
 				this.lastFire = Date.now();
-				for (i = 0; i < this.bullets.length; ++i)
-					console.log(this.bullets[i]);
 			}
 			
 		}

@@ -10,12 +10,12 @@ class MessageService2 {
         this.gameId = 0;
     }
     connect() {
-        if(this.stompClient==null){
+        if(this.stompClient===null){
             this.socket = new SockJS('/game');
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect({},function (frame) {
 
-            })
+            });
             console.log(this.stompClient);
 
         }}
@@ -50,13 +50,13 @@ class MessageService2 {
         this.subscription.unsubscribe();
         this.subscription = this.stompClient.subscribe('/game/process/'+this.gameId,(function (change) {
             let arr = JSON.parse(change.body);
-            if (arr.type == 'STATE') {
+            if (arr.type === 'STATE') {
                 let sh = arr.ships;
                 for (let j = 0; j < sh.length; j++) {
                     for (let k = 0; k < ships.length; k++) {
-                        if (sh[j].name == ships[k].name) {
-                            ships[k].moveBullets(sh[j].bullets,ships[0]);
-                            ships[k].moveTo(sh[j].x,ships[0]);
+                        if (sh[j].name === ships[k].name) {
+                            ships[k].moveBullets(sh[j].bullets);
+                            ships[k].moveTo(sh[j].x);
                             if (sh[j].dead) {
                                 ships.splice(k,1);
                             }
@@ -68,25 +68,25 @@ class MessageService2 {
             }
             for(let i=0;i<arr.length;i++) {
 
-                if (arr[i].type == 'SHOT') {
+                if (arr[i].type === 'SHOT') {
                     for (let j = 1; j < this.ships.length;j++) {
-                        if (arr[i].name == this.ships[j].name ) {
-                            this.ships[j].addBullet(this.ships[0]);
+                        if (arr[i].name === this.ships[j].name ) {
+                            this.ships[j].shot();
                         }
                     }
-                } else if (arr[i].type == 'MOVE') {
+                } else if (arr[i].type === 'MOVE') {
                     for (let j = 0; j < this.ships.length;j++) {
-                        if (arr[i].name == this.ships[j].name ) {
-                            this.ships[j].move(arr[i].direction,this.ships[0])
+                        if (arr[i].name === this.ships[j].name ) {
+                            this.ships[j].move(arr[i].direction)
                         }
                     }
-                } else if (arr[i].type == 'HITTING') {
+                } else if (arr[i].type === 'HITTING') {
 
-                } else if (arr[i].type == 'CREATESHIP') {
+                } else if (arr[i].type === 'CREATESHIP') {
 
-                } else if (arr[i].type == 'DESTROYSHIP') {
+                } else if (arr[i].type === 'DESTROYSHIP') {
 
-                } else if (arr[i].type == 'STOPGAME') {
+                } else if (arr[i].type === 'STOPGAME') {
 
                 }
 
@@ -112,10 +112,10 @@ class MessageService2 {
             'numBullet':numBullet
         }))
     }
-    shot(name) {
+    shot(name,k) {
         this.stompClient.send("/processDev/"+this.gameId+"/addShotMessage",{},JSON.stringify({
             'name':name,
-            'timeStamp' : Date.now()
+            'numBullet' : k
         }))
     }
 
@@ -172,19 +172,19 @@ class MessageService2 {
             let arr = JSON.parse(change.body);
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].name !== this.name) {
-                    if (arr[i].type == 'JOIN') {
+                    if (arr[i].type === 'JOIN') {
 
-                    } else if (arr[i].type == 'CHOOSESIDE') {
+                    } else if (arr[i].type === 'CHOOSESIDE') {
 
-                    } else if (arr[i].type == 'READY') {
+                    } else if (arr[i].type === 'READY') {
 
-                    } else if (arr[i].type == 'NOREADY') {
+                    } else if (arr[i].type === 'NOREADY') {
 
-                    } else if (arr[i].type == 'START') {
+                    } else if (arr[i].type === 'START') {
                         key.setInputMode(false);
                         for( let j = 0; j< arr[i].ships.length;j++) {
                             let player = arr[i].ships[j];
-                            if (player.name == this.name) {
+                            if (player.name === this.name) {
                                 createShip(player.name,player.fraction,player.x,player.y,player.speed);
                                 break;
                             }
@@ -197,7 +197,7 @@ class MessageService2 {
                         }
                         this.startGame();
                         this.game.startLoop('game');
-                    } else if (arr[i].type == 'LEAVE') {
+                    } else if (arr[i].type === 'LEAVE') {
 
                     }
 

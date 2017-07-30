@@ -9,14 +9,14 @@ import java.util.Date;
  */
 public class ShotMessage extends ProcessMessageEntity {
     private String name;
-    private Date timeStamp;
+    private int numBullet;
     public ShotMessage(){
         type = ProcessMessageType.SHOT;
     }
-    public ShotMessage(String name,Date timeStamp) {
+    public ShotMessage(String name,int numBullet) {
         this();
         this.name = name;
-        this.timeStamp = timeStamp;
+        this.numBullet = numBullet;
     }
 
 
@@ -30,11 +30,11 @@ public class ShotMessage extends ProcessMessageEntity {
         this.name = name;
     }
 
-    public Date getTimeStamp() {
-        return timeStamp;
+    public int getNumBullet() {
+        return numBullet;
     }
 
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setNumBullet(int numBullet) {
+        this.numBullet = numBullet;
     }
 }

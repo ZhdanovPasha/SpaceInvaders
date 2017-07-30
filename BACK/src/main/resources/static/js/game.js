@@ -75,7 +75,7 @@ gameInterface.initializeObjects();
  //   }
 //};
 function newEnemyShip(name,x0,y,speed){
-    if (ship.fraction == 'BLUE'){
+    if (ship.fraction === 'BLUE'){
         return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'PINK',speed)
     }
     return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'BLUE',speed)
@@ -85,7 +85,7 @@ function newAllyShip(name,x,y,speed) {
         {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, ship.fraction,speed)
 }
 function createShip(name,fraction,x0,y0,speed) {
-	if (ship==null) {
+	if (ship===null) {
         ship = new Ship({x:x0, y:y0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, fraction,speed)
         ships.push(ship);
         console.log(ships);
@@ -109,7 +109,7 @@ game.newLoop('game', function(){
         }
         ships[0].control();
         for (i = 0; i < ships.length; ++i)
-        	ships[i].fire(ship);
+        	ships[i].fire();
 
         //for (i = 1 ; i < ships.length; ++i){
         //	if (Date.now() - ships[i].lastFire > 2000){
@@ -129,7 +129,7 @@ game.newLoop('game', function(){
         //		i--;
         //	}
 
-        if (ships.length==1|| ships[0].isDead()) {
+        if (ships.length===1|| ships[0].isDead()) {
             messageService.destroy(ship.name);
 
             gameEnd = true;

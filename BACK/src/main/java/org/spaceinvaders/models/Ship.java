@@ -7,6 +7,7 @@ import org.spaceinvaders.messages.process.ShotMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -21,13 +22,10 @@ public class Ship {
     private int x, y,speed,bulletSpeed;
 
     private boolean dead;
-    private LinkedList<Bullet> bullets;
-    @JsonIgnore
-    private PriorityBlockingQueue<ShotMessage> shotMessages;
+    private ArrayList<Bullet> bullets;
+
     @JsonIgnore
     private Game game;
-    @JsonIgnore
-    private Conf conf;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private StatusInLobby fraction;
     private String name;
@@ -36,16 +34,16 @@ public class Ship {
         this.y = y;
         this.fraction = fraction;
         this.name = name;
-        conf = new Conf();
-        this.speed = conf.getSpeed();
-        bullets = new LinkedList<>();
+        this.speed = Conf.getSpeed();
         this.game = game;
-        shotMessages = new PriorityBlockingQueue<>(10,(m1,m2)->m1.getTimeStamp().compareTo(m2.getTimeStamp()));
-        this.bulletSpeed = conf.getBulletSpeed();
+
+        this.bulletSpeed = Conf.getBulletSpeed();
+        bullets = new ArrayList<Bullet>(10);
+        for (int i = 0; i < 10 ; i++) {
+            bullets.add(new Bullet(0,0,this));
+        }
     }
-    public void addShotMessage (ShotMessage message) {
-        shotMessages.put(message);
-    }
+
     public String getName() {
         return name;
     }
@@ -74,21 +72,21 @@ public class Ship {
 
     public void moveRight() {
         x +=speed;
-        Integer dif = conf.getW()-conf.getShipWidth();
+        Integer dif = Conf.getW()-Conf.getShipWidth();
         if (x>=dif) {
             x = dif;
         }
     }
     public void moveBullets() {
-        Iterator<Bullet> bullet = this.bullets.iterator();
-        while (bullet.hasNext()){
-            Bullet bul = bullet.next();
-            if (bul.isDestroyed()) bullets.remove(bul);
+        for (Bullet bul : bullets) {
+            if (bul.isEnabled()) {
+                bul.move();
+                if (bul.getY() < 0) bul.destroyBull();
+            }
         }
-
     }
-    public void  shot() {
-        bullets.push(new Bullet(x + conf.getShipWidth()/2-conf.getBulletWidth()/2,y,bulletSpeed));
+    public void  shot(int i) {
+        bullets.get(i).shot();
     }
     public Bullet findBulletById (int id) {
         return bullets.get(id);
@@ -105,13 +103,6 @@ public class Ship {
         this.x = x;
     }
 
-    public PriorityBlockingQueue<ShotMessage> getShotMessages() {
-        return shotMessages;
-    }
-
-    public void setShotMessages(PriorityBlockingQueue<ShotMessage> shotMessages) {
-        this.shotMessages = shotMessages;
-    }
 
     public int getY() {
         return y;
@@ -133,11 +124,11 @@ public class Ship {
         this.bulletSpeed = bulletSpeed;
     }
 
-    public LinkedList<Bullet> getBullets() {
+    public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
-    public void setBullets(LinkedList<Bullet> bullets) {
+    public void setBullets(ArrayList<Bullet> bullets) {
         this.bullets = bullets;
     }
 

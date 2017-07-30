@@ -39,18 +39,10 @@ public class SpaceInvadersApplication {
 		return  new HashMap<>();
 	}
 	@Bean
-	Conf getConf() {
-		return  new Conf();
-	}
-	@Bean
-	MyBool isStarted() {
-		return new MyBool();
-	}
-	@Bean
 	LinkedList<Game> games() {
 		LinkedList<Game> games = new LinkedList<>();
-		games.push(new Game(getConf()));
-		games.push(new Game(getConf()));
+		games.push(new Game());
+		games.push(new Game());
 		return games;
 	}
 }

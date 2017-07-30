@@ -26,8 +26,11 @@ public class DevProcessController {
     private GameService gameService;
     @MessageMapping("{id}/addShotMessage")
     public void  addShotMessage(@DestinationVariable Integer id, ShotMessage message) throws InterruptedException {
-
-        gameService.findGameById(id).getShips().get(message.getName()).addShotMessage(message);
+        Game game = gameService.findGameById(id);
+        if (game.getStarted()){
+            game.getShips().get(message.getName()).findBulletById(message.getNumBullet()).shot();
+            game.getProcessMessages().put(message);
+        }
         log.info("Пришло сообщение о выстреле");
         //gameService.findGameById(id).getProcessMessages().put(message);
     }
@@ -77,27 +80,7 @@ public class DevProcessController {
         }
     }
 
-    @Scheduled(fixedDelay = 50)
-    public void doShotMessages() throws InterruptedException {
-        LinkedList<Ship> ships = gameService.getAllShips();
-        log.info(String.valueOf(ships));
-        for (Ship ship: ships) {
-            PriorityBlockingQueue<ShotMessage> messages = ship.getShotMessages();
-            ShotMessage message1,message2;
-            message1 = messages.poll();
-            log.info(String.valueOf(ships));
-            while (message1!= null) {
-                ship.shot();
-                log.info("SHOT");
-                ship.getGame().getProcessMessages().put(message1);
-                message2 = messages.peek();
-                if (message2 ==null) break;
-                Thread.sleep(message2.getTimeStamp().getTime()-message1.getTimeStamp().getTime());
-                message1 = messages.poll();
-            }
 
-        }
-    }
 
     @Scheduled(fixedDelay = 10)
     public void hello() throws InterruptedException {

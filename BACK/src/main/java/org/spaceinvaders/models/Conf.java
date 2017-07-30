@@ -8,56 +8,56 @@ import org.springframework.stereotype.Component;
 
 public class Conf {
 
-    final private int w = 700;
-    final private int h = 600;
-    final private int speed = 10;
-    final private int shipWidth = 50;
-    final private int shipHeight = 50;
-    final private int bulletWidth = 27;
-    final private int bulletHeight = 64;
-    final private int bulletSpeed = 5;
-    final private int offsetY = 70;
+    final static private int w = 700;
+    final static private int h = 600;
+    final static private int speed = 10;
+    final static int shipWidth = 50;
+    final static private int shipHeight = 50;
+    final static private int bulletWidth = 27;
+    final static private int bulletHeight = 64;
+    final static private int bulletSpeed = 5;
+    final static private int offsetY = 70;
     public Conf() {
     }
-    public int getBeginPosX() {
+    public static int getBeginPosX() {
         return  w/2- shipWidth/2;
     }
-    public int getBeginPosY() {
+    public static int getBeginPosY() {
         return h-shipHeight-offsetY;
     }
-    public int getW() {
+    public static int getW() {
         return w;
     }
-    public int getSpeed() {
+    public static int getSpeed() {
         return speed;
     }
 
 
-    public int getBulletSpeed() {
+    public static int getBulletSpeed() {
         return bulletSpeed;
     }
 
 
-    public int getBulletWidth() {
+    public static int getBulletWidth() {
         return bulletWidth;
     }
 
-    public int getBulletHeight() {
+    public static int getBulletHeight() {
         return bulletHeight;
     }
 
 
-    public int getShipWidth() {
+    public static int getShipWidth() {
         return shipWidth;
     }
 
 
-    public int getShipHeight() {
+    public static int getShipHeight() {
         return shipHeight;
     }
 
 
-    public int getH() {
+    public static int getH() {
         return h;
     }
 
