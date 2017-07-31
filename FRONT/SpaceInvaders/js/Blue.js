@@ -34,30 +34,30 @@
                 description: "Увеличение скорости пуль",
                 duration: 5000,
                 cooldown: 10000,
-            },this,function(ship){
-                this.bulPerSec*=2;
-            },function () {
-                this.bulPerSec/=2;
+            }, this, function (ship) {
+                ship.bulPerSec *= 4;
+            }, function (ship) {
+                ship.bulPerSec /= 4;
             });
             this.skill_2 = new Skill({
                 img: 'img/rocket.png',
                 description: "Увеличение скорости коробля"
                 , duration: 5000,
                 cooldown: 10000
-            },this,function(ship){
-                this.speed*=2;
-            },this,function(ship){
-                this.speed/=2;
+            }, this, function (ship) {
+                ship.speed *= 4;
+            }, function (ship) {
+                ship.speed /= 4;
             });
             this.skill_3 = new Skill({
                 img: 'img/shield.png',
                 description: "Активация щита",
                 duration: 5000,
                 cooldown: 10000
-            },this,function(ship){
-                this.bulPerSec=0;
-            },this,function(ship){
-                this.bulPerSec=1;
+            }, this, function (ship) {
+                ship.bulPerSec = 0;
+            }, function (ship) {
+                ship.bulPerSec = 1;
             });
         };
 

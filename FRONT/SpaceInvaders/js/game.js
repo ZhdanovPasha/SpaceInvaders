@@ -85,25 +85,28 @@
             if (key.isDown('S')) {
                 player.skill();
             }
-            if (key.isPress('Q')){
-                player.skill_1.enable();
-                gameInterface.skill_1.switchOn();
+            if (key.isPress('Q')) {
+                if (player.skill_1.enable()) {
+                    gameInterface.skill_1.switchOn();
+                }
             }
-            if (key.isPress('W')){
-                player.skill_2.enable();
-                gameInterface.skill_2.switchOn();
+            if (key.isPress('W')) {
+                if (player.skill_2.enable()) {
+                    gameInterface.skill_2.switchOn();
+                }
             }
-            if (key.isPress('E')){
-                player.skill_3.enable();
-                gameInterface.skill_3.switchOn();
+            if (key.isPress('E')) {
+                if (player.skill_3.enable()) {
+                    gameInterface.skill_3.switchOn();
+                }
             }
-            player.skill_1.check(function(){
+            player.skill_1.check(function () {
                 gameInterface.skill_1.switchOff();
             });
-            player.skill_2.check(function(){
+            player.skill_2.check(function () {
                 gameInterface.skill_2.switchOff();
             });
-            player.skill_3.check(function(){
+            player.skill_3.check(function () {
                 gameInterface.skill_3.switchOff();
             });
             gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
