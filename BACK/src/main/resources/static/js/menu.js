@@ -1,4 +1,7 @@
 (function (game) {
+    var wait = {
+    text : "Ожидание игроков"
+    }
     var obj;
     var header;
     var items;
@@ -9,6 +12,9 @@
     var name="";
     var key = pjs.keyControl;
     var nameMaxLength = 30;
+    var waitMenu = [
+    {text : "Ожидание игроков"
+    }];
     var chooseMenuElements = [
         { //0 всегда заголовок
             text: "Choose Your destiny"
@@ -17,11 +23,19 @@
             text: "Pink",
             handle: function () {
                 console.log("Pink: "+name);
-                //key.setInputMode(false);
-                   console.log('1');
+                // console.log('PINK');
+                messageService.callback=function(result){
+                    if(result){
+                    setMenuElements(waitMenu);
+                     key.setInputMode(false);
+                               }  };
 
-                messageService.tryToconnect(name,'PINK');
+
+                               messageService.tryToconnect(name,'PINK');
+
+
                 obj = false;
+
             }
         },
         {
@@ -29,8 +43,16 @@
             handle: function () {
                 console.log("blue: "+name);
                 //key.setInputMode(false);
-                console.log('1');
-                messageService.tryToconnect(name,'BLUE');
+
+                messageService.callback=function(result){
+                if(result){
+                 setMenuElements(waitMenu);
+                 key.setInputMode(false);
+                 }};
+
+
+               messageService.tryToconnect(name,'PINK');
+
                 obj = false;
             }
         }
