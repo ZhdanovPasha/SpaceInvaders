@@ -31,7 +31,6 @@
             this.currentHP = this.maxHP;
             this.bangStarted = Date.now();
             this.lastFire = Date.now();
-            this.lastMove = Date.now();
             this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
             this.hurtSound = audio.newAudio('audio/hurt.ogg', 0.2); // file, volume
             this.explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
@@ -118,7 +117,7 @@
             this.img = args.img;
             this.description = args.description;
             this.duration = args.duration;
-            this.cooldown = args.cooldown;
+            this.cooldown = args.cooldown; //it's cooldown not coolDown because of Interface.js
             this.ship = ship;
             this.EnHandler = EnHandler;
             this.DisHandler = DisHandler;

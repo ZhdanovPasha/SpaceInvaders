@@ -1,6 +1,8 @@
 (function () {
     var Ship = SpaceInvaders.Ship;
     var Skill = SpaceInvaders.Skill;
+    var game = SpaceInvaders.game;
+    var pjs = SpaceInvaders.pjs;
 
     class PinkBot extends Ship {
         constructor(params) {
@@ -29,9 +31,6 @@
 
         };
     }
-
-    var game = SpaceInvaders.game;
-    var pjs = SpaceInvaders.pjs;
 
     class Pink extends Ship {
         constructor(params) {
@@ -95,8 +94,8 @@
             });
             this.skill_3 = new Skill({
                 img: 'img/rocket.png',
-                description: "Увеличение скорости коробля"
-                , duration: 5000,
+                description: "Увеличение скорости коробля",
+                duration: 5000,
                 cooldown: 10000
             }, this, function (ship) {
                 ship.speed *= 4;

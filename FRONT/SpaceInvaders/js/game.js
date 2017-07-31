@@ -1,4 +1,5 @@
 (function () {
+    var pjs = SpaceInvaders.pjs;
     var game = SpaceInvaders.game;
     var key = SpaceInvaders.key;
     var player = new SpaceInvaders.Pink({x: 100, y: 300});
@@ -6,8 +7,9 @@
     var bullets = SpaceInvaders.bullets;
     var fraction = SpaceInvaders.fraction;
     var gameInterface;
+    var fon = SpaceInvaders.fon;
     var Interface = SpaceInvaders.Interface;
-    var backSound = SpaceInvaders.pjs.audio.newAudio('audio/start.mp3', 0.1);
+    var backSound = pjs.audio.newAudio('audio/start.mp3', 0.1);
     var Pink = SpaceInvaders.Pink;
     var Blue = SpaceInvaders.Blue;
 
@@ -42,7 +44,7 @@
                 }
 
             }
-            gameInterface = new Interface(SpaceInvaders.pjs, game, SpaceInvaders.playerName);
+            gameInterface = new Interface(pjs, game, SpaceInvaders.playerName);
             gameInterface.initialize(player, player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
         };
@@ -50,7 +52,7 @@
 
         this.update = function () {
             game.clear(); // clear screen
-            SpaceInvaders.fon.draw();
+            fon.draw();
             bullets.forEach(function (bullet, i, bullets) {
                 if (!enemies.some(function (enemy, j, enemies) {
                         if (bullet.hit(enemy)) {
@@ -127,11 +129,9 @@
 
     });
 
-    SpaceInvaders.pjs.system.addEvent("onload", "game.js", function () {
-        game.setLoop('menu');
-        game.start();
+    pjs.system.addEvent("onload", "game.js", function () {
+        game.startLoop('menu');
         game.setLoopSound('game', [backSound]);
-
     });
 })
 ();

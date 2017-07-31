@@ -3,12 +3,6 @@
     var Skill = SpaceInvaders.Skill;
     var Laser = SpaceInvaders.Laser;
     var bullets = SpaceInvaders.bullets;
-    /*
-    params={
-      x: 100, y: 200,
-    }
-     */
-
     var game = SpaceInvaders.game;
     var pjs = SpaceInvaders.pjs;
 
@@ -94,8 +88,6 @@
 
     }
 
-
     SpaceInvaders.Laser = Laser;
-
     SpaceInvaders.Blue = Blue;
 })();

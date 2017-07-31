@@ -41,6 +41,7 @@
             if (this.destroyed) return false;
             else {
                 this.obj.draw();
+                return true;
             }
         };
 
