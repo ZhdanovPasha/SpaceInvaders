@@ -1,20 +1,20 @@
-package org.spaceinvaders.messages.gamelobby;
+package org.spaceinvaders.messages.process;
 
-import org.spaceinvaders.models.Player;
 import org.spaceinvaders.models.Ship;
 
 import java.util.Collection;
 
 /**
- * Created by Gemini on 19.07.2017.
+ * Created by gemini on 26.07.17.
  */
-public class StartMessage extends LobbyMessageEntity {
+public class StateMessage extends ProcessMessageEntity{
     private Collection<Ship> ships;
-    public StartMessage() {
-        type = LobbyMessageType.START;
+
+    public StateMessage() {
+        type = ProcessMessageType.STATE;
     }
 
-    public StartMessage(Collection<Ship> ships) {
+    public StateMessage(Collection<Ship> ships) {
         this();
         this.ships = ships;
     }

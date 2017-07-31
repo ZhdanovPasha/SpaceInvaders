@@ -20,7 +20,7 @@
                 //key.setInputMode(false);
                    console.log('1');
 
-                tryToconnect(name,'PINK');
+                messageService.tryToconnect(name,'PINK');
                 obj = false;
             }
         },
@@ -30,7 +30,7 @@
                 console.log("blue: "+name);
                 //key.setInputMode(false);
                 console.log('1');
-                tryToconnect(name,'BLUE');
+                messageService.tryToconnect(name,'BLUE');
                 obj = false;
             }
         }
@@ -51,7 +51,7 @@
                 }));
                 key.setInputMode(true);
                 setMenuElements(chooseMenuElements);
-                connect();
+                messageService.connect();
 
 
             }

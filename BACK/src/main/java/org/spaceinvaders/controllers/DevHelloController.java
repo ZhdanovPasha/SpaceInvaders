@@ -1,29 +1,25 @@
-package org.spaceinvaders;
+package org.spaceinvaders.controllers;
 
-import org.spaceinvaders.models.Player;
+import org.spaceinvaders.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
-
-/**
- * Created by gemini on 20.07.17.
- */
 @RestController
-@RequestMapping("/login")
-public class HelloController {
+@RequestMapping("/devlogin")
+public class DevHelloController  {
     @Autowired
-    //LinkedList<Player> players;
-    ConcurrentHashMap<String,Player> players;
+    GameService gameService;
+
+
 
     @RequestMapping("/{name}")
     @ResponseBody
     Boolean isEnable(@PathVariable String name) {
-            return (!players.containsKey(name))&&(players.size()<2);
+        return gameService.checkUnic(name);
     }
 
 

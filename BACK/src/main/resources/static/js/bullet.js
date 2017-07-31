@@ -1,11 +1,16 @@
 class Bullet{
 	//position{x,y}, img={width, height, source}
-	constructor(position, img, speed, dy, damage){
+	constructor( owner,img){
 		console.log('success');
-		this.position = position;
+		this.owner = owner;
+		if ( ship === null || this.owner.fraction === ship.fraction )
+			this.position = {x:owner.obj.x + (owner.obj.w)/2-owner.bulletWidth/2,y:owner.obj.y };
+		else
+			this.position = {x:owner.obj.x + (owner.obj.w)/2-owner.bulletWidth/2,y:owner.obj.y+owner.obj.h };
+		this.enabled = false;
+		this.damage = owner.damage;
 		this.img = img;
-		this.speed = speed;
-		this.dy = dy;
+		this.dy = owner.bulletSpeed;
 		this.w = img.width;
 		this.h = img.height;
 		this.obj = game.newImageObject({
@@ -14,13 +19,44 @@ class Bullet{
 			w: this.img.width, h: this.img.height
 		});
 	}
-
 	move(){
-		this.obj.y += this.dy;
-		this.obj.draw();
-	}
+		if (this.enabled) {
+            if (ship.fraction === this.owner.fraction)
+                this.obj.y -= this.dy;
+            else
+                this.obj.y += this.dy;
+		}
 
+	}
+	moveTo(x,y) {
+		if (this.enabled) {
+            if ( ship.fraction === this.owner.fraction ) {
+                this.x = x;
+                this.y = y;
+            } else {
+                this.x = game.getWH().w - (x + this.obj.w);
+                this.y = game.getWH().h - (y + this.obj.y);
+            }
+        }
+	}
+	shot() {
+		if (!this.enabled) {
+            if ( ship.fraction === this.owner.fraction ) {
+                this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
+                this.obj.y = this.owner.obj.y;
+            } else {
+            	this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
+                this.obj.y = this.owner.obj.y + this.owner.obj.h;
+			}
+			this.enabled = true;
+		}
+	}
+	checkHitting(shipp) {
+		if (!this.enabled) return false;
+		else return (this.obj.isStaticIntersect(shipp.obj.getStaticBox()))&& (shipp.fraction !== this.owner.fraction);
+	}
 	draw(){
+		if (this.enabled)
 		this.obj.draw();
 	}
 }
