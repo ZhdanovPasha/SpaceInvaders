@@ -100,6 +100,11 @@
                     gameInterface.skill_3.switchOn();
                 }
             }
+            //TODO gameend
+            // if ( key.isPress('ENTER')){
+            //     game.startLoop('battle_result');
+            //     //game.startLoop('menu');
+            // }
             player.skill_1.check(function () {
                 gameInterface.skill_1.switchOff();
             });

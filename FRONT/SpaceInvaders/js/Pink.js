@@ -143,17 +143,15 @@
 
         moveLeft() {
             Ship.prototype.moveLeft.apply(this);
-            var t = this;
             this.bots.forEach(function (bot, n, bots) {
-                bot.obj.x -= t.speed;
+                bot.moveLeft();
             });
         };
 
         moveRight() {
             Ship.prototype.moveRight.apply(this);
-            var t = this;
             this.bots.forEach(function (bot, n, bots) {
-                bot.obj.x += t.speed;
+                bot.moveRight();
             });
         };
     }
