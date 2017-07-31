@@ -124,11 +124,12 @@
             this.DisHandler = DisHandler;
             this.lastLaunch = Date.now();
             this.enabled = false;
-            this.firstLaunch
+            this.firstLaunch = true;
         }
 
         enable() { //Возвращает true если позволено включить
-            if (Date.now() - this.lastLaunch > this.cooldown && !this.enabled||firstLaunch) {
+            if (Date.now() - this.lastLaunch > this.cooldown && !this.enabled || this.firstLaunch) {
+                if (this.firstLaunch) this.firstLaunch = false;
                 this.enabled = true;
                 this.lastLaunch = Date.now();
                 this.EnHandler(this.ship);
