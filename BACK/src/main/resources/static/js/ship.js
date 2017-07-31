@@ -220,7 +220,7 @@ class Ship{
             }
             if (key.isDown('SPACE')) {
                 if (Date.now() - this.lastFire > 100 * this.speed) {
-                    var bulletImg, bulletdy = 3;
+                   /* var bulletImg, bulletdy = 3;
                     if (this.fraction == 'blue') {
                         bulletImg = blueBullet;
                     }
@@ -234,7 +234,7 @@ class Ship{
                             bulletImg
                         }, speed: 1, damage: 100, dy: bulletdy
                     };
-                    this.addBullet(bul);
+                    this.addBullet(bul);*/
                     let k = this.shot();
                     if (k != -1)
                         messageService.shot(this.name, k);
