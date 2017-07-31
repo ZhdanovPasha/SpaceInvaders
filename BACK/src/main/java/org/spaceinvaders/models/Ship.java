@@ -118,6 +118,9 @@ public class Ship {
         for (Bullet bul : bullets) {
             if (bul.isEnabled()) {
                 bul.move();
+                for (Bot bot:bots) {
+                    bot.moveBullets();
+                }
                 if (bul.getY() < 0) bul.destroyBull();
             }
         }
@@ -129,7 +132,7 @@ public class Ship {
         return bullets.get(id);
     }
     public Bot findBotById (int id) {
-        if (id<bots.size())
+        if ( id < bots.size())
             return bots.get(id);
         else return null;
     }
