@@ -58,31 +58,55 @@
                 file: 'img/player.png', angle: this.direction == "UP" ? 0 : 180
             });
             this.bots = [];
-            for (var i = -2; i < 0; i++) {
-                this.bots.push(new PinkBot({
-                    x: params.x + 80 * i,
-                    y: params.y,
-                    direction: this.direction,
-                    name: this.name
-                }));
-            }
-            for (var i = 1; i < 3; i++) {
-                this.bots.push(new PinkBot({
-                    x: params.x + 80 * i,
-                    y: params.y,
-                    direction: this.direction,
-                    name: this.name
-                }));
-            }
 
             this.skill_1 = new Skill({
                 img: "img/bot_skill.png",
-                description:
-                    "Позвать рабов",
-                duration:
-                    5000,
-                cooldown:
-                    10000
+                description: "Позвать рабов",
+                duration: 5000,
+                cooldown: 10000
+            }, this, function (ship, skill) {
+                if (skill.firstLaunch) {
+                    for (var i = -2; i < 0; i++) {
+                        ship.bots.push(new PinkBot({
+                            x: params.x + 80 * i,
+                            y: params.y,
+                            direction: ship.direction,
+                            name: ship.name
+                        }));
+                    }
+                    for (var i = 1; i < 3; i++) {
+                        ship.bots.push(new PinkBot({
+                            x: params.x + 80 * i,
+                            y: params.y,
+                            direction: ship.direction,
+                            name: ship.name
+                        }));
+                    }
+                } else {
+                    console.log("You've once used it");
+                }
+            }, function (ship) {
+                ship.bulPerSec /= 4;
+            });
+            this.skill_2 = new Skill({
+                img: 'img/rocket.png',
+                description: "Увеличение скорости коробля"
+                , duration: 5000,
+                cooldown: 10000
+            }, this, function (ship) {
+                ship.speed *= 4;
+            }, function (ship) {
+                ship.speed /= 4;
+            });
+            this.skill_3 = new Skill({
+                img: 'img/rocket.png',
+                description: "Увеличение скорости коробля"
+                , duration: 5000,
+                cooldown: 10000
+            }, this, function (ship) {
+                ship.speed *= 4;
+            }, function (ship) {
+                ship.speed /= 4;
             });
 
         };
@@ -115,6 +139,22 @@
                 return true;
             }
             return false;
+        };
+
+        moveLeft() {
+            Ship.prototype.moveLeft.apply(this);
+            var t = this;
+            this.bots.forEach(function (bot, n, bots) {
+                bot.obj.x -= t.speed;
+            });
+        };
+
+        moveRight() {
+            Ship.prototype.moveRight.apply(this);
+            var t = this;
+            this.bots.forEach(function (bot, n, bots) {
+                bot.obj.x += t.speed;
+            });
         };
     }
 

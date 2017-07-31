@@ -129,10 +129,10 @@
 
         enable() { //Возвращает true если позволено включить
             if (Date.now() - this.lastLaunch > this.cooldown && !this.enabled || this.firstLaunch) {
-                if (this.firstLaunch) this.firstLaunch = false;
                 this.enabled = true;
                 this.lastLaunch = Date.now();
-                this.EnHandler(this.ship);
+                this.EnHandler(this.ship,this);
+                if (this.firstLaunch) this.firstLaunch = false;
                 return true;
             }
             return false;
@@ -140,7 +140,7 @@
 
         disable() {
             this.enabled = false;
-            this.DisHandler(this.ship);
+            this.DisHandler(this.ship,this);
         };
 
         check(handler) {

@@ -40,14 +40,21 @@
                 ship.bulPerSec /= 4;
             });
             this.skill_2 = new Skill({
-                img: 'img/rocket.png',
-                description: "Увеличение скорости коробля"
+                img: 'img/laser_skill.png',
+                description: "Лазер"
                 , duration: 5000,
                 cooldown: 10000
             }, this, function (ship) {
-                ship.speed *= 4;
+                // ship.fireSound.replay();
+                    bullets.Laser = new Laser({
+                        x: ship.obj.x + ship.obj.w / 2,
+                        y: ship.obj.y,
+                        damage: ship.damage,
+                        direction: ship.direction
+                    });
+
             }, function (ship) {
-                ship.speed /= 4;
+                bullets.Laser.destroyed = true;
             });
             this.skill_3 = new Skill({
                 img: 'img/shield.png',
@@ -61,27 +68,6 @@
             });
         };
 
-        skill() {
-            // this.fireSound.replay();
-            if (bullets.Laser == undefined) {
-                bullets.Laser = new Laser({
-                    x: this.obj.x + this.obj.w / 2,
-                    y: this.obj.y,
-                    damage: this.damage,
-                    direction: this.direction
-                });
-            }
-            else {
-                if (bullets.Laser.destroyed) {
-                    if (Date.now() - bullets.Laser.endedAt > bullets.Laser.interval) {
-                        bullets.Laser.destroyed = false;
-                        bullets.Laser.beganAt = Date.now();
-                    }
-                }
-                bullets.Laser.update(this.obj);
-                bullets.Laser.draw();
-            }
-        };
 
 
         moveLeft() {
@@ -99,7 +85,12 @@
                 bullets.Laser.draw();
             }
         };
-
+        draw() {
+            Ship.prototype.draw.apply(this);
+            if (bullets.Laser != undefined) {
+                bullets.Laser.draw();
+            }
+        };
 
     }
 
@@ -121,10 +112,6 @@
 
         update(shipObj) {
             this.obj.x = shipObj.x + shipObj.w / 4;
-            if (Date.now() - this.beganAt > this.lastFor) {
-                this.destroyed = true;
-                this.endedAt = Date.now();
-            }
         };
 
         //Expects SpaceInvaders.Ship as a parameter
