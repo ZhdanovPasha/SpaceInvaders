@@ -8,9 +8,9 @@ public class Bullet {
     private int speed;
     private boolean enabled;
     private Ship owner;
-    public Bullet(int x,int y,Ship ship) {
-        this.x = x;
-        this.y = y;
+    public Bullet(Ship ship) {
+        this.x = 0;
+        this.y = 0;
         owner = ship;
         this.speed = ship.getBulletSpeed();
     }

@@ -24,6 +24,8 @@ public class Ship {
     protected boolean dead;
     protected ArrayList<Bullet> bullets;
     protected ArrayList<Bot> bots;
+    protected int wight;
+    protected int height;
     @JsonIgnore
     protected Game game;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -40,17 +42,20 @@ public class Ship {
         this.name = name;
         this.speed = Conf.getSpeed();
         this.game = game;
+        wight = Conf.getShipWidth();
+        height = Conf.getShipHeight();
         bots = new ArrayList<>(Conf.getCountOfBots());
         this.bulletSpeed = Conf.getBulletSpeed();
         bullets = new ArrayList<Bullet>(10);
         for (int i = 0; i < 10 ; i++) {
-            bullets.add(new Bullet(0,0,this));
+            bullets.add(new Bullet(this));
         }
     }
 
     public ArrayList<Bot> getBots() {
         return bots;
     }
+    @JsonIgnore
     public int getEnabledBotsCount() {
         int i = 0;
         for (Bot bot: bots) {
@@ -58,6 +63,7 @@ public class Ship {
         }
         return i;
     }
+    @JsonIgnore
     public int getEnabledBotIndexOf(Bot bot) {
         int k = -1;
         for (int i = 0; i < bots.size() ; i++) {
@@ -68,8 +74,9 @@ public class Ship {
         }
         return k;
     }
+    @JsonIgnore
     public int getBotsArea() {
-        return (Conf.getShipWidth()/2+10) * getEnabledBotsCount();
+        return (wight/2+10) * getEnabledBotsCount();
     }
     public void setBots(ArrayList<Bot> bots) {
         this.bots = bots;
@@ -103,7 +110,7 @@ public class Ship {
     }
     public void moveRight() {
         x +=speed;
-        Integer dif = Conf.getW()-Conf.getShipWidth();
+        Integer dif = Conf.getW()- wight;
         if (x>=dif) {
             x = dif;
         }
