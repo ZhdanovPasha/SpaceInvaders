@@ -94,7 +94,7 @@ class MessageService2 {
 
 
             console.log(JSON.parse(change.body));
-        }).bind(this))
+        }).bind(this));
 
 
     }
@@ -110,13 +110,13 @@ class MessageService2 {
             'name':name,
             'nameHit':nameHit,
             'numBullet':numBullet
-        }))
+        }));
     }
     shot(name,k) {
         this.stompClient.send("/processDev/"+this.gameId+"/addShotMessage",{},JSON.stringify({
             'name':name,
             'numBullet' : k
-        }))
+        }));
     }
 
     destroy(name) {
@@ -127,7 +127,7 @@ class MessageService2 {
         //ships.splice(0,ships.length);
     }
     create(name,fracton) {
-        this.stompClient.send("/processDev/"+this.gameId+"/addCreateMessage",{},JSON.stringify({
+        this.stompClient.send("/processDev/"+ this.gameId + "/addCreateMessage",{},JSON.stringify({
             'name':name,
             'fraction':fracton
         }));

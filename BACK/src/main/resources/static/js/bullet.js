@@ -26,7 +26,6 @@ class Bullet{
             else
                 this.obj.y += this.dy;
 		}
-
 	}
 	moveTo(x,y) {
 		if (this.enabled) {

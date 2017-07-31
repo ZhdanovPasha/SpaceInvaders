@@ -17,8 +17,19 @@ public class Conf {
     final static private int bulletHeight = 64;
     final static private int bulletSpeed = 5;
     final static private int offsetY = 70;
+    final static private int botWidth = 50;
+    final static private int botHeight = 50 ;
     public Conf() {
     }
+
+    public static int getBotWidth() {
+        return botWidth;
+    }
+
+    public static int getBotHeight() {
+        return botHeight;
+    }
+
     public static int getBeginPosX() {
         return  w/2- shipWidth/2;
     }
