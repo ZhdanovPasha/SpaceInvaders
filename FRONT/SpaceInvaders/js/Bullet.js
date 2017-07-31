@@ -45,8 +45,6 @@
             this.interval = 2000;
         };
 
-        //skill QWE неуязвимость ускорение скорострельность
-
         update(shipObj) {
             this.obj.x = shipObj.x + shipObj.w / 4;
         };

@@ -2,11 +2,6 @@
     var Ship = SpaceInvaders.Ship;
     var Skill = SpaceInvaders.Skill;
 
-    /*
-    params={
-      x: 100, y: 200,
-    }
-     */
     class PinkBot extends Ship {
         constructor(params) {
             var properties = {};
@@ -115,12 +110,12 @@
             this.bots.forEach(function (bot) {
                 bot.draw();
             });
-            if (!this.selfDestroyed) Ship.prototype.draw.call(this);
+            if (!this.selfDestroyed) super.draw();
         };
 
         attacked(BulletObj) {
             if (!this.selfDestroyed) {
-                if (Ship.prototype.attacked.apply(this, arguments)) {
+                if (super.attacked(BulletObj)) {
                     if (this.destroyed) {
                         this.selfDestroyed = true;//Главный сдох
                         this.destroyed = false; // Но его объект для игры "не сдох" пока боты не сдохли
@@ -142,16 +137,22 @@
         };
 
         moveLeft() {
-            super.moveLeft(this);
+            super.moveLeft();
             this.bots.forEach(function (bot, n, bots) {
                 bot.moveLeft();
             });
         };
 
         moveRight() {
-            super.moveRight(this);
+            super.moveRight();
             this.bots.forEach(function (bot, n, bots) {
                 bot.moveRight();
+            });
+        };
+        fire() {
+            super.fire();
+            this.bots.forEach(function (bot, n, bots) {
+                bot.fire();
             });
         };
     }

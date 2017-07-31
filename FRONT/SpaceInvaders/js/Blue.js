@@ -47,7 +47,7 @@
             }, this, function (ship) {
                 // ship.fireSound.replay();
                 bullets.Laser = new Laser({
-                    x: ship.obj.x + ship.obj.w / 2,
+                    x: ship.obj.x + ship.obj.w / 4,
                     y: ship.obj.y,
                     damage: 1,
                     direction: ship.direction
@@ -70,7 +70,7 @@
 
 
         moveLeft() {
-            Ship.prototype.moveLeft.apply(this);
+            super.moveLeft();
             if (bullets.Laser != undefined) {
                 bullets.Laser.update(this.obj);
                 bullets.Laser.draw();
@@ -78,7 +78,7 @@
         };
 
         moveRight() {
-            Ship.prototype.moveRight.apply(this);
+            super.moveRight();
             if (bullets.Laser != undefined) {
                 bullets.Laser.update(this.obj);
                 bullets.Laser.draw();
@@ -86,7 +86,7 @@
         };
 
         draw() {
-            Ship.prototype.draw.apply(this);
+            super.draw();
             if (bullets.Laser != undefined) {
                 bullets.Laser.draw();
             }

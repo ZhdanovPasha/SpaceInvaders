@@ -8,30 +8,32 @@
     var gameInterface;
     var Interface = SpaceInvaders.Interface;
     var backSound = SpaceInvaders.pjs.audio.newAudio('audio/start.mp3', 0.1);
+    var Pink = SpaceInvaders.Pink;
+    var Blue = SpaceInvaders.Blue;
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
             enemies.clear();
             bullets.clear();
-            if (SpaceInvaders.fraction == 'BLUE') {
-                player = new SpaceInvaders.Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
+            if (fraction == 'BLUE') {
+                player = new Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
 
-                enemies.push(new SpaceInvaders.Pink({
+                enemies.push(new Pink({
                     x: 160,
                     y: 100,
                     direction: "DOWN",
                     name: "enemy1"
                 }));
-                enemies.push(new SpaceInvaders.Pink({
+                enemies.push(new Pink({
                     x: 560,
                     y: 100,
                     direction: "DOWN",
                     name: "enemy2"
                 }));
             } else {
-                player = new SpaceInvaders.Pink({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
+                player = new Pink({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
                 for (var i = 0; i < 3; i++) {
-                    enemies.push(new SpaceInvaders.Blue({
+                    enemies.push(new Blue({
                         x: 160 + 100 * i,
                         y: 100,
                         direction: "DOWN",
@@ -40,7 +42,7 @@
                 }
 
             }
-            gameInterface = new Interface(SpaceInvaders.pjs, SpaceInvaders.game, SpaceInvaders.playerName);
+            gameInterface = new Interface(SpaceInvaders.pjs, game, SpaceInvaders.playerName);
             gameInterface.initialize(player, player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
         };
@@ -68,11 +70,15 @@
             });
 
             enemies.forEach(function (enemy, i, enemies) {
-                if (bullets.Laser&&!bullets.Laser.destroyed) {
+                if (bullets.Laser && !bullets.Laser.destroyed) {
                     bullets.Laser.hit(enemy);
+                    if (enemy.destroyed) enemies.splice(i, 1);
                 }
+            });
+            enemies.forEach(function (enemy, i, enemies) {
                 enemy.draw();
             });
+
             player.draw();
 
             if (key.isDown('LEFT')) {
@@ -101,11 +107,11 @@
                     gameInterface.skill_3.switchOn();
                 }
             }
-            //TODO gameend
-            // if ( key.isPress('ENTER')){
-            //     game.startLoop('battle_result');
-            //     //game.startLoop('menu');
-            // }
+            //TODO game.startLoop('battle_result');
+            if (enemies.length == 0 && key.isPress('ENTER')) {
+                key.setInputMode(true);
+                game.setLoop('menu');
+            }
             player.skill_1.check(function () {
                 gameInterface.skill_1.switchOff();
             });
