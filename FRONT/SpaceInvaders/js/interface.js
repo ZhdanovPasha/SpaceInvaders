@@ -271,7 +271,6 @@
                     color: 'white'
                 });
 
-                console.log("Описание скилла: " + this.skill_1.description);
             }
 
             if (this.skill_1.switchState == 'off') {
@@ -293,7 +292,6 @@
                     size: 18,
                     color: 'white'
                 });
-                console.log("Описание скилла: " + this.skill_2.description);
             }
 
             if (this.skill_2.switchState == 'off') {
@@ -315,7 +313,6 @@
                     size: 18,
                     color: 'white'
                 });
-                console.log("Описание скилла: " + this.skill_3.description);
             }
 
             if (this.skill_3.switchState == 'off') {

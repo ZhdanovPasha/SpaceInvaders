@@ -50,24 +50,27 @@
             game.clear(); // clear screen
             SpaceInvaders.fon.draw();
             bullets.forEach(function (bullet, i, bullets) {
-                    if (!enemies.some(function (enemy, j, enemies) {
-                            if (bullet.hit(enemy)) {
-                                if (enemy.destroyed) enemies.splice(j, 1);
-                                if (bullet.destroyed) {
-                                    bullets.splice(i, 1);
-                                    return true;
-                                }
+                if (!enemies.some(function (enemy, j, enemies) {
+                        if (bullet.hit(enemy)) {
+                            if (enemy.destroyed) enemies.splice(j, 1);
+                            if (bullet.destroyed) {
+                                bullets.splice(i, 1);
+                                return true;
                             }
-                        })) {
-                        bullet.update();
-                        bullet.draw();
-                    }
-                    else {
-                        SpaceInvaders.scores += player.killScores;
-                    }
+                        }
+                    })) {
+                    bullet.update();
+                    bullet.draw();
                 }
-            );
+                else {
+                    SpaceInvaders.scores += player.killScores;
+                }
+            });
+
             enemies.forEach(function (enemy, i, enemies) {
+                if (bullets.Laser&&!bullets.Laser.destroyed) {
+                    bullets.Laser.hit(enemy);
+                }
                 enemy.draw();
             });
             player.draw();

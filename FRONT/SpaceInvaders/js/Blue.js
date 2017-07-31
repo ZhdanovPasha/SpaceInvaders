@@ -1,7 +1,7 @@
 (function () {
     var Ship = SpaceInvaders.Ship;
     var Skill = SpaceInvaders.Skill;
-    var Bullet = SpaceInvaders.Bullet;
+    var Laser = SpaceInvaders.Laser;
     var bullets = SpaceInvaders.bullets;
     /*
     params={
@@ -46,12 +46,12 @@
                 cooldown: 10000
             }, this, function (ship) {
                 // ship.fireSound.replay();
-                    bullets.Laser = new Laser({
-                        x: ship.obj.x + ship.obj.w / 2,
-                        y: ship.obj.y,
-                        damage: ship.damage,
-                        direction: ship.direction
-                    });
+                bullets.Laser = new Laser({
+                    x: ship.obj.x + ship.obj.w / 2,
+                    y: ship.obj.y,
+                    damage: 1,
+                    direction: ship.direction
+                });
 
             }, function (ship) {
                 bullets.Laser.destroyed = true;
@@ -69,7 +69,6 @@
         };
 
 
-
         moveLeft() {
             Ship.prototype.moveLeft.apply(this);
             if (bullets.Laser != undefined) {
@@ -85,6 +84,7 @@
                 bullets.Laser.draw();
             }
         };
+
         draw() {
             Ship.prototype.draw.apply(this);
             if (bullets.Laser != undefined) {
@@ -92,33 +92,6 @@
             }
         };
 
-    }
-
-    class Laser extends Bullet {
-        constructor(params) {
-            super(params);
-            this.obj = game.newImageObject({
-                x: params.x, y: 0,
-                w: 50,
-                h: params.y,
-                file: 'img/laser.png',
-            });
-            this.beganAt = Date.now();
-            this.lastFor = 1000;
-            this.interval = 2000;
-        };
-
-        //skill QWE неуязвимость ускорение скорострельность
-
-        update(shipObj) {
-            this.obj.x = shipObj.x + shipObj.w / 4;
-        };
-
-        //Expects SpaceInvaders.Ship as a parameter
-        hit(Ship) {
-            Ship.attacked(this);
-            return this.destroyed;
-        };
     }
 
 

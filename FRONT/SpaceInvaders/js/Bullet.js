@@ -23,6 +23,7 @@
             if (this.direction == "DOWN")
                 this.obj.y += this.speed;
         };
+
         //Expects SpaceInvaders.Ship as a parameter
         hit(Ship) {
             this.destroyed = Ship.attacked(this);
@@ -30,5 +31,33 @@
         };
     }
 
+    class Laser extends Bullet {
+        constructor(params) {
+            super(params);
+            this.obj = game.newImageObject({
+                x: params.x, y: 0,
+                w: 50,
+                h: params.y,
+                file: 'img/laser.png',
+            });
+            this.beganAt = Date.now();
+            this.lastFor = 1000;
+            this.interval = 2000;
+        };
+
+        //skill QWE неуязвимость ускорение скорострельность
+
+        update(shipObj) {
+            this.obj.x = shipObj.x + shipObj.w / 4;
+        };
+
+        //Expects SpaceInvaders.Ship as a parameter
+        hit(Ship) {
+            Ship.attacked(this);
+            return this.destroyed;
+        };
+    }
+
+    SpaceInvaders.Laser = Laser;
     SpaceInvaders.Bullet = Bullet;
 })();
