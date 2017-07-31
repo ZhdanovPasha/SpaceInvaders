@@ -2,12 +2,12 @@ package org.spaceinvaders.models;
 
 public class Bot extends Ship {
     private Ship owner;
-    boolean enabled;
+    private boolean enabled;
     public Bot(Ship owner) {
-
         x = 0;
         y = 0;
         this.owner = owner;
+        this.fraction = owner.fraction;
     }
     void update () {
         if (enabled) {

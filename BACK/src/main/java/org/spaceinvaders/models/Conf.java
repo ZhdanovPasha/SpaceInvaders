@@ -18,7 +18,8 @@ public class Conf {
     final static private int bulletSpeed = 5;
     final static private int offsetY = 70;
     final static private int botWidth = 50;
-    final static private int botHeight = 50 ;
+    final static private int botHeight = 50;
+    final static private int countOfBots = 4;
     public Conf() {
     }
 
@@ -43,6 +44,9 @@ public class Conf {
         return speed;
     }
 
+    public static int getCountOfBots() {
+        return countOfBots;
+    }
 
     public static int getBulletSpeed() {
         return bulletSpeed;

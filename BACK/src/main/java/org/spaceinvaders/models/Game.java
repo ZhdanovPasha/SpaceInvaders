@@ -48,8 +48,14 @@ public class Game {
         if (!isStarted&&readyCheck()) {
             for (Map.Entry<String,Player> player:players.entrySet()) {
                 Player player1 = player.getValue();
-                ships.put(player1.getName(),new Ship(player1.getName(),Conf.getBeginPosX(),
-                        Conf.getBeginPosY(),player1.getSide(),this));
+                if (player1.getSide()==StatusInLobby.BLUE) {
+                    ships.put(player1.getName(), new BlueShip(player1.getName(),Conf.getBeginPosX(),
+                            Conf.getBeginPosY(),this));
+                } else {
+                    ships.put(player1.getName(), new PinkShip(player1.getName(),Conf.getBeginPosX(),
+                            Conf.getBeginPosY(),this));
+                }
+
             }
             isStarted = true;
             return true;

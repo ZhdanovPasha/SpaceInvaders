@@ -40,11 +40,7 @@ public class Ship {
         this.name = name;
         this.speed = Conf.getSpeed();
         this.game = game;
-        if (fraction == StatusInLobby.BLUE && !(this instanceof Bot)) {
-            for (int i = 0; i < 4 ; i++) {
-                bots.add(new Bot(this));
-            }
-        }
+        bots = new ArrayList<>(Conf.getCountOfBots());
         this.bulletSpeed = Conf.getBulletSpeed();
         bullets = new ArrayList<Bullet>(10);
         for (int i = 0; i < 10 ; i++) {
@@ -66,7 +62,7 @@ public class Ship {
         int k = -1;
         for (int i = 0; i < bots.size() ; i++) {
             if (bots.get(i).isEnabled()) k++;
-            if (bots.get(i)==bot) {
+            if (bots.get(i) == bot) {
                 return k;
             }
         }
@@ -103,13 +99,19 @@ public class Ship {
         if (x <= 0){
             x = 0;
         }
+        updateBots();
     }
-
     public void moveRight() {
         x +=speed;
         Integer dif = Conf.getW()-Conf.getShipWidth();
         if (x>=dif) {
             x = dif;
+        }
+        updateBots();
+    }
+    public void updateBots() {
+        for (Bot bot:bots) {
+            bot.update();
         }
     }
     public void moveBullets() {
@@ -125,6 +127,11 @@ public class Ship {
     }
     public Bullet findBulletById (int id) {
         return bullets.get(id);
+    }
+    public Bot findBotById (int id) {
+        if (id<bots.size())
+            return bots.get(id);
+        else return null;
     }
     public int getSpeed() {
         return speed;
