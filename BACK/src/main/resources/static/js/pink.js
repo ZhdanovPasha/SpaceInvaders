@@ -95,7 +95,7 @@ class Pink extends Ship{
 	
 	draw(){
 		super.draw();
-		if (ships[0] instanceof Pink){
+		if (ship instanceof Pink){
 			this.brush.drawText({
 				x: this.obj.x + this.obj.w/2,
 				y: this.obj.y - 20,

@@ -78,7 +78,7 @@ function newEnemyShip(name,x0){
     return new Blue({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
 }
 function newAllyShip(name,x,y) {
-    if (ship.fraction == 'BLUE'){
+    if (ship.fraction === 'BLUE'){
         return new Blue({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
     }
     else {
@@ -91,7 +91,7 @@ function newAllyShip(name,x,y) {
 function createShip(name,fraction,x0,y0,speed) {
 	if (ship===null) {
         //ship = new Ship({x:x0, y:y0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, fraction,speed)
-        if (fraction == 'BLUE'){
+        if (fraction === 'BLUE'){
             ship = new Blue({x:x0, y:y0},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, fraction, name);
         }
         else {
