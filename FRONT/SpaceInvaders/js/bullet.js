@@ -2,12 +2,11 @@ class Bullet{
 	//position{x,y}, img={width, height, source}
 	constructor(position, img, speed, dy, damage){
 		console.log('success');
-		this.position = position;
-		this.img = img;
 		this.speed = speed;
 		this.dy = dy;
-		this.w = img.width;
-		this.h = img.height;
+		this.damage = damage;
+		this.img = img;
+		this.position = position;
 		this.obj = game.newImageObject({
 			position: point(this.position.x, this.position.y),
 			file: this.img.source,
