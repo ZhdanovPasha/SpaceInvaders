@@ -142,14 +142,14 @@
         };
 
         moveLeft() {
-            Ship.prototype.moveLeft.apply(this);
+            super.moveLeft(this);
             this.bots.forEach(function (bot, n, bots) {
                 bot.moveLeft();
             });
         };
 
         moveRight() {
-            Ship.prototype.moveRight.apply(this);
+            super.moveRight(this);
             this.bots.forEach(function (bot, n, bots) {
                 bot.moveRight();
             });

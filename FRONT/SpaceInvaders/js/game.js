@@ -82,9 +82,7 @@
             if (key.isDown('SPACE')) {
                 player.fire();
             }
-            if (key.isDown('S')) {
-                player.skill();
-            }
+
             if (key.isPress('Q')) {
                 if (player.skill_1.enable()) {
                     gameInterface.skill_1.switchOn();
