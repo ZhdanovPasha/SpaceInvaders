@@ -68,16 +68,16 @@
                 if (skill.firstLaunch) {
                     for (var i = -2; i < 0; i++) {
                         ship.bots.push(new PinkBot({
-                            x: params.x + 80 * i,
-                            y: params.y,
+                            x: ship.obj.x + 80 * i,
+                            y: ship.obj.y,
                             direction: ship.direction,
                             name: ship.name
                         }));
                     }
                     for (var i = 1; i < 3; i++) {
                         ship.bots.push(new PinkBot({
-                            x: params.x + 80 * i,
-                            y: params.y,
+                            x: ship.obj.x + 80 * i,
+                            y: ship.obj.y,
                             direction: ship.direction,
                             name: ship.name
                         }));
