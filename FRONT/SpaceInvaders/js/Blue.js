@@ -1,5 +1,6 @@
 (function () {
     var Ship = SpaceInvaders.Ship;
+    var Skill = SpaceInvaders.Skill;
     var Bullet = SpaceInvaders.Bullet;
     var bullets = SpaceInvaders.bullets;
     /*
@@ -13,14 +14,14 @@
 
     class Blue extends Ship {
         constructor(params) {
-            var properties={};
+            var properties = {};
             properties.maxHP = 100;
-             properties.speed = 5;
-             properties.bulPerSec = 2;
-             properties.bulletSpeed = 1;
-             properties.damage = 50;
-             properties.killScores = 100;
-            super(params,properties);
+            properties.speed = 5;
+            properties.bulPerSec = 2;
+            properties.bulletSpeed = 1;
+            properties.damage = 50;
+            properties.killScores = 100;
+            super(params, properties);
             this.obj = game.newImageObject({
                 x: params.x, y: params.y,
                 w: 90,
@@ -28,26 +29,36 @@
                 file: 'img/enemyBlue1.png', angle: this.direction == "UP" ? 0 : 180
             });
 
-
-
-            this.skill_1 = {};
-            this.skill_2 = {};
-            this.skill_3 = {};
-
-            this.skill_1.img = "img/bullet_skill.png";
-            this.skill_1.description = "Увеличение скорости пуль";
-            this.skill_1.duration = 5000;
-            this.skill_1.cooldown = 10000;
-
-            this.skill_2.img = 'img/rocket.png';
-            this.skill_2.description = "Увеличение скорости коробля";
-            this.skill_2.duration = 5000;
-            this.skill_2.cooldown = 10000;
-
-            this.skill_3.img = 'img/shield.png';
-            this.skill_3.description = "Активация щита";
-            this.skill_3.duration = 5000;
-            this.skill_3.cooldown = 10000;
+            this.skill_1 = new Skill({
+                img: "img/bullet_skill.png",
+                description: "Увеличение скорости пуль",
+                duration: 5000,
+                cooldown: 10000,
+            },this,function(ship){
+                this.bulPerSec*=2;
+            },function () {
+                this.bulPerSec/=2;
+            });
+            this.skill_2 = new Skill({
+                img: 'img/rocket.png',
+                description: "Увеличение скорости коробля"
+                , duration: 5000,
+                cooldown: 10000
+            },this,function(ship){
+                this.speed*=2;
+            },this,function(ship){
+                this.speed/=2;
+            });
+            this.skill_3 = new Skill({
+                img: 'img/shield.png',
+                description: "Активация щита",
+                duration: 5000,
+                cooldown: 10000
+            },this,function(ship){
+                this.bulPerSec=0;
+            },this,function(ship){
+                this.bulPerSec=1;
+            });
         };
 
         skill() {
@@ -88,6 +99,8 @@
                 bullets.Laser.draw();
             }
         };
+
+
     }
 
     class Laser extends Bullet {

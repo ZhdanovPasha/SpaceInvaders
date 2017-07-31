@@ -112,7 +112,39 @@
             }
         };
     }
-
+class Skill{
+        constructor(args,ship,EnHandler,DisHandler){
+            this.img = args.img;
+            this.description = args.description;
+            this.duration = args.duration;
+            this.cooldown = args.cooldown;
+            this.ship=ship;
+            this.EnHandler=EnHandler;
+            this.DisHandler=DisHandler;
+        }
+    enable(){ //Возвращает true если позволено включить
+        if (Date.now() - this.lastLaunch > this.cooldown && !this.enabled){
+            this.enabled = true;
+            this.lastLaunch = Date.now();
+            this.EnHandler(this.ship);
+            console.log(this.description+' is increased');
+            return true;
+        }
+        return false;
+    };
+   disable() {
+        this.enabled = false;
+       this.DisHandler(this.ship);
+    };
+   check(handler){
+        if (Date.now() - this.lastLaunch > this.duration &&  this.enabled ){
+            this.disable();
+            handler();
+            console.log('bulletSpeed decrease');
+        }
+    };
+}
+    SpaceInvaders.Skill = Skill;
     SpaceInvaders.Ship = Ship;
 })
 (SpaceInvaders);

@@ -362,7 +362,7 @@
                 console.log("Описание скилла: " + this.skill_3.description);
             }
 
-            if (this.skill_3.switchState == 'off') {
+            if (this.skill_3.switchState == 'off'&& player instanceof Blue) {
                 var time = this.skill_3.duration - Date.now() + this.skill_3.lastLaunch;
                 if (time < 0) time = 0;
                 var obj = this.skill_3.getObjects()[3];

@@ -1,5 +1,6 @@
 (function () {
     var Ship = SpaceInvaders.Ship;
+    var Skill = SpaceInvaders.Skill;
 
     /*
     params={
@@ -74,12 +75,15 @@
                 }));
             }
 
-            this.skill_1 = {};
-
-            this.skill_1.img = "img/bot_skill.png";
-            this.skill_1.description = "Позвать рабов";
-            this.skill_1.duration = 5000;
-            this.skill_1.cooldown = 10000;
+            this.skill_1 = new Skill({
+                img: "img/bot_skill.png",
+                description:
+                    "Позвать рабов",
+                duration:
+                    5000,
+                cooldown:
+                    10000
+            });
 
         };
 
