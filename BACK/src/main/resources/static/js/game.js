@@ -61,10 +61,6 @@ var initParameters = function(){
 var messageService = new MessageService2(ships,game);
 var playerName = name;
 
-var gameInterface = new Interface(pjs);
-gameInterface.initialize(playerName, 100, scores, enemies.length);
-gameInterface.initializeObjects();
-
 // надо исправить числовые значения
 //var addEnemies = function(){
 //    for (i = 1; i <= enemiesCount; ++i){
@@ -72,25 +68,43 @@ gameInterface.initializeObjects();
   //  	ships.push(tmp);
  //   }
 //};
-function newEnemyShip(name,x0,y,speed){
+function newEnemyShip(name,x0){
     if (ship.fraction === 'BLUE'){
-        return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'PINK',speed)
+        return new Pink({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
+        //return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'PINK',speed)
     }
-    return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'BLUE',speed)
+    else
+    //return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'BLUE',speed)
+    return new Blue({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
 }
-function newAllyShip(name,x,y,speed) {
-    return new Ship({x: x, y: y},
-        {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, ship.fraction,speed)
+function newAllyShip(name,x,y) {
+    if (ship.fraction == 'BLUE'){
+        return new Blue({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
+    }
+    else {
+        return new Pink({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
+    }
+    // return new Ship({x: x, y: y},
+    //     {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, ship.fraction,speed)
 }
+
 function createShip(name,fraction,x0,y0,speed) {
 	if (ship===null) {
-        ship = new Ship({x:x0, y:y0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, fraction,speed)
+        //ship = new Ship({x:x0, y:y0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, fraction,speed)
+        if (fraction == 'BLUE'){
+            ship = new Blue({x:x0, y:y0},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, fraction, name);
+        }
+        else {
+            ship = new Pink({x:x0, y:y0},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, fraction, name);
+        }
         ships.push(ship);
+        gameInterface.initialize(ship, 100, scores, enemies.length);
+        gameInterface.initializeObjects();
         console.log(ships);
-    } else  if (ship.fraction!==fraction) {
-	    ships.push(newEnemyShip(name,x0,y0,speed));
+    } else  if (ship.fraction != fraction) {
+	    ships.push(newEnemyShip(name,x0));
     } else {
-	    ships.push(newAllyShip(name,x0,y0,speed))
+	    ships.push(newAllyShip(name,x0,y0));
     }
 }
 function getRandomInt(min, max){
@@ -133,7 +147,7 @@ game.newLoop('game', function(){
         }
     }
 	
-	gameInterface.update(ships[0].currentHP, ships[0].scores, ships.length - 1);
+	gameInterface.update(ship.currentHP, ship.scores, ship.length - 1);
 	gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){

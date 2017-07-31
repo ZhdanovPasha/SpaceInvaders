@@ -1,6 +1,6 @@
 
 class Ship{
-	constructor(position, img, id, fraction,name){
+	constructor(position, img, id, fraction, name){
 	// image передаем как {source: "", width: , height: }, position = {x: , y: }
 
 		this.img = img;

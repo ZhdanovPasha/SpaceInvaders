@@ -26,6 +26,7 @@ var audio = pjs.audio;
 var tiles = pjs.tiles;
 var OOP = pjs.OOP;
 var limit = math.limit;
+var gameInterface = new Interface(pjs);
 
 var isDef = OOP.isDef;
 
