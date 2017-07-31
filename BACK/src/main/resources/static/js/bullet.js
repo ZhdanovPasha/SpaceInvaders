@@ -1,7 +1,7 @@
 class Bullet{
 	//position{x,y}, img={width, height, source}
 	constructor( owner,img){
-		console.log('success');
+		console.log('bullet were created');
 		this.owner = owner;
 		if ( ship === null || this.owner.fraction === ship.fraction )
 			this.position = {x:owner.obj.x + (owner.obj.w)/2-owner.bulletWidth/2,y:owner.obj.y };
@@ -56,7 +56,8 @@ class Bullet{
 		else return (this.obj.isStaticIntersect(shipp.obj.getStaticBox()))&& (shipp.fraction !== this.owner.fraction);
 	}
 	draw(){
-		if (this.enabled)
-		this.obj.draw();
+		if (this.enabled){
+            this.obj.draw();
+        }
 	}
 }

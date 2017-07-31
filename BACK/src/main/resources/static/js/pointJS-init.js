@@ -32,6 +32,7 @@ var isDef = OOP.isDef;
 var width = sys.getWH().w;
 var height = sys.getWH().h;
 
+
 sys.addEvent('gameResize', 'PointJS_DEMO_resize', function () {
     width = sys.getWH().w;
     height = sys.getWH().h;

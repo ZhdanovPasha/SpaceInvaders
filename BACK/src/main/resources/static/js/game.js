@@ -1,4 +1,3 @@
-
 var pjs = new PointJS('2d', 700, 600);
 //pjs.system.initFullScreen();
 
@@ -66,7 +65,6 @@ var gameInterface = new Interface(pjs);
 gameInterface.initialize(playerName, 100, scores, enemies.length);
 gameInterface.initializeObjects();
 
-
 // надо исправить числовые значения
 //var addEnemies = function(){
 //    for (i = 1; i <= enemiesCount; ++i){
@@ -98,7 +96,6 @@ function createShip(name,fraction,x0,y0,speed) {
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 game.newLoop('game', function(){
 	game.clear();

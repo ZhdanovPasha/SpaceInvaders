@@ -18,7 +18,6 @@ class Ship{
 		this.lastMove = Date.now();
 		this.damage = 50;
 		this.bullets = [];
-		this.lastFire = Date.now();
 		this.bulletSpeed = 1;
 		this.immortality = false;
 		this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
@@ -49,11 +48,6 @@ class Ship{
 			var bullet = this.bullets[i];
 			bullet.obj.draw();
 			bullet.obj.y -= bullet.dy*this.bulletSpeed;
-			if (this.id == 0){
-				console.log(bullet.dy);
-				console.log(this.bulletSpeed);
-				console.log(bullet.obj.y);
-			}
 			for (var j = 0; j < ships.length; ++j){
 				if (ships[j].fraction != this.fraction){
 					if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){

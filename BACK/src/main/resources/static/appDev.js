@@ -195,6 +195,7 @@ class MessageService2 {
                                 createShip(player.name,player.fraction,player.x,player.y,player.speed);
                             }
                         }
+                        console.log('I want to start game');
                         this.startGame();
                         this.game.startLoop('game');
                     } else if (arr[i].type === 'LEAVE') {
