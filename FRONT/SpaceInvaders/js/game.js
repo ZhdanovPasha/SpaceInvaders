@@ -1,24 +1,30 @@
 (function () {
-    var pjs = SpaceInvaders.pjs;
-    var game = SpaceInvaders.game;
-    var key = SpaceInvaders.key;
-    var player = new SpaceInvaders.Pink({x: 100, y: 300});
-    var enemies = SpaceInvaders.enemies;
-    var bullets = SpaceInvaders.bullets;
-    var fraction = SpaceInvaders.fraction;
-    var gameInterface;
-    var fon = SpaceInvaders.fon;
-    var Interface = SpaceInvaders.Interface;
-    var backSound = pjs.audio.newAudio('audio/start.mp3', 0.1);
-    var Pink = SpaceInvaders.Pink;
-    var Blue = SpaceInvaders.Blue;
+    /*
+    Только ссылки на сложные типы должны юыть объявлены так
+    Доступ к переменным простого типа должен быть напряму например:
+    SpaceInvaders.playerName
+    SpaceInvaders.fraction
+    А НЕ объявлять let playerName=SpaceInvaders.playerName ибо если объявить с let/const то
+    при смене SpaceInvaders.playerName извне, значение переменной playerName останется неизменным
+     */
+    const pjs = SpaceInvaders.pjs;
+    const game = SpaceInvaders.game;
+    const key = SpaceInvaders.key;
+    const enemies = SpaceInvaders.enemies;
+    const bullets = SpaceInvaders.bullets;
+    const fon = SpaceInvaders.fon;
+    const Interface = SpaceInvaders.Interface;
+    const Pink = SpaceInvaders.Pink;
+    const Blue = SpaceInvaders.Blue;
+    const gameInterface = new Interface(pjs, game, SpaceInvaders.playerName);
+    const backSound = pjs.audio.newAudio('audio/start.mp3', 0.1);
 
     game.newLoopFromConstructor('game', function () {
         this.entry = function () {
             enemies.clear();
             bullets.clear();
-            if (fraction == 'BLUE') {
-                player = new Blue({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
+            if (SpaceInvaders.fraction == 'BLUE') {
+                player = new Blue({x: 100, y: 400, direction: "UP", name: SpaceInvaders.playerName});
 
                 enemies.push(new Pink({
                     x: 160,
@@ -33,8 +39,8 @@
                     name: "enemy2"
                 }));
             } else {
-                player = new Pink({x: 100, y: 300, direction: "UP", name: SpaceInvaders.playerName});
-                for (var i = 0; i < 3; i++) {
+                player = new Pink({x: 100, y: 400, direction: "UP", name: SpaceInvaders.playerName});
+                for (let i = 0; i < 3; i++) {
                     enemies.push(new Blue({
                         x: 160 + 100 * i,
                         y: 100,
@@ -44,7 +50,6 @@
                 }
 
             }
-            gameInterface = new Interface(pjs, game, SpaceInvaders.playerName);
             gameInterface.initialize(player, player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
         };
@@ -79,6 +84,7 @@
             });
             enemies.forEach(function (enemy, i, enemies) {
                 enemy.draw();
+                // enemy.fire(); fixme: fix bullet fraction
             });
 
             player.draw();
@@ -132,6 +138,7 @@
     pjs.system.addEvent("onload", "game.js", function () {
         game.startLoop('menu');
         game.setLoopSound('game', [backSound]);
+        key.initKeyControl();
     });
 })
 ();

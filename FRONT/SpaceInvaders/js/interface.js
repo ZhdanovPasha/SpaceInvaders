@@ -1,7 +1,4 @@
 (function () {
-    var Pink = SpaceInvaders.Pink;
-    var Blue = SpaceInvaders.Blue;
-
     class Interface {
 
         constructor(pjs) {

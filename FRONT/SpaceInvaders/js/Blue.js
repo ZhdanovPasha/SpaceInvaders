@@ -1,14 +1,13 @@
 (function () {
-    var Ship = SpaceInvaders.Ship;
-    var Skill = SpaceInvaders.Skill;
-    var Laser = SpaceInvaders.Laser;
-    var bullets = SpaceInvaders.bullets;
-    var game = SpaceInvaders.game;
-    var pjs = SpaceInvaders.pjs;
+    const Ship = SpaceInvaders.Ship;
+    const Skill = SpaceInvaders.Skill;
+    const Laser = SpaceInvaders.Laser;
+    const bullets = SpaceInvaders.bullets;
+    const game = SpaceInvaders.game;
 
     class Blue extends Ship {
         constructor(params) {
-            var properties = {};
+            const properties = {};
             properties.maxHP = 100;
             properties.speed = 5;
             properties.bulPerSec = 2;
@@ -56,9 +55,9 @@
                 duration: 5000,
                 cooldown: 10000
             }, this, function (ship) {
-                ship.bulPerSec = 0;
+                ship.immortal = true;
             }, function (ship) {
-                ship.bulPerSec = 1;
+                ship.immortal = false;
             });
         };
 

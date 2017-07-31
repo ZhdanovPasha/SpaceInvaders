@@ -1,12 +1,12 @@
 (function () {
-    var Ship = SpaceInvaders.Ship;
-    var Skill = SpaceInvaders.Skill;
-    var game = SpaceInvaders.game;
-    var pjs = SpaceInvaders.pjs;
+    const Ship = SpaceInvaders.Ship;
+    const Skill = SpaceInvaders.Skill;
+    const game = SpaceInvaders.game;
+    const pjs = SpaceInvaders.pjs;
 
     class PinkBot extends Ship {
         constructor(params) {
-            var properties = {};
+            const properties = {};
             properties.speed = 4;
             properties.bulPerSec = 1;
             properties.bulletSpeed = 1;
@@ -34,7 +34,7 @@
 
     class Pink extends Ship {
         constructor(params) {
-            var properties = {};
+            const properties = {};
 
             properties.speed = 4;
             properties.bulPerSec = 2;
@@ -60,7 +60,7 @@
                 cooldown: 10000
             }, this, function (ship, skill) {
                 if (skill.firstLaunch) {
-                    for (var i = -2; i < 0; i++) {
+                    for (let i = -2; i < 0; i++) {
                         ship.bots.push(new PinkBot({
                             x: ship.obj.x + 80 * i,
                             y: ship.obj.y,
@@ -68,7 +68,7 @@
                             name: ship.name
                         }));
                     }
-                    for (var i = 1; i < 3; i++) {
+                    for (let i = 1; i < 3; i++) {
                         ship.bots.push(new PinkBot({
                             x: ship.obj.x + 80 * i,
                             y: ship.obj.y,

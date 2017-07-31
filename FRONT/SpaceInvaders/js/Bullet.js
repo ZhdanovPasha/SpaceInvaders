@@ -1,10 +1,10 @@
 (function () {
-    var game = SpaceInvaders.game;
+    const game = SpaceInvaders.game;
 
     class Bullet extends SpaceInvaders.Object {
         constructor(params) {
             super(params);
-            var t = this;
+            const t = this;
             ["speed", "damage", "direction"].forEach(function (i) {
                 t[i] = params[i];
             });
@@ -18,10 +18,14 @@
 
 
         update() {
-            if (this.direction == "UP")
+            if (this.direction == "UP") {
                 this.obj.y -= this.speed;
-            if (this.direction == "DOWN")
+                console.log("U"+this.obj.y);
+            }
+            if (this.direction == "DOWN"){
                 this.obj.y += this.speed;
+                console.log("D"+this.obj.y);
+            }
         };
 
         //Expects SpaceInvaders.Ship as a parameter

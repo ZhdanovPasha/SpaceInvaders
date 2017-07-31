@@ -1,14 +1,14 @@
 (function () {
-    var style = {
+    const style = {
         backgroundColor: '#767676'
         // other
     };
-    var pjs = new PointJS('2D', 1024, 600, style);
-    var sys = pjs.system;
+    const pjs = new PointJS('2D', 768, 600, style);
+    const sys = pjs.system;
     Array.prototype.clear = function () {
         this.splice(0, this.length);
     };
-    var SpaceInvaders = {
+    const SpaceInvaders = {
         pjs: pjs,
         game: pjs.game,
         width: sys.getWH().w,
@@ -26,10 +26,6 @@
         file: 'img/terrain.png'
     });
     SpaceInvaders.scores = 0;
-    sys.addEvent("onload", "myEvent", function () {
-        console.log("Страница загружена полностью");
-        SpaceInvaders.key.initKeyControl();
-    });
 
     class Object {
         constructor() {
@@ -46,9 +42,10 @@
         };
 
     }
-
-    SpaceInvaders.Object = Object;
     window.SpaceInvaders = SpaceInvaders;
+    SpaceInvaders.Object = Object;
+
+
     // var mouse = pjs.mouseControl;
     // var touch = pjs.touchControl;
     // var vector = pjs.vector;

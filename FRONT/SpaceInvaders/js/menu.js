@@ -1,19 +1,21 @@
 (function (game) {
-    var obj;
-    var width = SpaceInvaders.width;
-    var pjs = SpaceInvaders.pjs;
-    var mouse = pjs.mouseControl;
+    let obj;
+    const width = SpaceInvaders.width;
+    const pjs = SpaceInvaders.pjs;
+    const mouse = pjs.mouseControl;
+    const key = SpaceInvaders.key;
+
     mouse.initMouseControl();
 
-    var header;
-    var items;
-    var menuY = 200;
-    var menuElemHeight = 40;
-    var menuWidth = 200;
-    var objects = [];
-    var key = SpaceInvaders.key;
-    var nameMaxLength = 30;
-    var chooseMenuElements = [
+    let header;
+    let items;
+    const menuY = 200;
+    const menuElemHeight = 40;
+    const menuWidth = 200;
+    let objects = [];
+
+    const nameMaxLength = 30;
+    const chooseMenuElements = [
         { //0 всегда заголовок
             text: "Choose Your destiny"
         },
@@ -36,7 +38,7 @@
             }
         }
     ];
-    var menuElements = [
+    const menuElements = [
         { //0 всегда заголовок
             text: "Space Invaders"
         },
@@ -126,8 +128,8 @@
                     i.draw();
                 });
             if (key.isInputMode()) {        // если включен режим ввода
-                var char = key.getInputChar(); // запомним то, что ввели
-                var iKey = key.getInputKey();  // запомним клавишу, которой это ввели
+                let char = key.getInputChar(); // запомним то, что ввели
+                let iKey = key.getInputKey();  // запомним клавишу, которой это ввели
 
                 if (iKey) {
                     if (iKey == 'BACKSPACE') {

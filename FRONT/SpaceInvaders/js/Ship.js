@@ -5,16 +5,16 @@
       name: "Someone"
     }
      */
-    var bullets = SpaceInvaders.bullets;
-    var game = SpaceInvaders.game;
-    var pjs = SpaceInvaders.pjs;
-    var audio = pjs.audio;
+    const bullets = SpaceInvaders.bullets;
+    const game = SpaceInvaders.game;
+    const pjs = SpaceInvaders.pjs;
+    const audio = pjs.audio;
 
     //expects params.direction="UP"|"DOWN"
     class Ship extends SpaceInvaders.Object {
         constructor(params, properties) {
             super(params);
-            var t = this;
+            const t = this;
             this.direction = params.direction;
             this.name = params.name;
             ["maxHP",
@@ -29,6 +29,7 @@
                 }
             );
             this.currentHP = this.maxHP;
+            this.immortal = false;
             this.bangStarted = Date.now();
             this.lastFire = Date.now();
             this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
@@ -80,7 +81,7 @@
 
         //Возвращает true если в него попали
         attacked(BulletObj) {
-            if (BulletObj.obj.isStaticIntersect(this.obj.getStaticBox())) {
+            if (!this.immortal && BulletObj.obj.isStaticIntersect(this.obj.getStaticBox())) {
                 this.hurtSound.replay();
                 this.currentHP -= BulletObj.damage;
                 if (this.currentHP <= 0) {
@@ -130,7 +131,7 @@
             if (Date.now() - this.lastLaunch > this.cooldown && !this.enabled || this.firstLaunch) {
                 this.enabled = true;
                 this.lastLaunch = Date.now();
-                this.EnHandler(this.ship,this);
+                this.EnHandler(this.ship, this);
                 if (this.firstLaunch) this.firstLaunch = false;
                 return true;
             }
@@ -139,7 +140,7 @@
 
         disable() {
             this.enabled = false;
-            this.DisHandler(this.ship,this);
+            this.DisHandler(this.ship, this);
         };
 
         check(handler) {
