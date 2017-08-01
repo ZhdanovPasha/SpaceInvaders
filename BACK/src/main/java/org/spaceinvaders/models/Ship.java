@@ -63,6 +63,11 @@ public class Ship {
         }
         return i;
     }
+    public void enableBots() {
+        for (Bot bot:bots) {
+           bot.setEnabled(true);
+        }
+    }
     @JsonIgnore
     public int getEnabledBotIndexOf(Bot bot) {
         int k = -1;
@@ -131,6 +136,10 @@ public class Ship {
                 if (bul.getY() < 0) bul.destroyBull();
             }
         }
+    }
+    public void update() {
+        updateBots();
+        moveBullets();
     }
     public void  shot(int i) {
         bullets.get(i).shot();

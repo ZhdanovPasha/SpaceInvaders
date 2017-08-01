@@ -19,7 +19,9 @@ public class Bot extends Ship {
 
         this.fraction = owner.fraction;
     }
-    void update () {
+    @Override
+    public void update () {
+        moveBullets();
         if (enabled) {
             int i = owner.getEnabledBotIndexOf(this);
             x = owner.getX() - owner.getBotsArea()/2 + i * owner.wight/2 + owner.getEnabledBotsCount()*(i+1) + 17;

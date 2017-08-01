@@ -18,9 +18,10 @@ public class GameService {
 
 
     @Scheduled(fixedDelay = 16)
-    void updateBullets() {
+    void update() {
         for (Ship ship:getAllShips()) {
           ship.moveBullets();
+          ship.updateBots();
         }
     }
     public   Player findPlayerByName (String name) {
