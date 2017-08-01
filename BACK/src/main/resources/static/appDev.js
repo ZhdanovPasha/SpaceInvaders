@@ -58,6 +58,10 @@ class MessageService2 {
                             ships[k].moveBullets(sh[j].bullets);
                             ships[k].moveTo(sh[j].x);
                             if (sh[j].dead) {
+                                let tmp = new Object();
+                                tmp.scores = ships[k].scores;
+                                tmp.name = ships[k].name;
+                                players.push(tmp);
                                 ships.splice(k,1);
                             }
 

@@ -145,7 +145,12 @@ game.newLoop('game', function(){
         gameInterface.draw();
         if (ships.length===1|| ships[0].isDead()) {
             messageService.destroy(ship.name);
-
+            for(let i=0; i<ships.length; ++i){
+                let tmp = new Object();
+                tmp.scores = ships[i].scores;
+                tmp.name = ships[i].name;
+                players.push(tmp);
+            }
             gameEnd = true;
         }
     }
@@ -154,7 +159,7 @@ game.newLoop('game', function(){
 	    messageService.leaveServer();
 		console.log(gameEnd);
 		initParameters();
-		game.startLoop('menu');
+		game.startLoop('battle_result');
 	
 	}
 	// for (i = 1; i<ships.length; ++i){
