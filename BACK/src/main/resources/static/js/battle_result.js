@@ -16,22 +16,22 @@ var sortPlayers = function(){
 var initTable = function(){
 	for(var i = 0; i < players.length; ++i){
 		var tmp = game.newMesh({
-			x: 250,
+			x: 150,
 			y: (i + 1)*30,
 			add: [game.newRectObject({
-				w: 400,
+				w: 300,
 				h: 30,
 				fillColor: (i % 2 == 0)?'white':'#918f8f',
 				strokeColor: 'black',
 				strokeWidth: 2,
 				alpha: 0.8,
 			}),game.newTextObject({
-				positionC: point(200, 15),
-				text: 'Имя',//players[i].name,
+				positionC: point(150, 15),
+				text: "ИИИИМММММЯЯЯЯЯ",//players[i].name,
 				color: 'black',
 				size: 20
 			}), game.newRectObject({
-				x: 400,
+				x: 300,
 				w: 100,
 				h: 30,
 				fillColor: (i % 2 == 0)?'white':'#918f8f',
@@ -39,8 +39,8 @@ var initTable = function(){
 				strokeWidth: 2,
 				alpha: 0.8,
 			}),game.newTextObject({
-				positionC: point(450, 15),
-				text: 'Очки',//players[i].scores,
+				positionC: point(350, 15),
+				text: "ОЧКИ 100",//players[i].scores,
 				color: 'black',
 				size: 20
 			})]
@@ -69,7 +69,7 @@ game.newLoop('battle_result',function(){
 	fon.draw();
 	drawTable();
 	pjs.brush.drawText({
-		x: 512,
+		x: 200,
 		y: rows[rows.length-1].y + 50,
 		text: 'Для продолжения нажмите Enter',
 		color: 'white',

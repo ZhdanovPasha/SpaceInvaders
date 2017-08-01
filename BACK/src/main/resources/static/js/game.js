@@ -152,8 +152,26 @@ game.newLoop('game', function(){
                 players.push(tmp);
             }
             gameEnd = true;
+
+            messageService.stompClient.subscribe('/game/process/'+messageService.gameId,(function (change) {
+                let arr = JSON.parse(change.body);
+                if (arr.type === 'STATE') {
+                    let sh = arr.ships;
+                    for (let j = 0; j < sh.length; j++) {
+                        for(let i = 0; i < players.length; ++i){
+                            if(sh[j].name == players[i].name){
+                                if(sh[j].scores != players[i].scores)
+                                    players[i].scores = sh[j].scores;
+                            }
+                        }
+                    }
+                }
+            }).bind(this));
+            messageService.stompClient.unsubscribe();
         }
     }
+
+
 
 	if (gameEnd && key.isPress('ENTER')){
 	    messageService.leaveServer();

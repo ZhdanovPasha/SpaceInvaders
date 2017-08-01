@@ -19,7 +19,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 public class Ship {
 
-    private int x, y,speed,bulletSpeed;
+    private int x, y,speed,bulletSpeed, scores;
 
     private boolean dead;
     private ArrayList<Bullet> bullets;
@@ -30,6 +30,7 @@ public class Ship {
     private StatusInLobby fraction;
     private String name;
     public Ship(String name ,int x, int y,StatusInLobby fraction,Game game) {
+        this.scores = 0;
         this.x = x;
         this.y = y;
         this.fraction = fraction;
@@ -141,5 +142,13 @@ public class Ship {
     }
     public void setFraction(StatusInLobby fraction) {
         this.fraction = fraction;
+    }
+
+    public int getScores() {
+        return scores;
+    }
+
+    public void setScores(int scores) {
+        this.scores += scores;
     }
 }
