@@ -28,7 +28,9 @@
                     if(result){
                     setMenuElements(waitMenu);
                      key.setInputMode(false);
-                     delete objects[objects.length-1];
+                     console.log(objects);
+                     objects.splice(0,objects.length);
+                     console.log(objects);
                                }  };
 
 
@@ -48,8 +50,8 @@
                 messageService.callback=function(result){
                 if(result){
                  setMenuElements(waitMenu);
+                 objects.splice(0,objects.length);
                  key.setInputMode(false);
-                 delete objects[objects.length-1];
                  }};
 
 
