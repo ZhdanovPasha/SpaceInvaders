@@ -19,16 +19,22 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 public class Ship {
 
-    private int x, y,speed,bulletSpeed;
+    protected int x, y,speed,bulletSpeed;
 
-    private boolean dead;
-    private ArrayList<Bullet> bullets;
-
+    protected boolean dead;
+    protected ArrayList<Bullet> bullets;
+    protected ArrayList<Bot> bots;
+    protected int wight;
+    protected int height;
     @JsonIgnore
-    private Game game;
+    protected Game game;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private StatusInLobby fraction;
-    private String name;
+    protected StatusInLobby fraction;
+    protected String name;
+    public Ship() {
+
+    }
+
     public Ship(String name ,int x, int y,StatusInLobby fraction,Game game) {
         this.x = x;
         this.y = y;
@@ -36,12 +42,49 @@ public class Ship {
         this.name = name;
         this.speed = Conf.getSpeed();
         this.game = game;
-
+        wight = Conf.getShipWidth();
+        height = Conf.getShipHeight();
+        bots = new ArrayList<>(Conf.getCountOfBots());
         this.bulletSpeed = Conf.getBulletSpeed();
         bullets = new ArrayList<Bullet>(10);
         for (int i = 0; i < 10 ; i++) {
-            bullets.add(new Bullet(0,0,this));
+            bullets.add(new Bullet(this));
         }
+    }
+
+    public ArrayList<Bot> getBots() {
+        return bots;
+    }
+    @JsonIgnore
+    public int getEnabledBotsCount() {
+        int i = 0;
+        for (Bot bot: bots) {
+            if (bot.isEnabled()) i++;
+        }
+        return i;
+    }
+    public void enableBots() {
+        for (Bot bot:bots) {
+           bot.setEnabled(true);
+        }
+    }
+    @JsonIgnore
+    public int getEnabledBotIndexOf(Bot bot) {
+        int k = -1;
+        for (int i = 0; i < bots.size() ; i++) {
+            if (bots.get(i).isEnabled()) k++;
+            if (bots.get(i) == bot) {
+                return k;
+            }
+        }
+        return k;
+    }
+    @JsonIgnore
+    public int getBotsArea() {
+        return (wight/2+10) * getEnabledBotsCount();
+    }
+    public void setBots(ArrayList<Bot> bots) {
+        this.bots = bots;
     }
 
     public String getName() {
@@ -68,28 +111,46 @@ public class Ship {
         if (x <= 0){
             x = 0;
         }
+        updateBots();
     }
-
     public void moveRight() {
         x +=speed;
-        Integer dif = Conf.getW()-Conf.getShipWidth();
+        Integer dif = Conf.getW()- wight;
         if (x>=dif) {
             x = dif;
+        }
+        updateBots();
+    }
+    public void updateBots() {
+        for (Bot bot:bots) {
+            bot.update();
         }
     }
     public void moveBullets() {
         for (Bullet bul : bullets) {
             if (bul.isEnabled()) {
                 bul.move();
+                for (Bot bot:bots) {
+                    bot.moveBullets();
+                }
                 if (bul.getY() < 0) bul.destroyBull();
             }
         }
+    }
+    public void update() {
+        updateBots();
+        moveBullets();
     }
     public void  shot(int i) {
         bullets.get(i).shot();
     }
     public Bullet findBulletById (int id) {
         return bullets.get(id);
+    }
+    public Bot findBotById (int id) {
+        if ( id < bots.size())
+            return bots.get(id);
+        else return null;
     }
     public int getSpeed() {
         return speed;

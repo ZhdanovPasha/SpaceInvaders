@@ -7,25 +7,27 @@ class Blue extends Ship{
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();
 		this.brush = pjs.brush;
-		
 		this.skill_1 = new Object();
-		
 		this.skill_1.img = "img/bot_skill.png";
 		this.skill_1.description = "Позвать рабов";
 		this.skill_1.duration = 5000;
 		this.skill_1.cooldown = 10000;
 	}
 	//создание ботов
-	createBots(num){
-		var botsArea = (this.obj.w/2+10)* num; 	
-		for (var i = 0; i < num; ++i){
-			var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:(ships[0] instanceof Blue)?600: -this.obj.h},
-				{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
-			this.bots.push(tmp);
-		}
-	}
+	createBots(num) {
+        var botsArea = (this.obj.w / 2 + 10) * num;
+        for (var i = 0; i < num; ++i) {
+            var tmp = new Bot({
+                    x: this.obj.x - botsArea / 2 + (i) * this.obj.w / 2 + num * (i + 1) + 17,
+                    y: (ships[0] instanceof Blue) ? 600 : -this.obj.h
+                },
+                {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'blue');
+            this.bots.push(tmp);		//this is black magic
 
-	moveBots(){
+        }
+    }
+
+	moveBots() {
 		var num = this.bots.length;
 		var botsArea = (this.obj.w/2+10)* num; 
 		//this is black magic
