@@ -57,6 +57,7 @@
             this.bots = [];
 
             this.skill_1 = new Skill({
+                n: 1,
                 img: "img/bot_skill.png",
                 description: "Позвать рабов",
                 duration: 5000,
@@ -86,6 +87,7 @@
                 ship.bulPerSec /= 4;
             });
             this.skill_2 = new Skill({
+                n: 2,
                 img: 'img/rocket.png',
                 description: "Увеличение скорости коробля"
                 , duration: 5000,
@@ -96,6 +98,7 @@
                 ship.speed /= 4;
             });
             this.skill_3 = new Skill({
+                n: 3,
                 img: 'img/rocket.png',
                 description: "Увеличение скорости коробля",
                 duration: 5000,
@@ -151,6 +154,7 @@
                 bot.moveRight();
             });
         };
+
         fire() {
             super.fire();
             this.bots.forEach(function (bot, n, bots) {

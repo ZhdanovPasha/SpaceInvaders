@@ -24,6 +24,7 @@
             });
 
             this.skill_1 = new Skill({
+                n: 1,
                 img: "img/bullet_skill.png",
                 description: "Увеличение скорости пуль",
                 duration: 5000,
@@ -34,6 +35,7 @@
                 ship.bulPerSec /= 4;
             });
             this.skill_2 = new Skill({
+                n: 2,
                 img: 'img/laser_skill.png',
                 description: "Лазер"
                 , duration: 5000,
@@ -51,6 +53,7 @@
                 bullets.Laser.destroyed = true;
             });
             this.skill_3 = new Skill({
+                n: 3,
                 img: 'img/shield.png',
                 description: "Активация щита",
                 duration: 5000,

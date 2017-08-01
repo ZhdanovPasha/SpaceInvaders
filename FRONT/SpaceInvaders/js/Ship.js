@@ -23,7 +23,7 @@
                 "bulletSpeed",
                 "damage",
                 "killScores",
-            "fraction"].forEach(
+                "fraction"].forEach(
                 function (i) {
                     console.assert(properties.hasOwnProperty(i), "NO CONSTRUCTOR PARAM: " + i);
                     t[i] = properties[i];
@@ -112,18 +112,38 @@
                 this.obj.draw();
                 this.nameText.draw();
             }
+            this.skill_1.check(); //fixme
+            this.skill_2.check();
+            this.skill_3.check();
         };
+
     }
 
     class Skill {
         constructor(args, ship, EnHandler, DisHandler) {
-            this.img = args.img;
-            this.description = args.description;
-            this.duration = args.duration;
-            this.cooldown = args.cooldown; //it's cooldown not coolDown because of Interface.js
+            //fixme:  this.interfaceDisable() and this.interfaceDisable() should for now be defined outside
+            //in future fix it
+            let t = this;
+            [
+                "n",
+                "img",
+                "description",
+                "duration",
+                "cooldown" //it's cooldown not coolDown because of Interface.js
+            ].forEach(
+                function (i) {
+                    console.assert(args.hasOwnProperty(i), "NO CONSTRUCTOR PARAM: " + i);
+                    t[i] = args[i];
+                });
             this.ship = ship;
-            this.EnHandler = EnHandler;
-            this.DisHandler = DisHandler;
+            this.EnHandler = function (a, b) {
+                this.interfaceDisable(); //for Interface.js compatibility
+                EnHandler(a, b);
+            };
+            this.DisHandler = function (a, b) {
+                this.interfaceEnable();//for Interface.js compatibility
+                DisHandler(a, b);
+            };
             this.lastLaunch = Date.now();
             this.enabled = false;
             this.firstLaunch = true;
@@ -145,10 +165,9 @@
             this.DisHandler(this.ship, this);
         };
 
-        check(handler) {
+        check() {
             if (Date.now() - this.lastLaunch > this.duration && this.enabled) {
                 this.disable();
-                handler();
             }
         };
     }

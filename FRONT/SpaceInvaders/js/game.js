@@ -52,6 +52,15 @@
             }
             gameInterface.initialize(player, player.maxHP, 0, enemies.length);
             gameInterface.initializeObjects();
+            for (let i = 1; i <= 3; i++) {
+                gameInterface["skill_" + i].switchOn();
+                player["skill_" + i].interfaceEnable = function () {
+                    gameInterface["skill_" + i].switchOn();
+                };
+                player["skill_" + i].interfaceDisable = function () {
+                    gameInterface["skill_" + i].switchOff();
+                };
+            }
         };
 
 
@@ -78,9 +87,9 @@
 
             bullets.forEach(function (bullet, i, bullets) {
                 if (bullet.hit(player)) {
-                    if (player.destroyed){
+                    if (player.destroyed) {
                         console.log("GO");
-                        SpaceInvaders.gameOver=true;
+                        SpaceInvaders.gameOver = true;
                     }
                     if (bullet.destroyed) {
                         bullets.splice(i, 1);
@@ -112,20 +121,18 @@
                 player.fire();
             }
 
+
             if (key.isPress('Q')) {
-                if (player.skill_1.enable()) {
-                    gameInterface.skill_1.switchOff();
-                }
+                player.skill_1.enable();
+
             }
             if (key.isPress('W')) {
-                if (player.skill_2.enable()) {
-                    gameInterface.skill_2.switchOff();
-                }
+                player.skill_2.enable();
+
             }
             if (key.isPress('E')) {
-                if (player.skill_3.enable()) {
-                    gameInterface.skill_3.switchOff();
-                }
+                player.skill_3.enable();
+
             }
             //TODO game.startLoop('battle_result');
             //fixme: skill шкала и доступность
@@ -133,15 +140,7 @@
                 key.setInputMode(true);
                 game.setLoop('menu');
             }
-            player.skill_1.check(function () {
-                gameInterface.skill_1.switchOn();
-            });
-            player.skill_2.check(function () {
-                gameInterface.skill_2.switchOn();
-            });
-            player.skill_3.check(function () {
-                gameInterface.skill_3.switchOn();
-            });
+
             gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
             gameInterface.draw();
         };
