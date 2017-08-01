@@ -5,14 +5,15 @@
         constructor(params) {
             super(params);
             const t = this;
-            ["speed", "damage", "direction"].forEach(function (i) {
+            ["speed", "damage", "direction", "ship"].forEach(function (i) {
                 t[i] = params[i];
             });
             this.obj = game.newImageObject({
                 x: params.x, y: params.y,
                 w: 27,
                 h: 64,
-                file: 'img/projectile_bolt_blue_single.png'
+                file: 'img/projectile_bolt_blue_single.png',
+                angle: params.direction == "UP" ? 0 : 180
             });
         };
 
@@ -20,22 +21,24 @@
         update() {
             if (this.direction == "UP") {
                 this.obj.y -= this.speed;
-                console.log("U"+this.obj.y);
+                // console.log("U"+this.obj.y);
             }
-            if (this.direction == "DOWN"){
+            if (this.direction == "DOWN") {
                 this.obj.y += this.speed;
-                console.log("D"+this.obj.y);
+                // console.log("D"+this.obj.y);
             }
         };
 
         //Expects SpaceInvaders.Ship as a parameter
-        hit(Ship) {
-            this.destroyed = Ship.attacked(this);
+        hit(ship) {
+            if (this.ship.fraction != ship.fraction) {
+                this.destroyed = ship.attacked(this);
+            }
             return this.destroyed;
         };
     }
 
-    class Laser extends Bullet {
+    class Laser extends Bullet { //fixme: check bullet rotation and update
         constructor(params) {
             super(params);
             this.obj = game.newImageObject({

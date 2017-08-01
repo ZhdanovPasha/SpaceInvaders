@@ -19,6 +19,7 @@
         fraction: "unknown", // "BLUE"/"PINK"
         bullets: [],
         enemies: [],
+        gameOver: false
     };
     SpaceInvaders.fon = SpaceInvaders.game.newImageObject({
         position: pjs.vector.point(0, 0),
@@ -42,6 +43,7 @@
         };
 
     }
+
     window.SpaceInvaders = SpaceInvaders;
     SpaceInvaders.Object = Object;
 

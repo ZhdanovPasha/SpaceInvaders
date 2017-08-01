@@ -76,6 +76,18 @@
                 }
             });
 
+            bullets.forEach(function (bullet, i, bullets) {
+                if (bullet.hit(player)) {
+                    if (player.destroyed){
+                        console.log("GO");
+                        SpaceInvaders.gameOver=true;
+                    }
+                    if (bullet.destroyed) {
+                        bullets.splice(i, 1);
+                    }
+                }
+            });
+
             enemies.forEach(function (enemy, i, enemies) {
                 if (bullets.Laser && !bullets.Laser.destroyed) {
                     bullets.Laser.hit(enemy);
@@ -84,7 +96,7 @@
             });
             enemies.forEach(function (enemy, i, enemies) {
                 enemy.draw();
-                // enemy.fire(); fixme: fix bullet fraction
+                enemy.fire();
             });
 
             player.draw();
@@ -102,32 +114,33 @@
 
             if (key.isPress('Q')) {
                 if (player.skill_1.enable()) {
-                    gameInterface.skill_1.switchOn();
+                    gameInterface.skill_1.switchOff();
                 }
             }
             if (key.isPress('W')) {
                 if (player.skill_2.enable()) {
-                    gameInterface.skill_2.switchOn();
+                    gameInterface.skill_2.switchOff();
                 }
             }
             if (key.isPress('E')) {
                 if (player.skill_3.enable()) {
-                    gameInterface.skill_3.switchOn();
+                    gameInterface.skill_3.switchOff();
                 }
             }
             //TODO game.startLoop('battle_result');
+            //fixme: skill шкала и доступность
             if (enemies.length == 0 && key.isPress('ENTER')) {
                 key.setInputMode(true);
                 game.setLoop('menu');
             }
             player.skill_1.check(function () {
-                gameInterface.skill_1.switchOff();
+                gameInterface.skill_1.switchOn();
             });
             player.skill_2.check(function () {
-                gameInterface.skill_2.switchOff();
+                gameInterface.skill_2.switchOn();
             });
             player.skill_3.check(function () {
-                gameInterface.skill_3.switchOff();
+                gameInterface.skill_3.switchOn();
             });
             gameInterface.update(player.currentHP, SpaceInvaders.scores, enemies.length);
             gameInterface.draw();

@@ -14,6 +14,7 @@
             properties.bulletSpeed = 1;
             properties.damage = 50;
             properties.killScores = 100;
+            properties.fraction = "BLUE";
             super(params, properties);
             this.obj = game.newImageObject({
                 x: params.x, y: params.y,

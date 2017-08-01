@@ -22,9 +22,10 @@
                 "bulPerSec",
                 "bulletSpeed",
                 "damage",
-                "killScores"].forEach(
+                "killScores",
+            "fraction"].forEach(
                 function (i) {
-                    console.assert(properties.hasOwnProperty(i), "NO CONSTRUCTOR PARAM" + i);
+                    console.assert(properties.hasOwnProperty(i), "NO CONSTRUCTOR PARAM: " + i);
                     t[i] = properties[i];
                 }
             );
@@ -73,7 +74,8 @@
                     y: this.obj.y,
                     speed: this.bulletSpeed,
                     damage: this.damage,
-                    direction: this.direction
+                    direction: this.direction,
+                    ship: this
                 }));
                 this.lastFire = Date.now();
             }

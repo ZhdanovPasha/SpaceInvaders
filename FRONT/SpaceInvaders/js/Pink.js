@@ -13,6 +13,7 @@
             properties.damage = 20;
             properties.maxHP = 100;
             properties.killScores = 100;
+            properties.fraction = "Pink";
 
             super(params, properties);
             this.obj = game.newAnimationObject({
@@ -42,6 +43,7 @@
             properties.damage = 20;
             properties.maxHP = 200;
             properties.killScores = 100;
+            properties.fraction = "Pink";
 
             super(params, properties);
             this.selfDestroyed = false;
@@ -49,7 +51,8 @@
                 x: params.x, y: params.y,
                 w: 90,
                 h: 75,
-                file: 'img/player.png', angle: this.direction == "UP" ? 0 : 180
+                file: 'img/player.png',
+                angle: this.direction == "UP" ? 0 : 180
             });
             this.bots = [];
 
