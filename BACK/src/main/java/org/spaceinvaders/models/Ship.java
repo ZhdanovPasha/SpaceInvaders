@@ -20,13 +20,13 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class Ship {
 
     protected int x, y,speed,bulletSpeed;
-
+    protected boolean immortality;
     protected boolean dead;
     protected ArrayList<Bullet> bullets;
     protected ArrayList<Bot> bots;
+    protected ArrayList<Skill> skills;
     protected int wight;
     protected int height;
-    @JsonIgnore
     protected Game game;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     protected StatusInLobby fraction;
@@ -50,6 +50,7 @@ public class Ship {
         for (int i = 0; i < 10 ; i++) {
             bullets.add(new Bullet(this));
         }
+        skills = new ArrayList<>();
     }
 
     public ArrayList<Bot> getBots() {
@@ -67,6 +68,23 @@ public class Ship {
         for (Bot bot:bots) {
            bot.setEnabled(true);
         }
+    }
+
+    public boolean isImmortality() {
+        return immortality;
+    }
+
+    public void setImmortality(boolean immortality) {
+        this.immortality = immortality;
+    }
+    @JsonIgnore
+    public ArrayList<Skill> getSkills() {
+        return skills;
+    }
+    public Skill findSkillById(int id) {
+        if (id < skills.size())
+            return skills.get(id);
+        return null;
     }
     @JsonIgnore
     public int getEnabledBotIndexOf(Bot bot) {
@@ -94,7 +112,7 @@ public class Ship {
     public void setName(String name) {
         this.name = name;
     }
-
+    @JsonIgnore
     public Game getGame() {
         return game;
     }

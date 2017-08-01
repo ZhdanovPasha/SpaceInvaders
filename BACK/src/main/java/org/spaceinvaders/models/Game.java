@@ -66,7 +66,9 @@ public class Game {
     public ConcurrentHashMap<String, Ship> getShips() {
         return ships;
     }
-
+    public Ship findShipByName(String name) {
+        return ships.get(name);
+    }
     public void setShips(ConcurrentHashMap<String, Ship> ships) {
         this.ships = ships;
     }

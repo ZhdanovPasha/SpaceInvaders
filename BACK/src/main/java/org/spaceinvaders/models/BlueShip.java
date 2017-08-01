@@ -7,5 +7,6 @@ public class BlueShip extends Ship {
             for (int i = 0; i < Conf.getCountOfBots() ; i++) {
                 bots.add(new Bot(this));
             }
+            skills.add(new Skill(this,s -> s.enableBots(),s->{}));
     }
 }
