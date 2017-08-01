@@ -19,7 +19,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 public class Ship {
 
-    protected int x, y,speed,bulletSpeed;
+    protected int x, y,speed,bulletSpeed, scores;
     protected boolean immortality;
     protected boolean dead;
     protected ArrayList<Bullet> bullets;
