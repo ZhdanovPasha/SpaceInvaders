@@ -117,7 +117,7 @@ class Blue extends Ship{
 				this.addBullet(bul);
 				this.lastFire = Date.now();*/
 				let count = this.shot();
-				if(k != -1)
+				if(count != -1)
 				    messageService.shot(this.name, count);
 				    this.lastFire = Date.now();
 			}

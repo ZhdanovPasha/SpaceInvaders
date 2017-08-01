@@ -24,7 +24,10 @@ class Ship{
 		this.damage = 50;
 		this.bullets = [];
 		for (let i = 0 ; i < 10;i++){
-            this.bullets.push(new Bullet(this, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}));
+		    if(this.fraction === 'BLUE')
+                this.bullets.push(new Bullet(this, {width:this.bulletWidth, height: this.bulletHeight, source:blueBullet}));
+            else
+                this.bullets.push(new Bullet(this, {width:this.bulletWidth, height: this.bulletHeight, source:pinkBullet}));
 		}
 		this.lastFire = Date.now();
         this.bulletSpeed = 1;
