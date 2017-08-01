@@ -28,6 +28,7 @@
                     if(result){
                     setMenuElements(waitMenu);
                      key.setInputMode(false);
+                     delete objects[objects.length-1];
                                }  };
 
 
@@ -48,15 +49,23 @@
                 if(result){
                  setMenuElements(waitMenu);
                  key.setInputMode(false);
+                 delete objects[objects.length-1];
                  }};
 
 
-               messageService.tryToconnect(name,'PINK');
+               messageService.tryToconnect(name,'BLUE');
 
                 obj = false;
             }
         }
     ];
+    var namePlayer = game.newTextObject({
+                                   text: "Имя:",
+                                   x: width / 2 - menuWidth,
+                                   y: 50,
+                                   color: 'white',
+                                   size: menuElemHeight * 0.75
+                               });
     var menuElements = [
         { //0 всегда заголовок
             text: "Space Invaders"
@@ -64,13 +73,7 @@
         {
             text: "Играть",
             handle: function () {
-                objects.push(game.newTextObject({
-                    text: "Имя:",
-                    x: width / 2 - menuWidth,
-                    y: 50,
-                    color: 'white',
-                    size: menuElemHeight * 0.75
-                }));
+                objects.push(namePlayer);
                 key.setInputMode(true);
                 setMenuElements(chooseMenuElements);
                 messageService.connect();
