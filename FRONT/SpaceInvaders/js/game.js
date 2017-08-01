@@ -30,6 +30,11 @@ var addEnemies = function(){
     	var tmp  = new Bot({x:i*75, y:50},	 {w: 80, h: 39, source: enemyImage}, i, enemyFraction ); 
     	ships.push(tmp);
     }
+    if (playerFraction == 'blue'){
+    	for (i = 1; i <= enemiesCount; ++i){
+    		ships[i].obj.setAngle(180);
+    	}
+    }
 };
 
 function getRandomInt(min, max){
@@ -47,6 +52,7 @@ game.newLoop('game', function(){
 			if (playerFraction == 'blue'){
 				ship = new Blue({x:beginPosX, y:beginPosY-shipWidth},
 				{w: shipWidth,	h: shipHeight, source: bluePlayer}, 0, 'blue', playerName);
+				ship.obj.setAngle(180);
 			}
 			else {
 				ship = new Pink({x:beginPosX, y:beginPosY-shipWidth},

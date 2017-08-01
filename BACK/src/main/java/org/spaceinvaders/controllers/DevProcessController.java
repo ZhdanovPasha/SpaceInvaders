@@ -63,8 +63,10 @@ public class DevProcessController {
     public void addHitMessage(@DestinationVariable Integer id,HitMessage message) throws InterruptedException {
         Game game = gameService.findGameById(id);
         if (game.getStarted()){
-            game.findShipByName(message.getName()).findBulletById(message.getNumBullet()).destroyBull();
+            game.getShips().get(message.getName()).findBulletById(message.getNumBullet()).destroyBull();
+            game.getShips().get(message.getName()).setScores(100);
             game.getProcessMessages().put(message);
+            log.info("Игрок "+message.getName()+" получил 100 очков");
         }
 
     }

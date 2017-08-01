@@ -87,7 +87,6 @@
             text: "Выход",
             handle: function () {
                 window.close();
-
             }
         }
     ];

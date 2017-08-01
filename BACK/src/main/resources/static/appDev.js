@@ -72,7 +72,13 @@ class MessageService2 {
                         if (sh[j].name === ships[k].name) {
                             ships[k].moveBullets(sh[j].bullets);
                             ships[k].moveTo(sh[j].x);
+                            ships[k].scores = sh[j].scores;
                             if (sh[j].dead) {
+                                var tmp = new Object();
+                                tmp.scores = ships[k].scores;
+                                console.log(tmp.scores + " " + ships[k].scores);
+                                tmp.name = ships[k].name;
+                                players.push(tmp);
                                 ships.splice(k,1);
                             }
 
@@ -212,6 +218,7 @@ class MessageService2 {
                                 createShip(player.name,player.fraction,player.x,player.y,player.speed);
                             }
                         }
+                        console.log('I want to start game');
                         this.startGame();
                         this.game.startLoop('game');
                     } else if (arr[i].type === 'LEAVE') {
