@@ -27,6 +27,7 @@ var tiles = pjs.tiles;
 var OOP = pjs.OOP;
 var limit = math.limit;
 var gameInterface = new Interface(pjs);
+var alpha = 180;
 
 var isDef = OOP.isDef;
 

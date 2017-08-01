@@ -3,6 +3,7 @@ class Blue extends Ship{
 	constructor(position, img, id, fraction, name){
 		super(position, img, id, fraction, name);
 		//this.fraction = 'BLUE';
+		this.obj.setAngle(180);
 		this.bots = [];
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();

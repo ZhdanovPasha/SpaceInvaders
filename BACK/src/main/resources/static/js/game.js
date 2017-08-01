@@ -70,7 +70,9 @@ var playerName = name;
 //};
 function newEnemyShip(name,x0){
     if (ship.fraction === 'BLUE'){
-        return new Pink({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
+        var pink = new Pink({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
+        pink.obj.setAngle(alpha);
+        return pink;
         //return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'PINK',speed)
     }
     else
@@ -79,18 +81,17 @@ function newEnemyShip(name,x0){
 }
 function newAllyShip(name,x,y) {
     if (ship.fraction === 'BLUE'){
-        return new Blue({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
+        var blue = new Blue({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
+        blue.setAngle(alpha);
+        return blue;
     }
     else {
         return new Pink({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
     }
-    // return new Ship({x: x, y: y},
-    //     {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, ship.fraction,speed)
 }
 
 function createShip(name,fraction,x0,y0,speed) {
 	if (ship===null) {
-        //ship = new Ship({x:x0, y:y0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, fraction,speed)
         if (fraction === 'BLUE'){
             ship = new Blue({x:x0, y:y0},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, fraction, name);
         }
