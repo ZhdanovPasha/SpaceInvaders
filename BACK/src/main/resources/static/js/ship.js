@@ -51,7 +51,6 @@ class Ship{
 			console.log(this.obj.y);
             bullet = new Bullet({x:this.obj.x + (this.obj.w)/2-this.bulletWidth/2,y:this.obj.y+this.obj.h }, {width:this.bulletWidth, height: this.bulletHeight, source:'img/bullet.png'}, 1, this.bulletSpeed,this.damage );
 		}
-
 		this.bullets.push(bullet);
 		this.fireSound.replay();
 	}
@@ -77,6 +76,7 @@ class Ship{
                 if (ships[j].fraction != this.fraction){
                     if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
                         hit = true;
+                        bullet.enabled = false;
                         if (ships[j].immortality == false){
                             this.bangAnimation = game.newAnimationObject({
                                 x: ships[j].obj.x, y: ships[j].obj.y,
@@ -95,6 +95,7 @@ class Ship{
                     if (ships[j] instanceof Blue && !hit){
                         for (var k = 0; k < ships[j].bots.length; ++k){
                             if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox())){
+                                bullet.enabled = false;
                                 hit = true;
                                 ships[j].bots[k].getDamage(this.damage);
                                 this.bangAnimation = game.newAnimationObject({
@@ -115,8 +116,7 @@ class Ship{
                 }
             }
             if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= fon.h || hit){
-                this.bullets.splice(i, 1);
-                i--;
+                bullet.enabled = false;
             }
 
 
@@ -224,17 +224,20 @@ class Ship{
                     else {
                         bulletImg = pinkBullet;
                     }
-                    var bul = {
-                        position: {x: this.obj.x + (this.obj.w) / 2, y: this.obj.y + (this.obj.h) / 2},
-                        img: {
-                            width: this.bulletWidth, height: this.bulletHeight, source:
-                            bulletImg
-                        }, speed: 1, damage: 100, dy: bulletdy
-                    };
-                    this.addBullet(bul);
+                    // var bul = {
+                    //     position: {x: this.obj.x + (this.obj.w) / 2, y: this.obj.y + (this.obj.h) / 2},
+                    //     img: {
+                    //         width: this.bulletWidth, height: this.bulletHeight, source:
+                    //         bulletImg
+                    //     }, speed: 1, damage: 100, dy: bulletdy
+                    // };
+                    //this.addBullet();
                     let k = this.shot();
-                    if (k != -1)
+                    if (k != -1){
                         messageService.shot(this.name, k);
+                        this.bullets[k].obj.x = this.obj.x;
+                        this.bullets[k].obj.y = this.obj.y;
+                    }
                     this.lastFire = Date.now();
                 }
                 // if (Date.now() - this.lastFire > 100 * this.speed){
