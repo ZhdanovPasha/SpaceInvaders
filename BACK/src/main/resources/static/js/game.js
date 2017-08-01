@@ -57,6 +57,7 @@ var initParameters = function(){
 	noEnemy = false;
 	gameEnd = false;
 	ships.splice(0, ships.length);
+	ship = null;
 }
 var messageService = new MessageService2(ships,game);
 var playerName = name;
@@ -141,8 +142,6 @@ game.newLoop('game', function(){
         //		ships.splice(i,1);
         //		i--;
         //	}
-        gameInterface.update(ship.currentHP, ship.scores, ships.length - 1);
-        gameInterface.draw();
         if (ships.length===1|| ships[0].isDead()) {
             messageService.destroy(ship.name);
             for(let i=0; i<ships.length; ++i){
@@ -170,8 +169,8 @@ game.newLoop('game', function(){
             messageService.stompClient.unsubscribe();
         }
     }
-
-
+    gameInterface.update(ship.currentHP, ship.scores, ships.length - 1);
+    gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){
 	    messageService.leaveServer();

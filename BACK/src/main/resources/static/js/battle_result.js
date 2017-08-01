@@ -69,7 +69,7 @@ game.newLoop('battle_result',function(){
 	fon.draw();
 	drawTable();
 	pjs.brush.drawText({
-		x: 200,
+		x: 300,
 		y: rows[rows.length-1].y + 50,
 		text: 'Для продолжения нажмите Enter',
 		color: 'white',
