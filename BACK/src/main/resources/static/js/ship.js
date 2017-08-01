@@ -59,6 +59,8 @@ class Ship{
 		for ( let i = 0; i < this.bullets.length; i++ ) {
            if (!this.bullets[i].enabled) {
                this.bullets[i].shot();
+               this.bullets[i].obj.x = this.obj.x;
+               this.bullets[i].obj.y = this.obj.y;
                return i;
 		   }
 		}
@@ -76,7 +78,7 @@ class Ship{
                 if (ships[j].fraction != this.fraction){
                     if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
                         hit = true;
-                        bullet.enabled = false;
+                        bullet.obj.y = -bullet.obj.h;
                         if (ships[j].immortality == false){
                             this.bangAnimation = game.newAnimationObject({
                                 x: ships[j].obj.x, y: ships[j].obj.y,
@@ -95,7 +97,7 @@ class Ship{
                     if (ships[j] instanceof Blue && !hit){
                         for (var k = 0; k < ships[j].bots.length; ++k){
                             if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox())){
-                                bullet.enabled = false;
+                                bullet.obj.y = -bullet.obj.h;
                                 hit = true;
                                 ships[j].bots[k].getDamage(this.damage);
                                 this.bangAnimation = game.newAnimationObject({
@@ -235,8 +237,6 @@ class Ship{
                     let k = this.shot();
                     if (k != -1){
                         messageService.shot(this.name, k);
-                        this.bullets[k].obj.x = this.obj.x;
-                        this.bullets[k].obj.y = this.obj.y;
                     }
                     this.lastFire = Date.now();
                 }
