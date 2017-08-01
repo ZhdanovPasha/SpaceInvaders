@@ -135,7 +135,6 @@
 
             }
             //TODO game.startLoop('battle_result');
-            //fixme: skill шкала и доступность
             if (enemies.length == 0 && key.isPress('ENTER')) {
                 key.setInputMode(true);
                 game.setLoop('menu');

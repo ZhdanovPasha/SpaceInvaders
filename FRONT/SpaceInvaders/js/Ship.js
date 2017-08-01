@@ -164,7 +164,8 @@
             this.DisHandler(this.ship, this);
         };
 
-        check() {
+        check() {  //fixme#1:Interface.js has a bug that is: skill_n.lastLaunch is not
+            //controlled outside of interface.js (by Ship.js->Skill class)
             if (Date.now() - this.lastLaunch > this.duration && this.enabled) {
                 this.disable();
             }

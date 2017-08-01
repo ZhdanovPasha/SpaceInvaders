@@ -87,6 +87,7 @@
 
             var switchOff = function () {
                 this.switchState = "off";
+                this.lastLaunch = Date.now(); //fixme it's fix for fixme#1
                 this.getObjects()[2].alpha = 0.3;
             }
 
@@ -320,7 +321,8 @@
             }
         }
 
-        checkSkills() {
+        checkSkills() { //fixme#1:Interface.js has a bug that is: skill_n.lastLaunch is not
+            //controlled outside of interface.js (by Ship.js->Skill class)
                 this.checkSkill_1();
                 this.checkSkill_2();
                 this.checkSkill_3();
