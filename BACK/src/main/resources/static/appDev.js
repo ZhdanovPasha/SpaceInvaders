@@ -93,7 +93,7 @@ class MessageService2 {
             }
 
 
-            console.log(JSON.parse(change.body));
+            //console.log(JSON.parse(change.body));
         }).bind(this))
 
 

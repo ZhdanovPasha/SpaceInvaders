@@ -45,7 +45,7 @@ var noEnemy = false;
 var gameEnd = false;
 var ships = [];
 var ship = null;
-
+var gameInterface = new Interface(pjs);
 
 var fon = game.newImageObject({
     position: point(0, 0),
@@ -76,9 +76,7 @@ function newEnemyShip(name,x0){
     }
     else{
         var blue = new Blue({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
-        blue.obj.setAngle(alpha * 2);
-        console.log('alpha is');
-        console.log(alpha);
+        blue.obj.setAngle(0);
         console.log('create blue enemy');
         return blue;
     }
@@ -143,16 +141,14 @@ game.newLoop('game', function(){
         //		ships.splice(i,1);
         //		i--;
         //	}
-
+        gameInterface.update(ship.currentHP, ship.scores, ships.length - 1);
+        gameInterface.draw();
         if (ships.length===1|| ships[0].isDead()) {
             messageService.destroy(ship.name);
 
             gameEnd = true;
         }
     }
-	
-	gameInterface.update(ship.currentHP, ship.scores, ship.length - 1);
-	gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){
 	    messageService.leaveServer();

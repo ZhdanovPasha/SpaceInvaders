@@ -6,7 +6,7 @@ class Ship{
 		this.img = img;
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
-			w: img.width,	h: img.height,
+			w: img.w,	h: img.h,
 			file: img.source
 		});
 		this.id = id;
@@ -211,17 +211,14 @@ class Ship{
         }
         else {
             if (key.isDown('LEFT')) {
-                messageService.move(this.name, 'LEFT')
-                this.move('LEFT', this)
-
+                messageService.move(this.name, 'LEFT');
             } else if (key.isDown('RIGHT')) {
-                messageService.move(this.name, 'RIGHT')
-                this.move('RIGHT', this)
+                messageService.move(this.name, 'RIGHT');
             }
             if (key.isDown('SPACE')) {
                 if (Date.now() - this.lastFire > 100 * this.speed) {
-                   /* var bulletImg, bulletdy = 3;
-                    if (this.fraction == 'blue') {
+                    var bulletImg, bulletdy = 3;
+                    if (this.fraction == 'BLUE') {
                         bulletImg = blueBullet;
                     }
                     else {
@@ -234,7 +231,7 @@ class Ship{
                             bulletImg
                         }, speed: 1, damage: 100, dy: bulletdy
                     };
-                    this.addBullet(bul);*/
+                    this.addBullet(bul);
                     let k = this.shot();
                     if (k != -1)
                         messageService.shot(this.name, k);

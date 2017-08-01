@@ -26,8 +26,11 @@ var audio = pjs.audio;
 var tiles = pjs.tiles;
 var OOP = pjs.OOP;
 var limit = math.limit;
-var gameInterface = new Interface(pjs);
 var alpha = 180;
+var pinkPlayer = 'img/pinkPlayer.png';
+var bluePlayer = 'img/bluePlayer.png';
+var pinkBullet = 'img/pinkBullet.png';
+var blueBullet = 'img/blueBullet.png';
 
 var isDef = OOP.isDef;
 
