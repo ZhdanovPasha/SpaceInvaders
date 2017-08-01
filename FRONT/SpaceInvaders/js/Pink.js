@@ -99,14 +99,14 @@
             });
             this.skill_3 = new Skill({
                 n: 3,
-                img: 'img/rocket.png',
-                description: "Увеличение скорости коробля",
+                img: 'img/shield.png',
+                description: "Активация щита",
                 duration: 5000,
                 cooldown: 10000
             }, this, function (ship) {
-                ship.speed *= 4;
+                ship.immortal = true;
             }, function (ship) {
-                ship.speed /= 4;
+                ship.immortal = false;
             });
 
         };

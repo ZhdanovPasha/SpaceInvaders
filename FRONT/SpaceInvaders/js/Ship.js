@@ -111,10 +111,9 @@
 
                 this.obj.draw();
                 this.nameText.draw();
+                for (let i = 1; i <= 3; i++)
+                    if (this["skill_" + i]) this["skill_" + i].check(); //fixme PinkBot doesn't have skills
             }
-            this.skill_1.check(); //fixme
-            this.skill_2.check();
-            this.skill_3.check();
         };
 
     }
