@@ -39,6 +39,7 @@ public class DevLobbyPageController {
             if (game.startGame()) {
                 game.getLobbyMessages().push(new StartMessage(game.getShips().values()));
             }
+
         }
     }
     //Выбор каждым игроком фракции

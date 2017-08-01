@@ -1,4 +1,10 @@
+
+
 class MessageService2 {
+
+
+
+
     constructor(ships,game){
         this.stompClient = null;
         this.subscription = null;
@@ -8,6 +14,8 @@ class MessageService2 {
         this.side = null;
         this.connected = false;
         this.gameId = 0;
+        this.isStart = false;
+
     }
     connect() {
         if(this.stompClient===null){
@@ -40,12 +48,19 @@ class MessageService2 {
                         setTimeout((function () {
                             this.setReady();
                         }).bind(this) ,400);
+                        this.callback(true);
                     }
-                    else alert('Игрок с таким именем уже существует');
 
+
+                    else{ alert('Игрок с таким именем уже существует');
+
+                    }
                 }
             });
     }
+
+
+
     startGame() {
         this.subscription.unsubscribe();
         this.subscription = this.stompClient.subscribe('/game/process/'+this.gameId,(function (change) {
@@ -140,6 +155,7 @@ class MessageService2 {
         }
 
     }
+
     leaveServer() {
         this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
     }
@@ -173,12 +189,13 @@ class MessageService2 {
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].name !== this.name) {
                     if (arr[i].type === 'JOIN') {
-
+                        console.log('JOIN');
                     } else if (arr[i].type === 'CHOOSESIDE') {
-
+                        console.log('CHOOSESIDE');
                     } else if (arr[i].type === 'READY') {
-
+                        console.log('Готов');
                     } else if (arr[i].type === 'NOREADY') {
+                        console.log('ожидание игроков');
 
                     } else if (arr[i].type === 'START') {
                         key.setInputMode(false);
@@ -211,9 +228,7 @@ class MessageService2 {
 
 }
 
-//window.onbeforeunload = function() {
-  //  messageService.disconnect();
-//}
+
 
 function f(){
     alert('ДАМАГВСЕМ ПИЗДА');
