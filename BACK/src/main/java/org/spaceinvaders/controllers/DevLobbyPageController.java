@@ -3,6 +3,8 @@ package org.spaceinvaders.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spaceinvaders.messages.gamelobby.*;
+import org.spaceinvaders.messages.server.IsChoosenSideMessage;
+import org.spaceinvaders.messages.server.IsJoinToLobbyMessage;
 import org.spaceinvaders.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -29,9 +31,15 @@ public class DevLobbyPageController {
     //ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
 
     @MessageMapping("{id}/addJoinMessage")
-    private void  addJoinMessage(@DestinationVariable Integer id, JoinMessageDev message) {
-        gameService.addPlayerToGame(message.getName(),id);
-        log.info(message.getName() + " вошел в лобби "+ id);
+    @SendToUser("/queue/private")
+    private IsJoinToLobbyMessage addJoinMessage(@DestinationVariable Integer id, JoinMessageDev message) {
+        Boolean rez = gameService.addPlayerToGame(message.getName(),id);
+        if (rez)
+            log.info(message.getName() + " вошел в лобби "+ id);
+        else
+            log.info(message.getName()+" не смог войти в лобби");
+        return new IsJoinToLobbyMessage(rez);
+
     }
     //ПРОВЕРКА НА ГОТОВНОСТЬ ВСЕХ
     //ЕСЛИ ИСТИНА, ТО ОТПРАВЛЯЕТСЯ СООБЩЕНИЕ "НАЧАТЬ ИГРУ"(startgame())
@@ -48,14 +56,14 @@ public class DevLobbyPageController {
     //Выбор каждым игроком фракции
     @MessageMapping("{id}/addChooseSideMessage")
     @SendToUser("/queue/private")
-    public  Boolean addChooseSideMessage(@DestinationVariable Integer id, ChooseSideMessage message) {
+    public IsChoosenSideMessage addChooseSideMessage(@DestinationVariable Integer id, ChooseSideMessage message) {
 
         if (gameService.findGameById(id).isFractionEnable(message.getSide())) {
             gameService.findPlayerByName(message.getName()).setSide(message.getSide());
             log.info(String.valueOf(gameService.findPlayerByName(message.getName()).getSide()));
-            return true;
+            return new IsChoosenSideMessage(true);
         }
-        return false;
+        return new IsChoosenSideMessage(false);
     }
 
     //Нажатие на кнопку ГОТОВ!

@@ -16,7 +16,7 @@ class MessageService2 {
         this.gameId = 0;
         this.isStart = false;
         this.userSubscription = null;
-
+        this.isEnteredToLobby =false;
     }
     connect() {
         if(this.stompClient===null){
@@ -24,9 +24,22 @@ class MessageService2 {
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect({},function (frame) {
                 this.userSubscription = this.stompClient.subscribe("/user/queue/private", function (change) {
-                    if (JSON.parse(change.body)==true) {
-                        this.setReady();
-                        this.callback(true);
+                    let mes = JSON.parse(change.body);
+                    if (mes.type==="IS_CHOOSEN_SIDE") {
+                        if (mes.check){
+                            this.setReady();
+                            this.callback(true);
+                        }
+                    } else  if (mes.type = "IS_JOIN_TO_LOBBY") {
+                        if (mes.check) {
+                            this.isEnteredToLobby = true;
+                            this.subscribeLobby();
+                            this.chooseSide();
+                        } else  {
+                            ++this.gameId;
+                            this.joinLobby()
+                        }
+
                     }
                 }.bind(this))
             }.bind(this));
@@ -52,11 +65,8 @@ class MessageService2 {
                         this.connected = true;
                         this.joinServer();
                         setTimeout((function () {
-                            this.joinLobby(this.gameId);
+                            this.joinLobby();
                         }).bind(this) ,200);
-                        setTimeout((function () {
-                            this.chooseSide();
-                        }).bind(this) ,300);
 
                         //this.callback(true);
                     }
@@ -178,9 +188,7 @@ class MessageService2 {
     joinServer() {
         this.stompClient.send("/joinServer",{},JSON.stringify({'name':this.name}));
     }
-    joinLobby(id) {
-        this.gameId = id;
-        this.subscribeLobby(this.gameId);
+    joinLobby() {
         this.stompClient.send("/lobbyDev/"+this.gameId+"/addJoinMessage", {}, JSON.stringify({
             'name': this.name
         }));
@@ -197,10 +205,10 @@ class MessageService2 {
             'name':this.name
         }));
     }
-    subscribeLobby(id) {
+    subscribeLobby() {
         if (this.subscription!==null)
         this.subscription.unsubscribe();
-        this.subscription = this.stompClient.subscribe('/game/lobby/'+id, (function (change) {
+        this.subscription = this.stompClient.subscribe('/game/lobby/'+this.gameId, (function (change) {
             let arr = JSON.parse(change.body);
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].name !== this.name) {

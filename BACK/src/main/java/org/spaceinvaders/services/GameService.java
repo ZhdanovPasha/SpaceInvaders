@@ -47,8 +47,7 @@ public class GameService {
     }
     //добавить игрока в игру
     public boolean addPlayerToGame(String name, int GameIndex ) {
-        findGameById(GameIndex).addPlayer(findPlayerByName(name));
-        return true;
+        return findGameById(GameIndex).addPlayer(findPlayerByName(name));
     }
     public void leaveServer(String name) {
         Player player = findPlayerByName(name);

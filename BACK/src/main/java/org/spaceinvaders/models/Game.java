@@ -30,14 +30,17 @@ public class Game {
     }
 
     //Добавление игрока в игру, если игра еще не началась
-    public void addPlayer(Player player) {
-        if (!isStarted) {
-            if (player.getGame() != null) {
-                player.getGame().leaveGame(player);
-            }
-            players.put(player.getName(), player);
-            player.setGame(this);
+    public boolean addPlayer(Player player) {
+        if (!isStarted&&!isFullLobby()) {
+                if (player.getGame() != null) {
+                    player.getGame().leaveGame(player);
+                }
+                players.put(player.getName(), player);
+                player.setGame(this);
+                return true;
+
         }
+        return false;
     }
 
     public void leaveGame(Player player) {
@@ -92,7 +95,9 @@ public class Game {
     public void setShips(ConcurrentHashMap<String, Ship> ships) {
         this.ships = ships;
     }
-
+    public boolean isFullLobby() {
+        return players.size()==Conf.getMaxPlayers();
+    }
     public boolean readyCheck() {
         boolean rez = true;
         for (Map.Entry<String, Player> player : players.entrySet()) {
