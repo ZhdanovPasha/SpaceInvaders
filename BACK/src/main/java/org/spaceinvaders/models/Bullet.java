@@ -20,7 +20,7 @@ public class Bullet {
     }
     public void shot() {
         x = owner.getX() + Conf.getShipWidth()/2-Conf.getBulletWidth()/2;
-        y = owner.getY();
+        y = owner.getY()-Conf.getBulletHeight();
         speed = owner.getBulletSpeed();
         enabled = true;
     }

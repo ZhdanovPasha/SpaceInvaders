@@ -42,7 +42,7 @@ class Bullet{
 		if (!this.enabled) {
             if ( ship.fraction === this.owner.fraction ) {
                 this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
-                this.obj.y = this.owner.obj.y;
+                this.obj.y = this.owner.obj.y - this.owner.bulletHeight;
                 console.log(this.owner.obj.w);
 
             } else {

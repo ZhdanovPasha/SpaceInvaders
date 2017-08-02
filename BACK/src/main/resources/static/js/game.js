@@ -113,6 +113,13 @@ function createShip(name,fraction,x0,y0,speed) {
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+function checkEnemiesIsDead(){
+    for(i=1; i<ships.length;i++){
+        if(ship.fraction != ships[i].fraction)
+        return false;
+
+    }return true;
+}
 
 game.newLoop('game', function(){
 	game.clear();
@@ -142,7 +149,7 @@ game.newLoop('game', function(){
         //		ships.splice(i,1);
         //		i--;
         //	}
-        if (ships.length===1|| ships[0].isDead()) {
+        if (checkEnemiesIsDead()|| ships[0].isDead()) {
             messageService.destroy(ship.name);
             for(let i=0; i<ships.length; ++i){
                 let tmp = new Object();
@@ -166,8 +173,7 @@ game.newLoop('game', function(){
                     }
                 }
             }).bind(this));
-            messageService.stompClient.unsubscribe();
-        }
+            }
     }
     gameInterface.update(ship.currentHP, ship.scores, ships.length - 1);
     gameInterface.draw();
