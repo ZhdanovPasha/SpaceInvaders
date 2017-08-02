@@ -15,6 +15,7 @@ class MessageService2 {
         this.connected = false;
         this.gameId = 0;
         this.isStart = false;
+        this.userSubscription = null;
 
     }
     connect() {
@@ -22,13 +23,24 @@ class MessageService2 {
             this.socket = new SockJS('/game');
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect({},function (frame) {
-
-            });
+                this.userSubscription = this.stompClient.subscribe("/user/queue/private", function (change) {
+                    if (JSON.parse(change.body)==true) {
+                        this.setReady();
+                        this.callback(true);
+                    }
+                }.bind(this))
+            }.bind(this));
             console.log(this.stompClient);
 
         }}
 
     tryToconnect(name,side) {
+        if ((name == this.name) && this.connected){
+            this.side = side;
+            setTimeout((function () {
+                this.chooseSide();
+            }).bind(this) ,300);
+        } else
         if (name.length > 0)
             $.ajax({
                 url: '/devlogin/' + name,
@@ -45,10 +57,8 @@ class MessageService2 {
                         setTimeout((function () {
                             this.chooseSide();
                         }).bind(this) ,300);
-                        setTimeout((function () {
-                            this.setReady();
-                        }).bind(this) ,400);
-                        this.callback(true);
+
+                        //this.callback(true);
                     }
 
 

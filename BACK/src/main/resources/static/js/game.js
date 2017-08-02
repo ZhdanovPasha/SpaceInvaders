@@ -147,7 +147,7 @@ game.newLoop('game', function(){
         //	}
         //	if (ships[i].isDead()){
         //		ships.splice(i,1);
-        //		i--;
+        //		i--;checkEnemiesIsDead()
         //	}
         if (checkEnemiesIsDead()|| ships[0].isDead()) {
             messageService.destroy(ship.name);
@@ -175,7 +175,7 @@ game.newLoop('game', function(){
             }).bind(this));
             }
     }
-    gameInterface.update(ship.currentHP, ship.scores, ships.length - 1);
+    gameInterface.update(ship.currentHP, ship.scores,checkEnemiesIsDead() );
     gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){

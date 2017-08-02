@@ -26,17 +26,13 @@
                 // console.log('PINK');
                 messageService.callback=function(result){
                     if(result){
-                    setMenuElements(waitMenu);
-                     key.setInputMode(false);
-                     console.log(objects);
-                     objects.splice(0,objects.length);
-                     console.log(objects);
+                        setMenuElements(waitMenu);
+                        key.setInputMode(false);
+                        console.log(objects);
+                        objects.splice(0,objects.length);
+                        console.log(objects);
                                }  };
-
-
-                               messageService.tryToconnect(name,'PINK');
-
-
+                messageService.tryToconnect(name,'PINK');
                 obj = false;
 
             }
@@ -49,15 +45,12 @@
 
                 messageService.callback=function(result){
                 if(result){
-                 setMenuElements(waitMenu);
-                 objects.splice(0,objects.length);
-                 key.setInputMode(false);
+                    setMenuElements(waitMenu);
+                    objects.splice(0,objects.length);
+                    key.setInputMode(false);
                  }};
-
-
                messageService.tryToconnect(name,'BLUE');
-
-                obj = false;
+               obj = false;
             }
         }
     ];

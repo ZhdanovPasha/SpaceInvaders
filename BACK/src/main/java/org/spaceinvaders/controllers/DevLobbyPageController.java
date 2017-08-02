@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.spaceinvaders.services.GameService;
@@ -46,10 +47,15 @@ public class DevLobbyPageController {
     }
     //Выбор каждым игроком фракции
     @MessageMapping("{id}/addChooseSideMessage")
-    public  void addChooseSideMessage(@DestinationVariable Integer id, ChooseSideMessage message) {
+    @SendToUser("/queue/private")
+    public  Boolean addChooseSideMessage(@DestinationVariable Integer id, ChooseSideMessage message) {
+
+        if (gameService.findGameById(id).isFractionEnable(message.getSide())) {
             gameService.findPlayerByName(message.getName()).setSide(message.getSide());
             log.info(String.valueOf(gameService.findPlayerByName(message.getName()).getSide()));
-
+            return true;
+        }
+        return false;
     }
 
     //Нажатие на кнопку ГОТОВ!
