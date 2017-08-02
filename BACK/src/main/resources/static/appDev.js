@@ -76,7 +76,7 @@ class MessageService2 {
                             if (sh[j].dead) {
                                 var tmp = new Object();
                                 tmp.scores = ships[k].scores;
-                                console.log(tmp.scores + " " + ships[k].scores);
+
                                 tmp.name = ships[k].name;
                                 players.push(tmp);
                                 ships.splice(k,1);
@@ -114,7 +114,7 @@ class MessageService2 {
             }
 
 
-            console.log(JSON.parse(change.body));
+            //console.log(JSON.parse(change.body));
         }).bind(this));
 
 

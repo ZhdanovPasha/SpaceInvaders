@@ -19,6 +19,8 @@ class Ship{
 		this.speed = 1;
 		this.bulletSpeed = 5;
 		this.dx = 10;
+		this.bulletWidth = 27;
+		this.bulletHeight = 64;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
 		this.damage = 50;
@@ -62,8 +64,8 @@ class Ship{
 		for ( let i = 0; i < this.bullets.length; i++ ) {
            if (!this.bullets[i].enabled) {
                this.bullets[i].shot();
-               this.bullets[i].obj.x = this.obj.x;
-               this.bullets[i].obj.y = this.obj.y;
+               //this.bullets[i].obj.x = this.obj.x;
+               //this.bullets[i].obj.y = this.obj.y;
                return i;
 		   }
 		}

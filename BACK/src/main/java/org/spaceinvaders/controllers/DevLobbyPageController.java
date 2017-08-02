@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.spaceinvaders.services.GameService;
 
+import java.security.Principal;
+
 /**
  * Created by Gemini on 19.07.2017.
  */

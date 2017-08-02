@@ -30,11 +30,11 @@ class Bullet{
 	moveTo(x,y) {
 		if (this.enabled) {
             if ( ship.fraction === this.owner.fraction ) {
-                this.x = x;
-                this.y = y;
+                this.obj.x = x;
+                this.obj.y = y;
             } else {
-                this.x = game.getWH().w - (x + this.obj.w);
-                this.y = game.getWH().h - (y + this.obj.y);
+                this.obj.x = game.getWH().w - (x + this.obj.w);
+                this.obj.y = game.getWH().h - (y + this.obj.h);
             }
         }
 	}
@@ -43,9 +43,12 @@ class Bullet{
             if ( ship.fraction === this.owner.fraction ) {
                 this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
                 this.obj.y = this.owner.obj.y;
+                console.log(this.owner.obj.w);
+
             } else {
             	this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
                 this.obj.y = this.owner.obj.y + this.owner.obj.h;
+                console.log(this.owner.obj.w);
 			}
 			this.enabled = true;
 		}
