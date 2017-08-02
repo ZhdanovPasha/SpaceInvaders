@@ -120,10 +120,24 @@ game.newLoop('game', function(){
 	if (!gameEnd) {
         for (i = 0; i < ships.length; ++i) {
             ships[i].draw();
+            if (ships[i] instanceof Blue){
+                for (j = 0; j < ships[i].bots.length; j++){
+                    ships[i].bots[j].draw();
+                }
+            }
         }
         ships[0].control();
-        for (i = 0; i < ships.length; ++i)
-        	ships[i].fire();
+        if (ships[0] instanceof Blue){
+            ships[0].moveBots();
+        }
+        for (i = 0; i < ships.length; ++i) {
+            ships[i].fire();
+            if (ships[i] instanceof Blue){
+                for (j = 0; j < ships[i].bots.length; ++j){
+                    ships[i].fireBots();
+                }
+            }
+        }
 
         //for (i = 1 ; i < ships.length; ++i){
         //	if (Date.now() - ships[i].lastFire > 2000){

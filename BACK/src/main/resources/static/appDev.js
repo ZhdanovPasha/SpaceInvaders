@@ -65,6 +65,11 @@ class MessageService2 {
                             ships[k].moveBullets(sh[j].bullets);
                             ships[k].moveTo(sh[j].x);
                             ships[k].scores = sh[j].scores;
+                            if (sh[j].fraction == 'BLUE' && ships[k]!=ship){
+                                if (sh[j].bots.length > 0){
+                                    ships[k].createBots(4);
+                                }
+                            }
                             if (sh[j].dead) {
                                 var tmp = new Object();
                                 tmp.scores = ships[k].scores;

@@ -3,6 +3,7 @@ class Bullet{
 	constructor( owner,img){
 		console.log('bullet were created');
 		this.owner = owner;
+		console.log(owner);
 		if ( ship === null || this.owner.fraction === ship.fraction )
 			this.position = {x:owner.obj.x + (owner.obj.w)/2-owner.bulletWidth/2,y:owner.obj.y };
 		else

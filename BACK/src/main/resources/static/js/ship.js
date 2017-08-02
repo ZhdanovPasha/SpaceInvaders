@@ -64,8 +64,6 @@ class Ship{
 		for ( let i = 0; i < this.bullets.length; i++ ) {
            if (!this.bullets[i].enabled) {
                this.bullets[i].shot();
-               //this.bullets[i].obj.x = this.obj.x;
-               //this.bullets[i].obj.y = this.obj.y;
                return i;
 		   }
 		}
@@ -73,7 +71,6 @@ class Ship{
 	}
 	
 	fire(){
-
 		for (let i = 0; i < this.bullets.length; ++i){
 			let hit = false;
 			let bullet = this.bullets[i];
@@ -95,7 +92,6 @@ class Ship{
                             if (ships[j].isDead()){
                                 this.explosionSound.replay();
                             }
-                            //this.scores += this.killScores;
                             if(ship == ships[j])
                                 messageService.hit(this.name, ships[j].name, i);//Если сломаются пули, не передавать пули
                             break;
@@ -127,24 +123,7 @@ class Ship{
             if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= fon.h || hit){
                 bullet.enabled = false;
             }
-
-
-			// for (let j = 0; j < ships.length; ++j) {
-				//  if (bullet.checkHitting(ships[j])) {
-            //          hit = true;
-            //          if (this === ship)
-            //              messageService.hit(this.name,ships[j].name,i);
-            //          ships[j].getDamage(bullet.damage);
-            //          this.scores += this.killScores;
-            //
-            //      }
-            // }
-            // if (bullet.obj.y <= 0 || hit || bullet.obj.y >= height ){
-				// bullet.enabled = false;
-            // }
 		}
-
-
 	}
 	
 	draw(){
@@ -214,7 +193,6 @@ class Ship{
 	}
 	//наследуются только для героев
 	control() {
-
         if ((key.isDown('RIGHT')) && (key.isDown('LEFT'))) {
             messageService.move(this.name, 'NONE')
         }
@@ -233,26 +211,12 @@ class Ship{
                     else {
                         bulletImg = pinkBullet;
                     }
-                    // var bul = {
-                    //     position: {x: this.obj.x + (this.obj.w) / 2, y: this.obj.y + (this.obj.h) / 2},
-                    //     img: {
-                    //         width: this.bulletWidth, height: this.bulletHeight, source:
-                    //         bulletImg
-                    //     }, speed: 1, damage: 100, dy: bulletdy
-                    // };
-                    //this.addBullet();
                     let k = this.shot();
                     if (k != -1){
                         messageService.shot(this.name, k);
                     }
                     this.lastFire = Date.now();
                 }
-                // if (Date.now() - this.lastFire > 100 * this.speed){
-                // 	let k = this.shot();
-                // 	if (k != -1)
-                //    messageService.shot(this.name,k);
-                // 	this.lastFire = Date.now();
-                // }
             }
         }
     }

@@ -6,9 +6,4 @@ class Bot extends Ship{
 		this.bulletHeight = 54;
 	}
 
-	move(){
-		this.obj.x += getRandomInt(-1 * this.dx, this.dx);
-		this.draw();
-	}
-
 }
