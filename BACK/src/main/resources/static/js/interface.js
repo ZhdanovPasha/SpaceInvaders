@@ -93,7 +93,7 @@ class Interface{
 			this.skill_2 = this.game.newMesh({
 				//positionC: this.point(this.game.getWH().w2, this.height - 30),
 				x: this.game.getWH().w2-25,
-				y: this.height - 80,
+				y: this.height - 60,
 				add:[this.game.newRectObject({
 						w: 50,
 						h: 50,
@@ -206,7 +206,7 @@ class Interface{
 			this.skill_1 = this.game.newMesh({
 				//positionC: this.point(this.game.getWH().w2, this.height - 30),
 				x: this.game.getWH().w2-25,
-				y: this.height - 80,
+				y: this.height - 60,
 				add:[this.game.newRectObject({
 						w: 50,
 						h: 50,
