@@ -1,7 +1,7 @@
 class Bullet{
 	//position{x,y}, img={width, height, source}
 	constructor( owner,img){
-		console.log('success');
+		console.log('bullet were created');
 		this.owner = owner;
 		if ( ship === null || this.owner.fraction === ship.fraction )
 			this.position = {x:owner.obj.x + (owner.obj.w)/2-owner.bulletWidth/2,y:owner.obj.y };
@@ -43,9 +43,12 @@ class Bullet{
             if ( ship.fraction === this.owner.fraction ) {
                 this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
                 this.obj.y = this.owner.obj.y - this.owner.bulletHeight;
+                console.log(this.owner.obj.w);
+
             } else {
             	this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
                 this.obj.y = this.owner.obj.y + this.owner.obj.h;
+                console.log(this.owner.obj.w);
 			}
 			this.enabled = true;
 		}
@@ -55,7 +58,8 @@ class Bullet{
 		else return (this.obj.isStaticIntersect(shipp.obj.getStaticBox()))&& (shipp.fraction !== this.owner.fraction);
 	}
 	draw(){
-		if (this.enabled)
-		this.obj.draw();
+		if (this.enabled){
+            this.obj.draw();
+        }
 	}
 }

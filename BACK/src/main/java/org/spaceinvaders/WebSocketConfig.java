@@ -29,11 +29,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         stompEndpointRegistry.addEndpoint("/game").withSockJS();
     }
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        //config.enableSimpleBroker("/queue/", "/topic/");
-        //config.setUserDestinationPrefix("/user");
-    }
+
 
 
 }

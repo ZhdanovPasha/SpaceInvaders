@@ -22,7 +22,6 @@ public class Conf {
     final static private int countOfBots = 4;
     final static private int botBulletsCount = 5;
     final static private int bulletsCount = 10;
-    final static private int maxPlayers = 4;
     public Conf() {
     }
 
@@ -32,10 +31,6 @@ public class Conf {
 
     public static int getBulletsCount() {
         return bulletsCount;
-    }
-
-    public static int getMaxPlayers() {
-        return maxPlayers;
     }
 
     public static int getBotWidth() {

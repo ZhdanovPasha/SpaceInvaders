@@ -26,11 +26,19 @@ var audio = pjs.audio;
 var tiles = pjs.tiles;
 var OOP = pjs.OOP;
 var limit = math.limit;
+var alpha = 180;
+var pinkPlayer = 'img/pinkPlayer.png';
+var bluePlayer = 'img/bluePlayer.png';
+var pinkBullet = 'img/pinkBullet.png';
+var blueBullet = 'img/blueBullet.png';
 
 var isDef = OOP.isDef;
 
 var width = sys.getWH().w;
 var height = sys.getWH().h;
+
+var players = [];
+
 
 sys.addEvent('gameResize', 'PointJS_DEMO_resize', function () {
     width = sys.getWH().w;

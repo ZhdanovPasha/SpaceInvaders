@@ -13,14 +13,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by gemini on 24.07.17.
  */
 public class Game {
-    private int maxPlayers;
+
     private LinkedList<LobbyMessageEntity> lobbyMessages;
     private LinkedBlockingQueue<ProcessMessageEntity> processMessages;
     private  ConcurrentHashMap<String,Ship> ships;
     private Boolean isStarted;
     private ConcurrentHashMap<String,Player> players;
     public Game() {
-        maxPlayers = Conf.getMaxPlayers();
         lobbyMessages = new LinkedList<>();
         processMessages = new LinkedBlockingQueue<>();
         players = new ConcurrentHashMap<>();
@@ -58,23 +57,12 @@ public class Game {
                 }
 
             }
-            System.err.println("22222");
             isStarted = true;
             return true;
         }
         return false;
     }
 
-    public int getCountOfFractionPlayers(StatusInLobby stat) {
-        int buf = 0;
-        for (Map.Entry<String,Player> player:players.entrySet()) {
-            if (player.getValue().getSide() == stat) buf++;
-        }
-        return buf;
-    }
-    public boolean isFractionEnable(StatusInLobby stat) {
-        return getCountOfFractionPlayers(stat)< maxPlayers/2;
-    }
     public ConcurrentHashMap<String, Ship> getShips() {
         return ships;
     }
@@ -93,8 +81,9 @@ public class Game {
                 break;
             }
         }
-        if ((players.size() == maxPlayers)&&rez) System.out.println("111111");
-        return (players.size() == maxPlayers)&&rez;
+
+        if ((players.size()==2)&&rez) System.out.println("111111");
+        return (players.size()==2)&&rez;
     }
     public void resetGame() {
         if (isStarted) {
