@@ -1,37 +1,42 @@
-
-
 class MessageService2 {
-
-
-
-
     constructor(ships,game){
         this.stompClient = null;
         this.subscription = null;
+        this.userSubscription = null;
         this.game = game;
         this.ships = ships;
         this.name = null;
         this.side = null;
         this.connected = false;
         this.gameId = 0;
-        this.isStart = false;
-
     }
     connect() {
         if(this.stompClient===null){
             this.socket = new SockJS('/game');
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect({},function (frame) {
+                this.userSubscription = this.stompClient.subscribe("/user/queue/private", function (change) {
+                    if (JSON.parse(change.body)==true) {
+                        this.setReady();
+                    }
+                }.bind(this))
 
-            });
+
+            }.bind(this));
             console.log(this.stompClient);
 
         }}
 
     tryToconnect(name,side) {
+        if ((name == this.name) && this.connected){
+            this.side = side;
+            setTimeout((function () {
+                this.chooseSide();
+            }).bind(this) ,300);
+        } else
         if (name.length > 0)
             $.ajax({
-                url: '/devlogin/' + name,
+                url: '/checks/login/' + name,
                 context:this,
                 success: function (data) {
                     if (data) {
@@ -42,24 +47,16 @@ class MessageService2 {
                         setTimeout((function () {
                             this.joinLobby(this.gameId);
                         }).bind(this) ,200);
+                        this.connected = true;
                         setTimeout((function () {
                             this.chooseSide();
                         }).bind(this) ,300);
-                        setTimeout((function () {
-                            this.setReady();
-                        }).bind(this) ,400);
-                        this.callback(true);
                     }
+                    else alert('Игрок с таким именем уже существует');
 
-
-                    else{ alert('Игрок с таким именем уже существует');
-
-                    }
                 }
             });
     }
-
-
 
     startGame() {
         this.subscription.unsubscribe();
@@ -72,13 +69,7 @@ class MessageService2 {
                         if (sh[j].name === ships[k].name) {
                             ships[k].moveBullets(sh[j].bullets);
                             ships[k].moveTo(sh[j].x);
-                            ships[k].scores = sh[j].scores;
                             if (sh[j].dead) {
-                                var tmp = new Object();
-                                tmp.scores = ships[k].scores;
-
-                                tmp.name = ships[k].name;
-                                players.push(tmp);
                                 ships.splice(k,1);
                             }
 
@@ -114,7 +105,7 @@ class MessageService2 {
             }
 
 
-            //console.log(JSON.parse(change.body));
+            console.log(JSON.parse(change.body));
         }).bind(this));
 
 
@@ -155,14 +146,14 @@ class MessageService2 {
     }
     disconnect() {
         if (this.connected) {
-            this.leaveServer();
+            this.leaveServer()
             this.stompClient.disconnect();
             console.log("Disconnected");
         }
 
     }
-
     leaveServer() {
+        this.connected = false;
         this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
     }
     joinServer() {
@@ -195,13 +186,12 @@ class MessageService2 {
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].name !== this.name) {
                     if (arr[i].type === 'JOIN') {
-                        console.log('JOIN');
+
                     } else if (arr[i].type === 'CHOOSESIDE') {
-                        console.log('CHOOSESIDE');
+
                     } else if (arr[i].type === 'READY') {
-                        console.log('Готов');
+
                     } else if (arr[i].type === 'NOREADY') {
-                        console.log('ожидание игроков');
 
                     } else if (arr[i].type === 'START') {
                         key.setInputMode(false);
@@ -218,7 +208,6 @@ class MessageService2 {
                                 createShip(player.name,player.fraction,player.x,player.y,player.speed);
                             }
                         }
-                        console.log('I want to start game');
                         this.startGame();
                         this.game.startLoop('game');
                     } else if (arr[i].type === 'LEAVE') {
@@ -235,7 +224,9 @@ class MessageService2 {
 
 }
 
-
+//window.onbeforeunload = function() {
+  //  messageService.disconnect();
+//}
 
 function f(){
     alert('ДАМАГВСЕМ ПИЗДА');

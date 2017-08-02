@@ -1,7 +1,4 @@
 (function (game) {
-    var wait = {
-    text : "Ожидание игроков"
-    }
     var obj;
     var header;
     var items;
@@ -12,9 +9,6 @@
     var name="";
     var key = pjs.keyControl;
     var nameMaxLength = 30;
-    var waitMenu = [
-    {text : "Ожидание игроков"
-    }];
     var chooseMenuElements = [
         { //0 всегда заголовок
             text: "Choose Your destiny"
@@ -23,22 +17,11 @@
             text: "Pink",
             handle: function () {
                 console.log("Pink: "+name);
-                // console.log('PINK');
-                messageService.callback=function(result){
-                    if(result){
-                    setMenuElements(waitMenu);
-                     key.setInputMode(false);
-                     console.log(objects);
-                     objects.splice(0,objects.length);
-                     console.log(objects);
-                               }  };
+                //key.setInputMode(false);
+                   console.log('1');
 
-
-                               messageService.tryToconnect(name,'PINK');
-
-
+                messageService.tryToconnect(name,'PINK');
                 obj = false;
-
             }
         },
         {
@@ -46,28 +29,12 @@
             handle: function () {
                 console.log("blue: "+name);
                 //key.setInputMode(false);
-
-                messageService.callback=function(result){
-                if(result){
-                 setMenuElements(waitMenu);
-                 objects.splice(0,objects.length);
-                 key.setInputMode(false);
-                 }};
-
-
-               messageService.tryToconnect(name,'BLUE');
-
+                console.log('1');
+                messageService.tryToconnect(name,'BLUE');
                 obj = false;
             }
         }
     ];
-    var namePlayer = game.newTextObject({
-                                   text: "Имя:",
-                                   x: width / 2 - menuWidth,
-                                   y: 50,
-                                   color: 'white',
-                                   size: menuElemHeight * 0.75
-                               });
     var menuElements = [
         { //0 всегда заголовок
             text: "Space Invaders"
@@ -75,7 +42,13 @@
         {
             text: "Играть",
             handle: function () {
-                objects.push(namePlayer);
+                objects.push(game.newTextObject({
+                    text: "Имя:",
+                    x: width / 2 - menuWidth,
+                    y: 50,
+                    color: 'white',
+                    size: menuElemHeight * 0.75
+                }));
                 key.setInputMode(true);
                 setMenuElements(chooseMenuElements);
                 messageService.connect();
@@ -87,6 +60,7 @@
             text: "Выход",
             handle: function () {
                 window.close();
+
             }
         }
     ];

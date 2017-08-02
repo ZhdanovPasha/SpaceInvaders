@@ -4,15 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spaceinvaders.messages.gamelobby.*;
 import org.spaceinvaders.models.Game;
+import org.spaceinvaders.models.StatusInLobby;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.spaceinvaders.services.GameService;
-
-import java.security.Principal;
 
 /**
  * Created by Gemini on 19.07.2017.
@@ -32,6 +32,7 @@ public class DevLobbyPageController {
         gameService.addPlayerToGame(message.getName(),id);
         log.info(message.getName() + " вошел в лобби "+ id);
     }
+
     //ПРОВЕРКА НА ГОТОВНОСТЬ ВСЕХ
     //ЕСЛИ ИСТИНА, ТО ОТПРАВЛЯЕТСЯ СООБЩЕНИЕ "НАЧАТЬ ИГРУ"(startgame())
     @Scheduled(fixedDelay = 50)
@@ -39,17 +40,22 @@ public class DevLobbyPageController {
         for (int i = 0; i < gameService.getGamesCount() ; i++) {
             Game game = gameService.findGameById(i);
             if (game.startGame()) {
+                log.info("Началась игра");
                 game.getLobbyMessages().push(new StartMessage(game.getShips().values()));
             }
-
         }
     }
     //Выбор каждым игроком фракции
     @MessageMapping("{id}/addChooseSideMessage")
-    public  void addChooseSideMessage(@DestinationVariable Integer id, ChooseSideMessage message) {
-            gameService.findPlayerByName(message.getName()).setSide(message.getSide());
-            log.info(String.valueOf(gameService.findPlayerByName(message.getName()).getSide()));
+    @SendToUser("/queue/private")
+    public  Boolean addChooseSideMessage(@DestinationVariable Integer id, ChooseSideMessage message) {
 
+            if (gameService.findGameById(id).isFractionEnable(message.getSide())) {
+                gameService.findPlayerByName(message.getName()).setSide(message.getSide());
+                log.info(String.valueOf(gameService.findPlayerByName(message.getName()).getSide()));
+                return true;
+            }
+            return false;
     }
 
     //Нажатие на кнопку ГОТОВ!
@@ -76,6 +82,7 @@ public class DevLobbyPageController {
             Game game = gameService.findGameById(i);
                  if (!game.getLobbyMessages().isEmpty()) {
                      simpMessagingTemplate.convertAndSend("/game/lobby/" + i, game.getLobbyMessages());
+                     log.info("Отправлены сообщения");
                      game.getLobbyMessages().clear();
                  }
              }

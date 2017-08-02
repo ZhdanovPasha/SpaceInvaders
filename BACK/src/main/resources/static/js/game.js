@@ -1,3 +1,4 @@
+
 var pjs = new PointJS('2d', 700, 600);
 //pjs.system.initFullScreen();
 
@@ -45,7 +46,7 @@ var noEnemy = false;
 var gameEnd = false;
 var ships = [];
 var ship = null;
-var gameInterface = new Interface(pjs);
+
 
 var fon = game.newImageObject({
     position: point(0, 0),
@@ -57,10 +58,14 @@ var initParameters = function(){
 	noEnemy = false;
 	gameEnd = false;
 	ships.splice(0, ships.length);
-	ship = null;
 }
 var messageService = new MessageService2(ships,game);
 var playerName = name;
+
+var gameInterface = new Interface(pjs);
+gameInterface.initialize(playerName, 100, scores, enemies.length);
+gameInterface.initializeObjects();
+
 
 // надо исправить числовые значения
 //var addEnemies = function(){
@@ -69,57 +74,31 @@ var playerName = name;
   //  	ships.push(tmp);
  //   }
 //};
-function newEnemyShip(name,x0){
+function newEnemyShip(name,x0,y,speed){
     if (ship.fraction === 'BLUE'){
-        var pink = new Pink({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
-        pink.obj.setAngle(alpha);
-        return pink;
+        return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'PINK',speed)
     }
-    else{
-        var blue = new Blue({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
-        blue.obj.setAngle(0);
-        console.log('create blue enemy');
-        return blue;
-    }
+    return new Ship({x:x0, y:70},	 {w: shipWidth, h: shipHeight, source: 'img/enemy.png'}, name, 'BLUE',speed)
 }
-
-function newAllyShip(name,x,y) {
-    if (ship.fraction === 'BLUE'){
-        return new Blue({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, 'BLUE', name);
-    }
-    else {
-        return new Pink({x:x, y:y},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
-    }
+function newAllyShip(name,x,y,speed) {
+    return new Ship({x: x, y: y},
+        {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, ship.fraction,speed)
 }
-
 function createShip(name,fraction,x0,y0,speed) {
 	if (ship===null) {
-        if (fraction === 'BLUE'){
-            ship = new Blue({x:x0, y:y0},{w: shipWidth, h: shipHeight, source: 'img/bluePlayer.png'}, ships.length +1, fraction, name);
-        }
-        else {
-            ship = new Pink({x:x0, y:y0},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, fraction, name);
-        }
+        ship = new Ship({x:x0, y:y0},	 {w: shipWidth, h: shipHeight, source: 'img/player.png'}, name, fraction,speed)
         ships.push(ship);
-        gameInterface.initialize(ship, 100, scores, enemies.length);
-        gameInterface.initializeObjects();
         console.log(ships);
-    } else  if (ship.fraction != fraction) {
-	    ships.push(newEnemyShip(name,x0));
+    } else  if (ship.fraction!==fraction) {
+	    ships.push(newEnemyShip(name,x0,y0,speed));
     } else {
-	    ships.push(newAllyShip(name,x0,y0));
+	    ships.push(newAllyShip(name,x0,y0,speed))
     }
 }
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function checkEnemiesIsDead(){
-    for(i=1; i<ships.length;i++){
-        if(ship.fraction != ships[i].fraction)
-        return false;
 
-    }return true;
-}
 
 game.newLoop('game', function(){
 	game.clear();
@@ -149,40 +128,22 @@ game.newLoop('game', function(){
         //		ships.splice(i,1);
         //		i--;
         //	}
-        if (checkEnemiesIsDead()|| ships[0].isDead()) {
-            messageService.destroy(ship.name);
-            for(let i=0; i<ships.length; ++i){
-                let tmp = new Object();
-                tmp.scores = ships[i].scores;
-                tmp.name = ships[i].name;
-                players.push(tmp);
-            }
-            gameEnd = true;
 
-            messageService.stompClient.subscribe('/game/process/'+messageService.gameId,(function (change) {
-                let arr = JSON.parse(change.body);
-                if (arr.type === 'STATE') {
-                    let sh = arr.ships;
-                    for (let j = 0; j < sh.length; j++) {
-                        for(let i = 0; i < players.length; ++i){
-                            if(sh[j].name == players[i].name){
-                                if(sh[j].scores != players[i].scores)
-                                    players[i].scores = sh[j].scores;
-                            }
-                        }
-                    }
-                }
-            }).bind(this));
-            }
+        if (ships.length===1|| ships[0].isDead()) {
+            messageService.destroy(ship.name);
+
+            gameEnd = true;
+        }
     }
-    gameInterface.update(ship.currentHP, ship.scores, ships.length - 1);
-    gameInterface.draw();
+	
+	gameInterface.update(ships[0].currentHP, ships[0].scores, ships.length - 1);
+	gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){
 	    messageService.leaveServer();
 		console.log(gameEnd);
 		initParameters();
-		game.startLoop('battle_result');
+		game.startLoop('menu');
 	
 	}
 	// for (i = 1; i<ships.length; ++i){

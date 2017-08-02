@@ -19,10 +19,13 @@ public class Bullet {
         y -= speed;
     }
     public void shot() {
-        x = owner.getX() + Conf.getShipWidth()/2-Conf.getBulletWidth()/2;
-        y = owner.getY()-Conf.getBulletHeight();
-        speed = owner.getBulletSpeed();
-        enabled = true;
+        if (!enabled) {
+            x = owner.getX() + Conf.getShipWidth() / 2 - Conf.getBulletWidth() / 2;
+            y = owner.getY() - Conf.getBulletHeight();
+            speed = owner.getBulletSpeed();
+            enabled = true;
+
+        }
     }
     public void destroyBull() {
         this.enabled = false;
