@@ -169,6 +169,7 @@ class Ship{
 	}
 	moveBullets (bullets) {
 		for (let i = 0 ; i < this.bullets.length; i++) {
+            this.bullets[i].enabled = bullets[i].enabled;
 			this.bullets[i].moveTo(bullets[i].x,bullets[i].y);
 		}
 	}

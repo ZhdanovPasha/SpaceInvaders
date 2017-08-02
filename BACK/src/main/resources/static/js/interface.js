@@ -386,10 +386,10 @@ class Interface{
 		else 
 			this.currHP = hp;
 		
-		if(en == 0)
+		if(en)
 			this.initialWin();
 		
-		this.enemies = en;
+		//this.enemies = en;
 		
 		if(sc < 0)
 			this.scores = 0;
