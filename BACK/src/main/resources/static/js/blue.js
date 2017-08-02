@@ -14,18 +14,25 @@ class Blue extends Ship{
 		this.skill_1.description = "Призвать ботов";
 		this.skill_1.duration = 5000;
 		this.skill_1.cooldown = 10000;
+
+        for (let i = 0; i < 4; ++i){
+            let botsArea = (this.obj.w/2+10)* 4;
+            let tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + 4*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
+                {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'BLUE', 'noname');
+            this.bots.push(tmp);
+        }
 	}
 	//создание ботов
-	createBots(num){
-		if (this.bots.length)
-			return;
-		var botsArea = (this.obj.w/2+10)* num;
-		for (var i = 0; i < num; ++i){
-			var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
-				{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'BLUE', 'noname');
-			this.bots.push(tmp);
-		}
-	}
+	// createBots(num){
+	// 	if (this.bots.length)
+	// 		return;
+	// 	var botsArea = (this.obj.w/2+10)* num;
+	// 	for (var i = 0; i < num; ++i){
+	// 		var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
+	// 			{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'BLUE', 'noname');
+	// 		this.bots.push(tmp);
+	// 	}
+	// }
 
 	moveBots(){
 		var num = this.bots.length;
@@ -33,11 +40,15 @@ class Blue extends Ship{
 		//this is black magic
 		for (var i = 0; i < num; ++i){
 			this.bots[i].obj.x = this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17;
-			if(this.bots[i].obj.y != this.obj.y-this.obj.w - 10){
-				if(ships[0] instanceof  Blue)
-					this.bots[i].obj.y -= 1;
-				else 
-					this.bots[i].obj.y += 1;
+			if (ship instanceof Blue) {
+                if (this.bots[i].obj.y != this.obj.y - this.obj.w - 10) {
+                	this.bots[i].obj.y -= 1;
+                }
+            }
+            else{
+                if (this.bots[i].obj.y != this.obj.y + this.obj.w + 10) {
+                	this.bots[i].obj.y += 1;
+                }
 			}
 		}
 	}
@@ -85,6 +96,26 @@ class Blue extends Ship{
         }
 	}
 
+	activateSkill(){
+		for (let i = 0; i < this.bots.length; ++i){
+			this.bots[i].enabled = true;
+            let botsArea = (this.obj.w/2+10)* this.bots.length;
+            this.bots[i].obj.x =this.obj.x - botsArea/2 + (i)*this.obj.w/2 + this.bots.length*(i+1) + 17;
+            this.bots[i].obj.y =(ship instanceof Blue)?600: -this.obj.h;
+            this.bots[i].obj.setVisible(true);
+		}
+	}
+
+	getEnabledBots(){
+		let res = 0;
+		for (let i = 0; i < this.bots.length; ++i ){
+			if (this.bots[i].enabled){
+				res ++;
+			}
+		}
+		return res;
+	}
+
 	control(){
 	    if((key.isDown('RIGHT'))&&(key.isDown('LEFT'))){
 	        messageService.move(this.name, 'NONE');
@@ -98,22 +129,18 @@ class Blue extends Ship{
 		//возможно, что достаточно в ship
 		if (key.isDown('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
-				/*var bul = {position:{x:this.obj.x + (this.obj.w)/2,y:this.obj.y - (this.obj.h)/2},
-					img:{width:this.bulletWidth, height: this.bulletHeight, source:
-					blueBullet}, speed:1, damage: 100, dy: 5};
-				this.addBullet(bul);
-				this.lastFire = Date.now();*/
 				let count = this.shot();
 				if(count != -1)
 				    messageService.shot(this.name, count);
 				    this.lastFire = Date.now();
 			}
 		}
-		if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length){
+		let botsNow = this.getEnabledBots();
+		if (Date.now() - this.lastTimeCreateBots > 5000 && !botsNow ){
 			gameInterface.skill_1.switchOn();
 			if(key.isPress('Q')){
 				messageService.activateSkill(this.name, 0);
-				this.createBots(4);
+				this.activateSkill();
 				this.lastTimeCreateBots = Date.now();
 				gameInterface.skill_1.switchOff();
 			}

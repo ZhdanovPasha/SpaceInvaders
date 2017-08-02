@@ -70,6 +70,17 @@ public class DevProcessController {
 
     }
 
+    @MessageMapping("{id}/addHitBotMessage")
+    public void addHitBotMessage(@DestinationVariable Integer id,HitBotMessage message) throws InterruptedException {
+        Game game = gameService.findGameById(id);
+        if (game.getStarted()){
+            game.getShips().get(message.getName()).findBotById(message.getNumBot()).setEnabled(false);
+            game.getProcessMessages().put(message);
+            log.info("У игрока "+message.getName()+" убили бота");
+            log.info("у бота Enable=" + game.getShips().get(message.getName()).findBotById(message.getNumBot()).isEnabled());
+        }
+    }
+
     @MessageMapping("{id}/addMoveMessage")
     public void addMoveMessage(@DestinationVariable Integer id,MoveMessage message) throws InterruptedException {
         Game game = gameService.findGameById(id);

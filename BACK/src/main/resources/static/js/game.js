@@ -121,15 +121,13 @@ game.newLoop('game', function(){
         for (i = 0; i < ships.length; ++i) {
             ships[i].draw();
             if (ships[i] instanceof Blue){
+                ships[i].moveBots();
                 for (j = 0; j < ships[i].bots.length; j++){
                     ships[i].bots[j].draw();
                 }
             }
         }
         ships[0].control();
-        if (ships[0] instanceof Blue){
-            ships[0].moveBots();
-        }
         for (i = 0; i < ships.length; ++i) {
             ships[i].fire();
             if (ships[i] instanceof Blue){

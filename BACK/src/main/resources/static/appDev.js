@@ -66,8 +66,14 @@ class MessageService2 {
                             ships[k].moveTo(sh[j].x);
                             ships[k].scores = sh[j].scores;
                             if (sh[j].fraction == 'BLUE' && ships[k]!=ship){
-                                if (sh[j].bots.length > 0){
-                                    ships[k].createBots(4);
+                                let tmp = 0;
+                                for (let i=0; i < sh[j].bots.length; ++i){
+                                    if (!sh[j].bots[i].enabled){
+                                        tmp ++;
+                                    }
+                                }
+                                if (tmp == 0){
+                                    ships[k].activateSkill();
                                 }
                             }
                             if (sh[j].dead) {
@@ -128,6 +134,15 @@ class MessageService2 {
             'numBullet':numBullet
         }));
     }
+
+    hitBot(name,numBot,numBullet) {
+        this.stompClient.send("/processDev/"+this.gameId+"/addHitBotMessage",{},JSON.stringify({
+            'name':name,
+            'numBot':numBot,
+            'numBullet':numBullet
+        }));
+    }
+
     shot(name,k) {
         this.stompClient.send("/processDev/"+this.gameId+"/addShotMessage",{},JSON.stringify({
             'name':name,
