@@ -47,7 +47,6 @@ public class DevProcessController {
             game.findShipByName(message.getName()).findSkillById(message.getNum()).activate();
             game.getProcessMessages().put(message);
         }
-
     }
     @MessageMapping("{id}/addDeactivateSkillMessage")
     public void addDeactivateSkillMessage(@DestinationVariable Integer id, ActivateSkillMessage message) throws InterruptedException {
@@ -103,8 +102,6 @@ public class DevProcessController {
         }
     }
 
-
-
     @Scheduled(fixedDelay = 10)
     public void hello() throws InterruptedException {
         for (int j = 0; j < gameService.getGamesCount() ; j++) {
@@ -120,9 +117,6 @@ public class DevProcessController {
             }
         }
     }
-
-
-
 
 
 }

@@ -1,9 +1,4 @@
-
-
 class MessageService2 {
-
-
-
 
     constructor(ships,game){
         this.stompClient = null;
@@ -51,15 +46,12 @@ class MessageService2 {
                         this.callback(true);
                     }
 
-
                     else{ alert('Игрок с таким именем уже существует');
 
                     }
                 }
             });
     }
-
-
 
     startGame() {
         this.subscription.unsubscribe();
@@ -113,10 +105,8 @@ class MessageService2 {
 
             }
 
-
             //console.log(JSON.parse(change.body));
         }).bind(this));
-
 
     }
     move(name,direction){
@@ -137,6 +127,20 @@ class MessageService2 {
         this.stompClient.send("/processDev/"+this.gameId+"/addShotMessage",{},JSON.stringify({
             'name':name,
             'numBullet' : k
+        }));
+    }
+
+    activateSkill(name, num){
+        this.stompClient.send("/processDev/"+this.gameId+"/addActivateSkillMessage",{},JSON.stringify({
+            'name':name,
+            'num' : num
+        }));
+    }
+
+    deactivateSkill(name, num){
+        this.stompClient.send("/processDev/"+this.gameId+"/addDeactivateSkillMessage",{},JSON.stringify({
+            'name':name,
+            'num' : num
         }));
     }
 
@@ -230,16 +234,4 @@ class MessageService2 {
             console.log(JSON.parse(change.body));
         }).bind(this));
     }
-
-
-
 }
-
-
-
-function f(){
-    alert('ДАМАГВСЕМ ПИЗДА');
-}
-
-
-

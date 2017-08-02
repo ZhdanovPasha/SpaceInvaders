@@ -16,7 +16,6 @@ public class GameService {
     @Autowired
     private ConcurrentHashMap<String,Player> players;
 
-
     @Scheduled(fixedDelay = 16)
     void update() {
         for (Ship ship:getAllShips()) {
