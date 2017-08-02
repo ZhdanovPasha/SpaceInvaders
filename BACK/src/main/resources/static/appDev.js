@@ -93,6 +93,22 @@ class MessageService2 {
                             ships[k].moveBullets(sh[j].bullets);
                             ships[k].moveTo(sh[j].x);
                             ships[k].scores = sh[j].scores;
+
+                            if(sh[j].fraction == 'PINK' && ships[k] != ship){
+
+                                if(sh[j].speed != 10){
+                                    ships[k].activateSkill_2();
+                                }
+                                else
+                                    ships[k].deactivateSkill_2();
+
+                                if(sh[j].immortality == true){
+                                    ships[k].activateSkill_3();
+                                }
+                                else
+                                    ships[k].deactivateSkill_3();
+                            }
+
                             if (sh[j].dead) {
                                 var tmp = new Object();
                                 tmp.scores = ships[k].scores;
@@ -160,6 +176,20 @@ class MessageService2 {
         }));
     }
 
+    activateSkill(name, num){
+        this.stompClient.send("/processDev/"+this.gameId+"/addActivateSkillMessage",{},JSON.stringify({
+            'name':name,
+            'num' : num
+        }));
+    }
+
+    deactivateSkill(name, num){
+        this.stompClient.send("/processDev/"+this.gameId+"/addDeactivateSkillMessage",{},JSON.stringify({
+            'name':name,
+            'num' : num
+        }));
+    }
+
     destroy(name) {
         this.subscription.unsubscribe();
         this.stompClient.send("/processDev/"+this.gameId+"/addDestroyMessage",{},JSON.stringify({
@@ -194,6 +224,25 @@ class MessageService2 {
         }));
 
     }
+
+    getLastChangesForScores(){
+        var sub = messageService.stompClient.subscribe('/game/process/'+messageService.gameId,(function (change) {
+            let arr = JSON.parse(change.body);
+            if (arr.type === 'STATE') {
+                let sh = arr.ships;
+                for (let j = 0; j < sh.length; j++) {
+                    for(let i = 0; i < players.length; ++i){
+                        if(sh[j].name == players[i].name){
+                            if(sh[j].scores != players[i].scores)
+                                players[i].scores = sh[j].scores;
+                        }
+                    }
+                }
+                sub.unsubscribe();
+            }
+        }));
+    }
+
     chooseSide() {
         this.stompClient.send("/lobbyDev/"+this.gameId+"/addChooseSideMessage",{},JSON.stringify({
             'name':this.name,

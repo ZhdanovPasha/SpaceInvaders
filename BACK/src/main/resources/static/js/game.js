@@ -129,6 +129,13 @@ game.newLoop('game', function(){
             ships[i].draw();
         }
         ships[0].control();
+
+        for(let i = 0; i < ships.length; ++i){
+            if(ships[i] instanceof Pink){
+                ships[i].check();
+            }
+        }
+
         for (i = 0; i < ships.length; ++i)
         	ships[i].fire();
 
@@ -159,21 +166,8 @@ game.newLoop('game', function(){
             }
             gameEnd = true;
 
-            messageService.stompClient.subscribe('/game/process/'+messageService.gameId,(function (change) {
-                let arr = JSON.parse(change.body);
-                if (arr.type === 'STATE') {
-                    let sh = arr.ships;
-                    for (let j = 0; j < sh.length; j++) {
-                        for(let i = 0; i < players.length; ++i){
-                            if(sh[j].name == players[i].name){
-                                if(sh[j].scores != players[i].scores)
-                                    players[i].scores = sh[j].scores;
-                            }
-                        }
-                    }
-                }
-            }).bind(this));
-            }
+            messageService.getLastChangesForScores();
+        }
     }
     gameInterface.update(ship.currentHP, ship.scores,checkEnemiesIsDead() );
     gameInterface.draw();

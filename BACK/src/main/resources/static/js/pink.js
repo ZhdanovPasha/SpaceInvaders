@@ -43,14 +43,52 @@ class Pink extends Ship{
 		this.immortality = immortality;
 	}
 
+	activateSkill_1(){
+	    if(this.fastBulletsSpeed == true) return;
+
+	    this.fastBulletsSpeed = true;
+        this.lastChangeBulletsSpeed = Date.now();
+        this.changeBulletsSpeed(this.bulletSpeed+5);
+	}
+
+	deactivateSkill_1(){
+	    if(this.fastBulletsSpeed == false) return;
+
+	    this.changeBulletsSpeed(this.bulletSpeed - 5);
+        this.fastBulletsSpeed = false;
+	}
+
+	activateSkill_2(){
+	    if(this.fastMoveSpeed == true) return;
+
+	    this.fastMoveSpeed = true;
+        this.lastChangeMoveSpeed = Date.now();
+        this.changeMoveSpeed(this.speed + 1);
+	}
+
+	deactivateSkill_2(){
+	    if(this.fastMoveSpeed == false) return;
+
+	    this.changeMoveSpeed(this.speed - 1);
+        this.fastMoveSpeed = false;
+	}
+
+	activateSkill_3(){
+	    this.lastSetImmortality = Date.now();
+        this.setImmortality(true);
+	}
+
+	deactivateSkill_3(){
+	    this.setImmortality(false);
+	}
+
 	control(){
 		super.control();
 		if (Date.now() - this.lastChangeBulletsSpeed > this.skill_1.cooldown && !this.fastBulletsSpeed){
 			gameInterface.skill_1.switchOn();
 			if (key.isPress('Q')){
-				this.fastBulletsSpeed = true;
-				this.lastChangeBulletsSpeed = Date.now();
-				this.changeBulletsSpeed(this.bulletSpeed+5);
+			    messageService.activateSkill(this.name, 2);
+				this.activateSkill_1();
 				gameInterface.skill_1.switchOff();
 				console.log('bulletSpeed is increased');
 			}
@@ -58,9 +96,8 @@ class Pink extends Ship{
 		if (Date.now() - this.lastChangeMoveSpeed > this.skill_2.cooldown && !this.fastMoveSpeed){
 				gameInterface.skill_2.switchOn();
 			if (key.isPress('W')){
-				this.fastMoveSpeed = true;
-				this.lastChangeMoveSpeed = Date.now();
-				this.changeMoveSpeed(this.speed + 1);
+			    messageService.activateSkill(this.name, 0);
+				this.activateSkill_2();
 				gameInterface.skill_2.switchOff();
 				console.log('moveSpeed is increased');
 			}
@@ -68,8 +105,8 @@ class Pink extends Ship{
 		if (Date.now() - this.lastSetImmortality > this.skill_3.cooldown && !this.immortality){
 				gameInterface.skill_3.switchOn();
 			if (key.isPress('E')){
-				this.lastSetImmortality = Date.now();
-				this.setImmortality(true);
+			    messageService.activateSkill(this.name, 1);
+				this.activateSkill_3();
 				gameInterface.skill_3.switchOff();
 				console.log('setImmortality');
 			}
@@ -78,17 +115,18 @@ class Pink extends Ship{
 	// проверка для выключения скилов
 	check(){
 		if (Date.now() - this.lastChangeBulletsSpeed > this.skill_1.duration && this.fastBulletsSpeed == true){
-			this.changeBulletsSpeed(this.bulletSpeed - 5);
-			this.fastBulletsSpeed = false;
+		    messageService.deactivateSkill(this.name, 2);
+			this.deactivateSkill_1();
 			console.log('bulletSpeed increase');
 		}
 		if (Date.now() - this.lastChangeMoveSpeed > this.skill_2.duration && this.fastMoveSpeed == true){
-			this.changeMoveSpeed(this.speed - 1);
-			this.fastMoveSpeed = false;
+		    messageService.deactivateSkill(this.name, 0);
+			this.deactivateSkill_2();
 			console.log('movespeed decrease');
 		}
 		if (Date.now() - this.lastSetImmortality > this.skill_3.duration && this.immortality == true){
-			this.setImmortality(false);
+		    messageService.deactivateSkill(this.name, 1);
+			this.deactivateSkill_3();
 			console.log('immortality off');
 		}
 	}
