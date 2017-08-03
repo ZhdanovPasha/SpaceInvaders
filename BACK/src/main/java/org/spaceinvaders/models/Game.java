@@ -118,6 +118,7 @@ public class Game {
             for (Map.Entry<String, Player> player : players.entrySet()) {
                 player.getValue().leaveGame();
             }
+            ships.clear();
         }
     }
 
