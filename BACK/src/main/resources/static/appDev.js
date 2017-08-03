@@ -30,6 +30,9 @@ class MessageService2 {
                             this.setReady();
                             this.callback(true);
                         }
+                        else {
+                        alert('Мест в данной фракции нет');
+                        }
                     } else  if (mes.type = "IS_JOIN_TO_LOBBY") {
                         if (mes.check) {
                             this.isEnteredToLobby = true;
@@ -68,7 +71,6 @@ class MessageService2 {
                             this.joinLobby();
                         }).bind(this) ,200);
 
-                        //this.callback(true);
                     }
 
 
@@ -150,7 +152,6 @@ class MessageService2 {
             }
 
 
-            //console.log(JSON.parse(change.body));
         }).bind(this));
 
 
@@ -195,7 +196,6 @@ class MessageService2 {
         this.stompClient.send("/processDev/"+this.gameId+"/addDestroyMessage",{},JSON.stringify({
             'name':name
         }));
-        //ships.splice(0,ships.length);
     }
     create(name,fracton) {
         this.stompClient.send("/processDev/"+ this.gameId + "/addCreateMessage",{},JSON.stringify({
@@ -300,12 +300,6 @@ class MessageService2 {
 
 
 
-}
-
-
-
-function f(){
-    alert('ДАМАГВСЕМ ПИЗДА');
 }
 
 
