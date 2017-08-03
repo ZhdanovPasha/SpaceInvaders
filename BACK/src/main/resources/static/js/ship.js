@@ -217,7 +217,7 @@ class Ship{
                 backgroundPositionX: SpaceInvaders.BGPosition + 'px'
             });
         }
-        if (this.obj.x + this.obj.w + SpaceInvaders.BGPosition >= SpaceInvaders.width) {
+        if (this.obj.x + this.obj.w + SpaceInvaders.BGPosition >= width) {
             camera.move(point(this.speed, 0));
             SpaceInvaders.BGPosition -= this.speed;
             pjs.system.setStyle({

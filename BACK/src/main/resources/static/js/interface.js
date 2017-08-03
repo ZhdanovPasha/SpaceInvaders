@@ -262,11 +262,10 @@ class Interface{
 			color: "white"
 		});
         this.InterfaceMesh = this.game.newMesh({
-            //positionC: this.point(this.game.getWH().w2, this.height - 30),
             x: 0,
             y: 0,
             add: [this.hpText, this.hpRectStroke, this.hpRectVal, this.hpVal, this.scoresText,
-                this.enemieText]
+                this.enemieText,this.resultBattleText]
         });
 	}
 

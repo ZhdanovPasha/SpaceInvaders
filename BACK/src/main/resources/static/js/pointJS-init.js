@@ -1,4 +1,4 @@
-var width = 500;
+var width = 700;
 var height = 600;
 var pjs = new PointJS('2D', width, height, {});
 
@@ -42,7 +42,6 @@ sys.setSettings({
 });
 
 touch.initTouchControl();
-sys.initFullPage();
 sys.initFPSCheck();
 key.initKeyControl();
 mouse.initMouseControl();
