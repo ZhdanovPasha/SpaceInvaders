@@ -1,4 +1,6 @@
 (function () {
+    messageService = new MessageService2(ships,game);
+
     const style = {
         backgroundColor: '#767676'
         // other
@@ -46,6 +48,9 @@
 
     window.SpaceInvaders = SpaceInvaders;
     SpaceInvaders.Object = Object;
+    window.onbeforeunload = function() {
+        messageService.disconnect();
+    }
 
 
     // var mouse = pjs.mouseControl;

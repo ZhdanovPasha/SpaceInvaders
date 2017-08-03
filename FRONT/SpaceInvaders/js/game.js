@@ -12,7 +12,8 @@
     const key = SpaceInvaders.key;
     const enemies = SpaceInvaders.enemies;
     const bullets = SpaceInvaders.bullets;
-    const fon = SpaceInvaders.fon;
+    const camera = SpaceInvaders.camera;
+    const Point = SpaceInvaders.Point;
     const Interface = SpaceInvaders.Interface;
     const Pink = SpaceInvaders.Pink;
     const Blue = SpaceInvaders.Blue;
@@ -66,7 +67,6 @@
 
         this.update = function () {
             game.clear(); // clear screen
-            fon.draw();
             bullets.forEach(function (bullet, i, bullets) {
                 if (!enemies.some(function (enemy, j, enemies) {
                         if (bullet.hit(enemy)) {
@@ -112,10 +112,24 @@
 
             if (key.isDown('LEFT')) {
                 player.moveLeft();
+                if (player.obj.x - SpaceInvaders.BGPosition <= 0) {
+                    camera.move(Point(-player.speed, 0));
+                    SpaceInvaders.BGPosition -= player.speed;
+                    pjs.system.setStyle({
+                        backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+                    });
+                }
             }
 
             if (key.isDown('RIGHT')) {
                 player.moveRight();
+                if (player.obj.x + player.obj.w >= SpaceInvaders.BGPosition + SpaceInvaders.width) {
+                    camera.move(Point(player.speed, 0));
+                    SpaceInvaders.BGPosition += player.speed;
+                    pjs.system.setStyle({
+                        backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+                    });
+                }
             }
             if (key.isDown('SPACE')) {
                 player.fire();
@@ -135,7 +149,8 @@
 
             }
             //TODO game.startLoop('battle_result');
-            if (enemies.length == 0 && key.isPress('ENTER')) {
+            //if ( enemies.length == 0&& key.isPress('ENTER')) {
+            if (key.isPress('ENTER')) {
                 key.setInputMode(true);
                 game.setLoop('menu');
             }

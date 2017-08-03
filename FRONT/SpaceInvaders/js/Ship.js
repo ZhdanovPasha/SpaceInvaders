@@ -53,17 +53,13 @@
         };
 
         moveLeft() {
-            if (this.obj.x >= 0) {
                 this.obj.x -= this.speed;
                 this.nameText.x -= this.speed;
-            }
         };
 
         moveRight() {
-            if (this.obj.x <= SpaceInvaders.width) {
                 this.obj.x += this.speed;
                 this.nameText.x += this.speed;
-            }
         };
 
         fire() {

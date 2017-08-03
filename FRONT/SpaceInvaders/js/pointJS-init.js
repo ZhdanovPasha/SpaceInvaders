@@ -3,29 +3,35 @@
         backgroundColor: '#767676'
         // other
     };
-    const pjs = new PointJS('2D', 768, 600, style);
-    const sys = pjs.system;
     Array.prototype.clear = function () {
         this.splice(0, this.length);
     };
     const SpaceInvaders = {
-        pjs: pjs,
-        game: pjs.game,
-        width: sys.getWH().w,
-        height: sys.getWH().h,
-        OOP: pjs.OOP,
-        key: pjs.keyControl,
+        width: 768, //sys.getWH().w
+        height: 600,//sys.getWH().h
         playerName: "unknownName",
         fraction: "unknown", // "BLUE"/"PINK"
         bullets: [],
         enemies: [],
+        BGPosition: 0,
         gameOver: false
     };
-    SpaceInvaders.fon = SpaceInvaders.game.newImageObject({
-        position: pjs.vector.point(0, 0),
-        w: SpaceInvaders.width, h: SpaceInvaders.height,
-        file: 'img/terrain.png'
+
+    const pjs = new PointJS('2D', SpaceInvaders.width, SpaceInvaders.height, style);
+    // pjs.system.initFullPage();
+    const sys = pjs.system;
+    pjs.system.setStyle({
+        background: 'url(img/terrain.png)',
+        backgroundSize: SpaceInvaders.width + "px",
+        backgroundPosition: SpaceInvaders.BGPosition + 'px center',
+        backgroundRepeat: 'repeat-x'
     });
+    SpaceInvaders.pjs = pjs;
+    SpaceInvaders.game = pjs.game;
+    SpaceInvaders.camera = pjs.camera;
+    SpaceInvaders.Point = pjs.vector.point;
+    SpaceInvaders.OOP = pjs.OOP;
+    SpaceInvaders.key = pjs.keyControl;
     SpaceInvaders.scores = 0;
 
     class Object {
