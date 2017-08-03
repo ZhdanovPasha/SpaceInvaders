@@ -149,7 +149,7 @@ game.newLoop('game', function(){
             }
         }
 
-        if (ships.length===1|| ships[0].isDead()) {
+        if (checkEnemiesIsDead() || ships[0].isDead()) {
             messageService.destroy(ship.name);
             for(let i=0; i<ships.length; ++i){
                 let tmp = new Object();
