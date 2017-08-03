@@ -103,15 +103,15 @@ class Blue extends Ship{
 	    }
 		if (key.isDown('LEFT')){
 			messageService.move(this.name, 'LEFT');
-            camera.move(point(-this.dx, 0));
-            SpaceInvaders.BGPosition += this.dx;
+            camera.move(point(-(this.dx*this.speed), 0));
+            SpaceInvaders.BGPosition += (this.speed*this.dx);
             pjs.system.setStyle({
                 backgroundPositionX: SpaceInvaders.BGPosition + 'px'
             });
 		}
 		if (key.isDown('RIGHT')){
 			messageService.move(this.name, 'RIGHT');
-            camera.move(point(this.speed, 0));
+            camera.move(point(this.speed*this.dx, 0));
             SpaceInvaders.BGPosition -= (this.speed*this.dx);
             pjs.system.setStyle({
                 backgroundPositionX: SpaceInvaders.BGPosition + 'px'
@@ -170,7 +170,7 @@ class Blue extends Ship{
 				        }
 				    }
 				}
-				if (bullet.obj.y <= 0 || bullet.obj.y >= fon.w || hit) {
+				if (bullet.obj.y <= 0 || bullet.obj.y >= width || hit) {
 				    bullet.enabled = false;
 				}
 			}

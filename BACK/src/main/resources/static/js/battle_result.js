@@ -66,7 +66,6 @@ game.newLoop('battle_result',function(){
 		initTable();
 	}
 	game.clear();
-	fon.draw();
 	drawTable();
 	pjs.brush.drawText({
 		x: 300,
