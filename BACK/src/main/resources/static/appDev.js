@@ -1,9 +1,4 @@
-
-
 class MessageService2 {
-
-
-
 
     constructor(ships,game){
         this.stompClient = null;
@@ -73,15 +68,12 @@ class MessageService2 {
 
                     }
 
-
                     else{ alert('Игрок с таким именем уже существует');
 
                     }
                 }
             });
     }
-
-
 
     startGame() {
         this.subscription.unsubscribe();
@@ -111,6 +103,24 @@ class MessageService2 {
                                     ships[k].deactivateSkill_3();
                             }
 
+                            if (sh[j].fraction == 'BLUE' && ships[k]!=ship){
+                                let tmp = 0;
+                                for (let i=0; i < sh[j].bots.length; ++i){
+                                    if (!sh[j].bots[i].enabled){
+                                        for(let l =0; l < ships[k].bots.length; ++l) {
+                                            if (i == ships[k].bots[l].id) {
+                                                ships[k].bots.splice(l, 1);
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        tmp ++;
+                                    }
+                                }
+                                if (tmp == sh[j].bots.length){
+                                    ships[k].activateSkill();
+                                }
+                            }
                             if (sh[j].dead) {
                                 var tmp = new Object();
                                 tmp.scores = ships[k].scores;
@@ -154,7 +164,6 @@ class MessageService2 {
 
         }).bind(this));
 
-
     }
     move(name,direction){
         this.stompClient.send("/processDev/"+this.gameId+"/addMoveMessage",{},JSON.stringify({
@@ -170,6 +179,15 @@ class MessageService2 {
             'numBullet':numBullet
         }));
     }
+
+    hitBot(name,numBot,numBullet) {
+        this.stompClient.send("/processDev/"+this.gameId+"/addHitBotMessage",{},JSON.stringify({
+            'name':name,
+            'numBot':numBot,
+            'numBullet':numBullet
+        }));
+    }
+
     shot(name,k) {
         this.stompClient.send("/processDev/"+this.gameId+"/addShotMessage",{},JSON.stringify({
             'name':name,
@@ -298,10 +316,4 @@ class MessageService2 {
             console.log(JSON.parse(change.body));
         }).bind(this));
     }
-
-
-
 }
-
-
-

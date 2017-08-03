@@ -47,7 +47,6 @@ public class DevProcessController {
             game.findShipByName(message.getName()).findSkillById(message.getNum()).activate();
             game.getProcessMessages().put(message);
         }
-
     }
     @MessageMapping("{id}/addDeactivateSkillMessage")
     public void addDeactivateSkillMessage(@DestinationVariable Integer id, ActivateSkillMessage message) throws InterruptedException {
@@ -69,6 +68,17 @@ public class DevProcessController {
             log.info("Игрок "+message.getName()+" получил 100 очков");
         }
 
+    }
+
+    @MessageMapping("{id}/addHitBotMessage")
+    public void addHitBotMessage(@DestinationVariable Integer id,HitBotMessage message) throws InterruptedException {
+        Game game = gameService.findGameById(id);
+        if (game.getStarted()){
+            game.getShips().get(message.getName()).findBotById(message.getNumBot()).setEnabled(false);
+            game.getProcessMessages().put(message);
+            log.info("У игрока "+message.getName()+" убили бота");
+            log.info("у бота Enable=" + game.getShips().get(message.getName()).findBotById(message.getNumBot()).isEnabled());
+        }
     }
 
     @MessageMapping("{id}/addMoveMessage")
@@ -103,8 +113,6 @@ public class DevProcessController {
         }
     }
 
-
-
     @Scheduled(fixedDelay = 10)
     public void hello() throws InterruptedException {
         for (int j = 0; j < gameService.getGamesCount() ; j++) {
@@ -120,9 +128,6 @@ public class DevProcessController {
             }
         }
     }
-
-
-
 
 
 }

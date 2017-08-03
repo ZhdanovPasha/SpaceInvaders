@@ -6,7 +6,6 @@ public class ActivateSkillMessage extends ProcessMessageEntity {
 
     public ActivateSkillMessage() {
         this.type = ProcessMessageType.ACTIVATE_SKILL;
-
     }
 
     public ActivateSkillMessage(String name, int index) {
