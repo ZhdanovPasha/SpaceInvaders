@@ -23,7 +23,7 @@ class Ship{
 		this.bulletHeight = 64;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
-		this.damage = 50;
+		this.damage = 20;
 		this.bullets = [];
 		for (let i = 0 ; i < 10;i++){
 		    if(this.fraction === 'BLUE')

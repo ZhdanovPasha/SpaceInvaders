@@ -30,6 +30,9 @@ class MessageService2 {
                             this.setReady();
                             this.callback(true);
                         }
+                        else {
+                        alert('Мест в данной фракции нет');
+                        }
                     } else  if (mes.type = "IS_JOIN_TO_LOBBY") {
                         if (mes.check) {
                             this.isEnteredToLobby = true;
@@ -68,7 +71,6 @@ class MessageService2 {
                             this.joinLobby();
                         }).bind(this) ,200);
 
-                        //this.callback(true);
                     }
 
 
@@ -142,6 +144,11 @@ class MessageService2 {
                 } else if (arr[i].type === 'CREATESHIP') {
 
                 } else if (arr[i].type === 'DESTROYSHIP') {
+                 for (let j = 0; j < this.ships.length;j++) {
+                                        if (arr[i].name === this.ships[j].name ) {
+                                            this.ships[j].getDamage(100);
+                                        }
+                                    }
 
                 } else if (arr[i].type === 'STOPGAME') {
 
@@ -150,7 +157,6 @@ class MessageService2 {
             }
 
 
-            //console.log(JSON.parse(change.body));
         }).bind(this));
 
 
@@ -195,7 +201,6 @@ class MessageService2 {
         this.stompClient.send("/processDev/"+this.gameId+"/addDestroyMessage",{},JSON.stringify({
             'name':name
         }));
-        //ships.splice(0,ships.length);
     }
     create(name,fracton) {
         this.stompClient.send("/processDev/"+ this.gameId + "/addCreateMessage",{},JSON.stringify({
@@ -213,7 +218,7 @@ class MessageService2 {
     }
 
     leaveServer() {
-        this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
+        this.stompClient.send("/leaveServer/"+this.gameId,{},JSON.stringify({'name':this.name}));
     }
     joinServer() {
         this.stompClient.send("/joinServer",{},JSON.stringify({'name':this.name}));
@@ -300,12 +305,6 @@ class MessageService2 {
 
 
 
-}
-
-
-
-function f(){
-    alert('ДАМАГВСЕМ ПИЗДА');
 }
 
 
