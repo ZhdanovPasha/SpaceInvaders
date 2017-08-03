@@ -80,7 +80,7 @@ class Ship{
                 if (ships[j].fraction != this.fraction){
                     if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
                         hit = true;
-                        bullet.obj.y = -bullet.obj.h*10;
+                        bullet.obj.y = -bullet.obj.h*100;
                         if (ships[j].immortality == false){
                             this.bangAnimation = game.newAnimationObject({
                                 x: ships[j].obj.x, y: ships[j].obj.y,
@@ -100,7 +100,7 @@ class Ship{
                     if (ships[j] instanceof Blue && !hit){
                         for (var k = 0; k < ships[j].bots.length; ++k){
                             if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox())){
-                                bullet.obj.y = -bullet.obj.h*10;
+                                bullet.obj.y = -bullet.obj.h*100;
                                 hit = true;
                                 ships[j].bots[k].getDamage(this.damage);
                                 this.bangAnimation = game.newAnimationObject({
@@ -109,10 +109,12 @@ class Ship{
                                     animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 80, 39, 4)
                                 });
                                 this.bangStarted = Date.now();
-                                if (ships[j].bots[k].isDead()){
-                                    messageService.hitBot(ships[j].name, k, i);
-                                    ships[j].bots[k].enabled = false;
-                                    ships[j].bots[k].obj.setVisible(false);
+                                if (ships[j].bots[k].isDead() && ships[j] == ship){
+                                    messageService.hitBot(ships[j].name, ships[j].bots[k].id, i);
+                                    ships[j].bots.splice(k,1);
+                                    if (!ships[j].bots.length){
+                                        messageService.deactivateSkill(ship.name,0);
+                                    }
                                 }
                                 break;
                             }

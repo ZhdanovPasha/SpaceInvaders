@@ -69,10 +69,17 @@ class MessageService2 {
                                 let tmp = 0;
                                 for (let i=0; i < sh[j].bots.length; ++i){
                                     if (!sh[j].bots[i].enabled){
+                                        for(let l =0; l < ships[k].bots.length; ++l) {
+                                            if (i == ships[k].bots[l].id) {
+                                                ships[k].bots.splice(l, 1);
+                                            }
+                                        }
+                                    }
+                                    else {
                                         tmp ++;
                                     }
                                 }
-                                if (tmp == 0){
+                                if (tmp == sh[j].bots.length){
                                     ships[k].activateSkill();
                                 }
                             }

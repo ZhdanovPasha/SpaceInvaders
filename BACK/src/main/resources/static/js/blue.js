@@ -15,24 +15,22 @@ class Blue extends Ship{
 		this.skill_1.duration = 5000;
 		this.skill_1.cooldown = 10000;
 
-        for (let i = 0; i < 4; ++i){
-            let botsArea = (this.obj.w/2+10)* 4;
-            let tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + 4*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
-                {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'BLUE', 'noname');
-            this.bots.push(tmp);
-        }
+        // for (let i = 0; i < 4; ++i){
+        //     let botsArea = (this.obj.w/2+10)* 4;
+        //     let tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + 4*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
+        //         {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, i, 'BLUE', 'noname');
+        //     this.bots.push(tmp);
+        // }
 	}
 	//создание ботов
-	// createBots(num){
-	// 	if (this.bots.length)
-	// 		return;
-	// 	var botsArea = (this.obj.w/2+10)* num;
-	// 	for (var i = 0; i < num; ++i){
-	// 		var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
-	// 			{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, 0, 'BLUE', 'noname');
-	// 		this.bots.push(tmp);
-	// 	}
-	// }
+	createBots(num){
+		var botsArea = (this.obj.w/2+10)* num;
+		for (var i = 0; i < num; ++i){
+			var tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
+				{w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, i, 'BLUE', 'noname');
+			this.bots.push(tmp);
+		}
+	}
 
 	moveBots(){
 		var num = this.bots.length;
@@ -97,13 +95,17 @@ class Blue extends Ship{
 	}
 
 	activateSkill(){
-		for (let i = 0; i < this.bots.length; ++i){
-			this.bots[i].enabled = true;
-            let botsArea = (this.obj.w/2+10)* this.bots.length;
-            this.bots[i].obj.x =this.obj.x - botsArea/2 + (i)*this.obj.w/2 + this.bots.length*(i+1) + 17;
-            this.bots[i].obj.y =(ship instanceof Blue)?600: -this.obj.h;
-            this.bots[i].obj.setVisible(true);
+		if (this.bots.length){
+			return;
 		}
+		this.createBots(4);
+		// for (let i = 0; i < this.bots.length; ++i){
+		// 	this.bots[i].enabled = true;
+         //    let botsArea = (this.obj.w/2+10)* this.bots.length;
+         //    this.bots[i].obj.x =this.obj.x - botsArea/2 + (i)*this.obj.w/2 + this.bots.length*(i+1) + 17;
+         //    this.bots[i].obj.y =(ship instanceof Blue)?600: -this.obj.h;
+         //    //this.bots[i].obj.setVisible(true);
+		// }
 	}
 
 	getEnabledBots(){
@@ -135,12 +137,12 @@ class Blue extends Ship{
 				    this.lastFire = Date.now();
 			}
 		}
-		let botsNow = this.getEnabledBots();
-		if (Date.now() - this.lastTimeCreateBots > 5000 && !botsNow ){
+		if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length ){
 			gameInterface.skill_1.switchOn();
 			if(key.isPress('Q')){
 				messageService.activateSkill(this.name, 0);
 				this.activateSkill();
+				//this.createBots(4);
 				this.lastTimeCreateBots = Date.now();
 				gameInterface.skill_1.switchOff();
 			}

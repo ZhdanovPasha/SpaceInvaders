@@ -7,10 +7,4 @@ class Bot extends Ship{
 		this.bulletHeight = 54;
 	}
 
-	draw(){
-		if (this.enabled) {
-			super.draw();
-		}
-	}
-
 }
