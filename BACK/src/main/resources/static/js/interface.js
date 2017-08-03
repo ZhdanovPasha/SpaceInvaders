@@ -1,29 +1,29 @@
 class Interface{
-	
+
 	constructor(pjs){
 		this.pjs = pjs;
 		this.game = pjs.game;
 	}
-	
+
 	//Инициализация параметров. Player - Объект, в котором есть имя игрока, его очки и корабль obj
 	initialize(player, mHP, sc, en){
 		this.player = player;
-		
+
 		this.name = name;
 		this.maxHP = this.currHP = mHP;
 		this.scores = sc;
 		this.enemies = en;
-		
+
 		this.width = this.game.getWH().w;
 		this.height = this.game.getWH().h;
-		
+
 		this.point = this.pjs.vector.point;
-		
+
 		this.mouseControl = this.pjs.mouseControl;
 
 		this.rectValWidth = 0.2 * this.width;
 	}
-	
+
 	initializeHP(){
 		this.hpText = this.game.newTextObject({
 			text: 'HP',
@@ -32,7 +32,7 @@ class Interface{
 			color: 'white',
 			size: 0.03 * this.height
 			});
-			
+
 		this.hpRectStroke = this.game.newRectObject({
 			x: this.hpText.x + this.hpText.w + 5,
 			y: this.hpText.y - 5,
@@ -58,7 +58,7 @@ class Interface{
 			size: 0.03 * this.height
 		});
 	}
-	
+
 	initializeText(){
 		this.scoresText = this.game.newTextObject({
 			text: 'SCORES: 1000',
@@ -76,19 +76,19 @@ class Interface{
 			size: 0.03 * this.height
 		});
 	}
-	
+
 	initializeSkills(){
 		var switchOn = function(){
 			this.switchState = "on";
 			this.lastLaunch = Date.now();
 			this.getObjects()[2].alpha = 1;
 		}
-		
+
 		var switchOff = function(){
 			this.switchState = "off";
 			this.getObjects()[2].alpha = 0.3;
 		}
-		
+
 		if(this.player instanceof Pink){
 			this.skill_2 = this.game.newMesh({
 				//positionC: this.point(this.game.getWH().w2, this.height - 30),
@@ -108,7 +108,7 @@ class Interface{
 					}), this.game.newImageObject({
 						file: this.player.skill_2.img,
 						x: 3,
-						y: 3, 
+						y: 3,
 						w: 45,
 						h: 45,
 						alpha: 0.3,
@@ -119,7 +119,7 @@ class Interface{
 						fillColor: 'red'
 					})]
 			});
-			
+
 			this.skill_2.description = this.player.skill_2.description;
 			this.skill_2.isClicked = false;
 			this.skill_2.switchOn = switchOn;
@@ -127,7 +127,7 @@ class Interface{
 			this.skill_2.duration = this.player.skill_2.duration;
 			this.skill_2.cooldown = this.player.skill_2.cooldown;
 			this.skill_2.lastLaunch = Date.now();
-			
+            this.skill_2_baseX = this.skill_2.x;
 
 			this.skill_1 = this.game.newMesh({
 				x: this.skill_2.x - 60,
@@ -146,7 +146,7 @@ class Interface{
 					}), this.game.newImageObject({
 					file: this.player.skill_1.img,
 					x: 3,
-					y: 3, 
+					y: 3,
 					w: 45,
 					h: 45,
 					alpha: 0.3,
@@ -157,14 +157,14 @@ class Interface{
 						fillColor: 'red'
 					})]
 			});
-			
+
 			this.skill_1.description = this.player.skill_1.description;
 			this.skill_1.switchOn = switchOn;
 			this.skill_1.switchOff = switchOff;
 			this.skill_1.duration = this.player.skill_1.duration;
 			this.skill_1.cooldown = this.player.skill_1.cooldown;
 			this.skill_1.lastLaunch = Date.now();
-
+            this.skill_1_baseX = this.skill_2.x - 60;
 			this.skill_3 = this.game.newMesh({
 				x: this.skill_2.x + 60,
 				y: this.skill_2.y,
@@ -182,7 +182,7 @@ class Interface{
 					}), this.game.newImageObject({
 					file: this.player.skill_3.img,
 					x: 3,
-					y: 3, 
+					y: 3,
 					w: 45,
 					h: 45,
 					alpha: 0.3,
@@ -193,7 +193,7 @@ class Interface{
 						fillColor: 'red'
 					})]
 			});
-			
+
 			this.skill_3.description = this.player.skill_3.description;
 			this.skill_3.switchState = "on";
 			this.skill_3.switchOn = switchOn;
@@ -201,6 +201,7 @@ class Interface{
 			this.skill_3.duration = this.player.skill_3.duration;
 			this.skill_3.cooldown = this.player.skill_3.cooldown;
 			this.skill_3.lastLaunch = Date.now();
+            this.skill_3_baseX = this.skill_2.x + 60;
 		}
 		else{
 			this.skill_1 = this.game.newMesh({
@@ -221,7 +222,7 @@ class Interface{
 					}), this.game.newImageObject({
 						file: this.player.skill_1.img,
 						x: 3,
-						y: 3, 
+						y: 3,
 						w: 45,
 						h: 45,
 						alpha: 0.3,
@@ -232,7 +233,7 @@ class Interface{
 						fillColor: 'red'
 					})]
 			});
-			
+
 			this.skill_1.description = this.player.skill_1.description;
 			this.skill_1.isClicked = false;
 			this.skill_1.switchOn = switchOn;
@@ -241,25 +242,32 @@ class Interface{
 			this.skill_1.cooldown = this.player.skill_1.cooldown;
 			this.skill_1.lastLaunch = Date.now();
 		}
-		
-		
+
+
 	}
-	
-	initializeObjects(){	
+
+	initializeObjects(){
 		this.brush = this.pjs.brush;
-	
+
 		this.initializeHP();
-		
+
 		this.initializeText();
-		
+
 		this.initializeSkills();
-		
+
 		this.resultBattleText = this.game.newTextObject({
 			text: "Вы победили! Для продолжения нажмите ENTER",
 			positionC: this.point(this.game.getWH().w2, this.game.getWH().h2),
 			size: 20,
 			color: "white"
 		});
+        this.InterfaceMesh = this.game.newMesh({
+            //positionC: this.point(this.game.getWH().w2, this.height - 30),
+            x: 0,
+            y: 0,
+            add: [this.hpText, this.hpRectStroke, this.hpRectVal, this.hpVal, this.scoresText,
+                this.enemieText]
+        });
 	}
 	
 	initialWin(){
@@ -342,7 +350,7 @@ class Interface{
 			obj.w = 50 * time / this.skill_2.duration;
 		}
 	}
-	
+
 	checkSkill_3(){
 		var obj = this.skill_3.getObjects()[2];
 		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
@@ -404,6 +412,10 @@ class Interface{
 		
 		this.enemieText.text = 'ENEMIES: ' + this.enemies;
 		this.checkSkills();
+        this.InterfaceMesh.setPosition(this.point(-SpaceInvaders.BGPosition, 0));
+        this.skill_1.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_1_baseX, 0));
+        this.skill_2.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_2_baseX, 0));
+        this.skill_3.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_3_baseX, 0));
 	}
 	
 	draw(){

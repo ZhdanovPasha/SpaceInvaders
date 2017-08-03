@@ -8,9 +8,9 @@ class Blue extends Ship{
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();
 		this.brush = pjs.brush;
-		
+
 		this.skill_1 = new Object();
-		
+
 		this.skill_1.img = "img/bot_skill.png";
 		this.skill_1.description = "Призвать ботов";
 		this.skill_1.duration = 5000;
@@ -29,7 +29,7 @@ class Blue extends Ship{
 
 	moveBots(){
 		var num = this.bots.length;
-		var botsArea = (this.obj.w/2+10)* num; 
+		var botsArea = (this.obj.w/2+10)* num;
 		//this is black magic
 		for (var i = 0; i < num; ++i){
 			this.bots[i].obj.x = this.obj.x - botsArea/2 + (i)*this.obj.w/2 + num*(i+1) + 17;
@@ -47,20 +47,14 @@ class Blue extends Ship{
 	}
 
 	move(direction){
-	    if (ship.fraction==this.fraction){
+	    if (ship.fraction==this.fraction){ //Если я двигаюсь
             if (direction =='LEFT') {
                 this.obj.x -= this.dx * this.speed;
-                if (this.obj.x <= 0){
-                    this.obj.x = 0;
-                }
                 this.moveBots();
             }
             if (direction == 'RIGHT') {
                 this.obj.x += this.dx * this.speed;
                 var dif = width - this.obj.w;
-                if (this.obj.x >= dif){
-                    this.obj.x = dif;
-                }
                 this.moveBots();
             }
             if(direction == 'NONE'){
@@ -78,9 +72,6 @@ class Blue extends Ship{
             if (direction == 'RIGHT') {
                 this.obj.x -= this.dx *this.speed;
                 var dif = width - this.obj.w;
-                if (this.obj.x <= 0){
-                    this.obj.x = 0;
-                }
                 this.moveBots();
             }
             if(direction == 'NONE'){
@@ -116,6 +107,20 @@ class Blue extends Ship{
 		if (key.isDown('RIGHT')){
 			messageService.move(this.name, 'RIGHT');
 		}
+        if (this.obj.x + SpaceInvaders.BGPosition <= 0) {
+            camera.move(point(-this.speed, 0));
+            SpaceInvaders.BGPosition += this.speed;
+            pjs.system.setStyle({
+                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+            });
+		}
+        if (this.obj.x + this.obj.w + SpaceInvaders.BGPosition >= SpaceInvaders.width) {
+            camera.move(point(this.speed, 0));
+            SpaceInvaders.BGPosition -= this.speed;
+            pjs.system.setStyle({
+                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+            });
+        }
 		//возможно, что достаточно в ship
 		if (key.isPress('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
@@ -174,7 +179,7 @@ class Blue extends Ship{
 			}
 		}
 	}
-	
+
 	draw(){
 		super.draw();
 		if (ships[0] instanceof Blue){

@@ -23,6 +23,7 @@ var h2r = colors.hex2rgb;
 var log = sys.log;
 var stop = game.stop;
 var audio = pjs.audio;
+var camera = pjs.camera;
 var tiles = pjs.tiles;
 var OOP = pjs.OOP;
 var limit = math.limit;
@@ -56,8 +57,8 @@ sys.initFullPage();
 sys.initFPSCheck();
 key.initKeyControl();
 mouse.initMouseControl();
-
-
+SpaceInvaders = {};
+SpaceInvaders.BGPosition = 0;
 
 
 // end Other ////////////////////////////////////

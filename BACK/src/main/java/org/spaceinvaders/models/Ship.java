@@ -127,17 +127,11 @@ public class Ship {
     }
     public  void moveLeft() {
         x -= this.speed;
-        if (x <= 0){
-            x = 0;
-        }
         updateBots();
     }
     public void moveRight() {
         x +=speed;
         Integer dif = Conf.getW()- wight;
-        if (x>=dif) {
-            x = dif;
-        }
         updateBots();
     }
     public void updateBots() {

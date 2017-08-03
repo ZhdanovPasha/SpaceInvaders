@@ -1,4 +1,3 @@
-
 class Ship{
 	constructor(position, img, id, fraction, name){
 	    // image передаем как {source: "", width: , height: }, position = {x: , y: }
@@ -37,7 +36,7 @@ class Ship{
         this.explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
         this.bangStarted = Date.now();
 	}
-	
+
 	isDead(){
 		return this.currentHP <= 0;
 	}
@@ -68,7 +67,7 @@ class Ship{
 		}
 		return -1;
 	}
-	
+
 	fire(){
 		for (let i = 0; i < this.bullets.length; ++i){
 			let hit = false;
@@ -126,7 +125,7 @@ class Ship{
             }
 		}
 	}
-	
+
 	draw(){
 		this.obj.draw();
         if (this.bangAnimation != undefined) {
@@ -157,16 +156,12 @@ class Ship{
 		if (ship.fraction==this.fraction){
             if (direction =='LEFT') {
                 this.obj.x -= this.dx *this.speed;
-                if (this.obj.x <= 0){
-                    this.obj.x = 0;
-                }
+
             }
             if (direction == 'RIGHT') {
 				this.obj.x += this.dx *this.speed;
                 var dif = width - this.obj.w;
-                if (this.obj.x >= dif){
-                    this.obj.x = dif;
-                }
+
             }
 
             if(direction == 'NONE'){
@@ -177,16 +172,10 @@ class Ship{
             if (direction =='LEFT') {
                 this.obj.x += this.dx *this.speed;
                 var dif = width - this.obj.w;
-                if (this.obj.x >= dif){
-                    this.obj.x = dif;
-                }
             }
             if (direction == 'RIGHT') {
                 this.obj.x -= this.dx *this.speed;
                 var dif = width - this.obj.w;
-                if (this.obj.x <= 0){
-                    this.obj.x = 0;
-                }
             }
             if(direction == 'NONE'){
                         this.obj.x = this.obj.x;
@@ -220,6 +209,20 @@ class Ship{
                     this.lastFire = Date.now();
                 }
             }
+        }
+        if (this.obj.x + SpaceInvaders.BGPosition <= 0) {
+            camera.move(point(-this.speed, 0));
+            SpaceInvaders.BGPosition += this.speed;
+            pjs.system.setStyle({
+                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+            });
+        }
+        if (this.obj.x + this.obj.w + SpaceInvaders.BGPosition >= SpaceInvaders.width) {
+            camera.move(point(this.speed, 0));
+            SpaceInvaders.BGPosition -= this.speed;
+            pjs.system.setStyle({
+                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+            });
         }
     }
 }
