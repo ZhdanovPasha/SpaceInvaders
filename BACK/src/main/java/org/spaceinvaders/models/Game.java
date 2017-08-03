@@ -67,7 +67,6 @@ public class Game {
                 }
 
             }
-            System.err.println("22222");
             isStarted = true;
             return true;
         }
@@ -108,7 +107,6 @@ public class Game {
                 break;
             }
         }
-        if ((players.size() == maxPlayers) && rez) System.out.println("111111");
         return (players.size() == maxPlayers) && rez;
     }
 
@@ -126,7 +124,6 @@ public class Game {
         if (isStarted) {
             boolean rez1 = true;
             boolean rez2 = true;
-
             LinkedList<Ship> blueShips = new LinkedList<>();
             LinkedList<Ship> pinkShips = new LinkedList<>();
             for (Map.Entry<String, Ship> ship : ships.entrySet()) {
