@@ -46,7 +46,9 @@ public class Game {
     public void leaveGame(Player player) {
         if (!players.contains(player)) return;
         players.remove(player.getName());
-        ships.remove(player.getName());
+        if(isStarted) {
+            ships.get(player.getName()).setDead(true);
+        }
         player.setReady(false);
         player.setSide(StatusInLobby.NONE);
         player.setGame(null);

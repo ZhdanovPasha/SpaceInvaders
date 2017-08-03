@@ -29,14 +29,9 @@ public class ServerController {
         gameService.regPlayer(message.getName());
         log.info(message.getName()+" зарегался");
     }
-    @MessageMapping("/leaveServer/{id}")
-    void  leaveServer (@DestinationVariable Integer id, LeaveMessage message) {
-        Game game = gameService.findGameById(id);
-        if (game.getStarted()) {
-            game.getShips().get(message.getName()).setDead(true);
-            simpMessagingTemplate.convertAndSend("/game/process/"+id,new DestroyShipMessage(message.getName()));
+    @MessageMapping("/leaveServer")
+    void  leaveServer (LeaveMessage message) throws InterruptedException {
 
-        }
         gameService.leaveServer(message.getName());
         log.info(message.getName()+ " вышел из игры");
     }
