@@ -1,6 +1,3 @@
-var pjs = new PointJS('2d', 700, 600);
-//pjs.system.initFullScreen();
-
 var game = pjs.game;
 var mouse = pjs.mouseControl;
 var key = pjs.keyControl;
@@ -29,14 +26,14 @@ var beginPosY = height - shipHeight;
 var bulletsHero = [];
 var bulletsEnemies = [];
 var enemies = [];
-var countHeroBullets = 0;  
+var countHeroBullets = 0;
 var lastHeroFire = Date.now();
 var lastEnemiesFire = Date.now();
 var lastEnemiesMove = Date.now();
 var scores = 0;
 var curHP = 100;
 
-var damageEnemyBullet = 50; 
+var damageEnemyBullet = 50;
 var enemiesCount = 0;
 var killScores = 100;
 var botsMovingX = 5;
@@ -47,11 +44,6 @@ var ships = [];
 var ship = null;
 var gameInterface = new Interface(pjs);
 
-var fon = game.newImageObject({
-    position: point(0, 0),
-    w: width, h: height,
-    file: 'img/terrain.png'
-});
 
 var initParameters = function(){
 	noEnemy = false;
@@ -121,7 +113,6 @@ function checkEnemiesIsDead(){
 
 game.newLoop('game', function(){
 	game.clear();
-	fon.draw();
 	if (!gameEnd) {
         for (i = 0; i < ships.length; ++i) {
             ships[i].draw();
@@ -170,6 +161,6 @@ game.newLoop('game', function(){
 		console.log(gameEnd);
 		initParameters();
 		game.startLoop('battle_result');
-	
+
 	}
 });

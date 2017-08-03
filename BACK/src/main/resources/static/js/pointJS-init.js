@@ -1,9 +1,6 @@
-var style = {
-    backgroundColor: '#767676'
-    // other
-};
-
-var pjs = new PointJS('2D', 400, 200, style);
+var width = 500;
+var height = 600;
+var pjs = new PointJS('2D', width, height, {});
 
 var game = pjs.game;
 var sys = pjs.system;
@@ -35,20 +32,12 @@ var blueBullet = 'img/blueBullet.png';
 
 var isDef = OOP.isDef;
 
-var width = sys.getWH().w;
-var height = sys.getWH().h;
+
 
 var players = [];
 
-
-sys.addEvent('gameResize', 'PointJS_DEMO_resize', function () {
-    width = sys.getWH().w;
-    height = sys.getWH().h;
-});
-
 sys.setSettings({
     isShowError: false,
-    isAutoClear: true,
 // isAutoDraw : true
 });
 
@@ -57,8 +46,14 @@ sys.initFullPage();
 sys.initFPSCheck();
 key.initKeyControl();
 mouse.initMouseControl();
-SpaceInvaders = {};
+var SpaceInvaders = {};
 SpaceInvaders.BGPosition = 0;
+pjs.system.setStyle({
+    background: 'url(img/terrain.png)',
+    backgroundSize: width + "px",
+    backgroundPosition: SpaceInvaders.BGPosition + 'px center',
+    backgroundRepeat: 'repeat-x'
+});
 
 
 // end Other ////////////////////////////////////

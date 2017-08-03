@@ -269,32 +269,32 @@ class Interface{
                 this.enemieText]
         });
 	}
-	
+
 	initialWin(){
 		this.resultBattleText.text = "Вы победили!Для продолжения нажмите ENTER"
 		this.resultBattleText.draw();
 	}
-	
+
 	initialLose(){
 		this.resultBattleText.text = "Вы проиграли!Для продолжения нажмите ENTER"
 		this.resultBattleText.draw();
 	}
-	
+
 	drawHP(){
 		this.hpText.draw();
 		this.hpRectStroke.draw();
 		this.hpRectVal.draw();
 		this.hpVal.draw();
 	}
-	
+
 	drawScores(){
 		this.scoresText.draw();
 	}
-	
+
 	drawEnemie(){
 		this.enemieText.draw();
 	}
-	
+
 	drawSkills(){
 		if(this.player instanceof Pink){
 			this.skill_1.draw();
@@ -305,7 +305,7 @@ class Interface{
 			this.skill_1.draw();
 		}
 	}
-	
+
 	checkSkill_1(){
 		var obj = this.skill_1.getObjects()[2];
 		if(this.mouseControl.isInStatic(obj.getStaticBox())){
@@ -317,10 +317,10 @@ class Interface{
 				size: 18,
 				color: 'white'
 			});
-			
+
 			console.log("Описание скилла: "+ this.skill_1.description);
 		}
-		
+
 		if(this.skill_1.switchState == 'off' && this.player instanceof Pink){
 			var time = this.skill_1.duration - (Date.now() - this.skill_1.lastLaunch);
 			if(time < 0) time = 0;
@@ -328,7 +328,7 @@ class Interface{
 			obj.w = 50 * time / this.skill_1.duration;
 		}
 	}
-	
+
 	checkSkill_2(){
 		var obj = this.skill_2.getObjects()[2];
 		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
@@ -342,7 +342,7 @@ class Interface{
 			});
 			console.log("Описание скилла: "+ this.skill_2.description);
 		}
-		
+
 		if(this.skill_2.switchState == 'off'){
 			var time = this.skill_2.duration - Date.now() + this.skill_2.lastLaunch;
 			if(time < 0) time = 0;
@@ -364,7 +364,7 @@ class Interface{
 			});
 			console.log("Описание скилла: "+ this.skill_3.description);
 		}
-		
+
 		if(this.skill_3.switchState == 'off'){
 			var time = this.skill_3.duration - Date.now() + this.skill_3.lastLaunch;
 			if(time < 0) time = 0;
@@ -372,7 +372,7 @@ class Interface{
 			obj.w = 50 * time / this.skill_3.duration;
 		}
 	}
-	
+
 	checkSkills(){
 		if(this.player instanceof Pink){
 			this.checkSkill_1();
@@ -383,41 +383,41 @@ class Interface{
 			this.checkSkill_1();
 		}
 	}
-	
+
 	update(hp, sc, en){//Обновить текущие данные
 		if(hp <= 0){
 			this.currHP = 0;
 			this.initialLose();
 		}
-		else if(hp > this.maxHP) 
+		else if(hp > this.maxHP)
 			this.currHP = maxHP;
-		else 
+		else
 			this.currHP = hp;
-		
+
 		if(en)
 			this.initialWin();
-		
+
 		//this.enemies = en;
-		
+
 		if(sc < 0)
 			this.scores = 0;
-		else 	
+		else
 			this.scores = sc;
-			
-		
+
+
 		this.hpRectVal.w = (this.rectValWidth - 2) * this.currHP / this.maxHP;
 		this.hpVal.text = this.currHP + '/' + this.maxHP;
-		
+
 		this.scoresText.text = 'SCORES: ' + this.scores;
-		
+
 		this.enemieText.text = 'ENEMIES: ' + this.enemies;
 		this.checkSkills();
         this.InterfaceMesh.setPosition(this.point(-SpaceInvaders.BGPosition, 0));
         this.skill_1.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_1_baseX, 0));
-        this.skill_2.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_2_baseX, 0));
-        this.skill_3.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_3_baseX, 0));
+        if(this.skill_2)this.skill_2.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_2_baseX, 0));
+        if(this.skill_3)this.skill_3.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_3_baseX, 0));
 	}
-	
+
 	draw(){
 		this.drawHP();
 		this.drawScores();

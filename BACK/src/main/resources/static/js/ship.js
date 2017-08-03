@@ -120,7 +120,7 @@ class Ship{
                     }
                 }
             }
-            if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= fon.h || hit){
+            if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= height || hit){
                 bullet.enabled = false;
             }
 		}
