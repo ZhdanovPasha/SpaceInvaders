@@ -144,6 +144,11 @@ class MessageService2 {
                 } else if (arr[i].type === 'CREATESHIP') {
 
                 } else if (arr[i].type === 'DESTROYSHIP') {
+                 for (let j = 0; j < this.ships.length;j++) {
+                                        if (arr[i].name === this.ships[j].name ) {
+                                            this.ships[j].getDamage(100);
+                                        }
+                                    }
 
                 } else if (arr[i].type === 'STOPGAME') {
 
@@ -213,7 +218,7 @@ class MessageService2 {
     }
 
     leaveServer() {
-        this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
+        this.stompClient.send("/leaveServer/"+this.gameId,{},JSON.stringify({'name':this.name}));
     }
     joinServer() {
         this.stompClient.send("/joinServer",{},JSON.stringify({'name':this.name}));

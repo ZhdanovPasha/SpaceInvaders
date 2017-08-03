@@ -60,6 +60,11 @@ var initParameters = function(){
 	ship = null;
 }
 var messageService = new MessageService2(ships,game);
+
+window.onbeforeunload = function() {
+          return messageService.disconnect();
+          }
+
 var playerName = name;
 
 // надо исправить числовые значения
