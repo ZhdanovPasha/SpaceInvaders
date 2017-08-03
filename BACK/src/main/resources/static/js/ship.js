@@ -204,7 +204,7 @@ class Ship{
             } else if (key.isDown('RIGHT')) {
                 messageService.move(this.name, 'RIGHT');
             }
-            if (key.isDown('SPACE')) {
+            if (key.isPress('SPACE')) {
                 if (Date.now() - this.lastFire > 100 * this.speed) {
                     var bulletImg, bulletdy = 3;
                     if (this.fraction == 'BLUE') {

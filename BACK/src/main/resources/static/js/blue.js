@@ -117,7 +117,7 @@ class Blue extends Ship{
 			messageService.move(this.name, 'RIGHT');
 		}
 		//возможно, что достаточно в ship
-		if (key.isDown('SPACE')){
+		if (key.isPress('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
 				let count = this.shot();
 				if(count != -1)
