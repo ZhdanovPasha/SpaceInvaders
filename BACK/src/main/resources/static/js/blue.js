@@ -164,16 +164,18 @@ class Blue extends Ship{
 				let bullet = this.bots[i].bullets[j];
 				bullet.move();
 				bullet.draw();
-				let hit = false
+				let hit = false;
 				for (var k = 0; k < ships.length; ++k) {
 				    if (ships[k] instanceof Pink) {
-				        if (bullet.obj.isStaticIntersect(ships[k].obj.getStaticBox())) {
+				        if (bullet.obj.isStaticIntersect(ships[k].obj.getStaticBox()) && bullet.enabled) {
 				            hit = true;
+				            bullet.obj.y = -bullet.obj.h * 100;
 				            if (ships[k].immortality == false) {
 				                ships[k].getDamage(this.damage);
-				                //this.scores += this.killScores;
-
-								break;
+				                if (ships[k] == ship){
+				                	messageService.hit(this.name, ships[k].name, j);
+								}
+				                break;
 				            }
 				        }
 				    }

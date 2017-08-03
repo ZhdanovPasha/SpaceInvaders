@@ -23,7 +23,7 @@ class Ship{
 		this.bulletHeight = 64;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
-		this.damage = 50;
+		this.damage = 1;
 		this.bullets = [];
 		for (let i = 0 ; i < 10;i++){
 		    if(this.fraction === 'BLUE')
@@ -78,9 +78,9 @@ class Ship{
 			bullet.draw();
             for (var j = 0; j < ships.length; ++j){
                 if (ships[j].fraction != this.fraction){
-                    if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox())){
+                    if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox()) && bullet.enabled){
                         hit = true;
-                        bullet.obj.y = -bullet.obj.h*100;
+                        bullet.obj.y = -bullet.obj.h*10;
                         if (ships[j].immortality == false){
                             this.bangAnimation = game.newAnimationObject({
                                 x: ships[j].obj.x, y: ships[j].obj.y,
@@ -99,7 +99,7 @@ class Ship{
                     }
                     if (ships[j] instanceof Blue && !hit){
                         for (var k = 0; k < ships[j].bots.length; ++k){
-                            if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox())){
+                            if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox()) && bullet.enabled){
                                 bullet.obj.y = -bullet.obj.h*100;
                                 hit = true;
                                 ships[j].bots[k].getDamage(this.damage);
