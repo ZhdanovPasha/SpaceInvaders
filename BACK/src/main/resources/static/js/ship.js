@@ -190,8 +190,18 @@ class Ship{
         else {
             if (key.isDown('LEFT')) {
                 messageService.move(this.name, 'LEFT');
+                camera.move(point(-(this.speed*this.dx), 0));
+                SpaceInvaders.BGPosition += (this.speed*this.dx);
+                pjs.system.setStyle({
+                    backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+                });
             } else if (key.isDown('RIGHT')) {
                 messageService.move(this.name, 'RIGHT');
+                camera.move(point((this.speed*this.dx), 0));
+                SpaceInvaders.BGPosition -= (this.speed*this.dx);
+                pjs.system.setStyle({
+                    backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+                });
             }
             if (key.isPress('SPACE')) {
                 if (Date.now() - this.lastFire > 100 * this.speed) {
@@ -209,20 +219,6 @@ class Ship{
                     this.lastFire = Date.now();
                 }
             }
-        }
-        if (this.obj.x + SpaceInvaders.BGPosition <= 0) {
-            camera.move(point(-this.speed, 0));
-            SpaceInvaders.BGPosition += this.speed;
-            pjs.system.setStyle({
-                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
-            });
-        }
-        if (this.obj.x + this.obj.w + SpaceInvaders.BGPosition >= width) {
-            camera.move(point(this.speed, 0));
-            SpaceInvaders.BGPosition -= this.speed;
-            pjs.system.setStyle({
-                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
-            });
         }
     }
 }

@@ -103,24 +103,21 @@ class Blue extends Ship{
 	    }
 		if (key.isDown('LEFT')){
 			messageService.move(this.name, 'LEFT');
+            camera.move(point(-this.dx, 0));
+            SpaceInvaders.BGPosition += this.dx;
+            pjs.system.setStyle({
+                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+            });
 		}
 		if (key.isDown('RIGHT')){
 			messageService.move(this.name, 'RIGHT');
-		}
-        if (this.obj.x + SpaceInvaders.BGPosition <= 0) {
-            camera.move(point(-this.speed, 0));
-            SpaceInvaders.BGPosition += this.speed;
-            pjs.system.setStyle({
-                backgroundPositionX: SpaceInvaders.BGPosition + 'px'
-            });
-		}
-        if (this.obj.x + this.obj.w + SpaceInvaders.BGPosition >= SpaceInvaders.width) {
             camera.move(point(this.speed, 0));
-            SpaceInvaders.BGPosition -= this.speed;
+            SpaceInvaders.BGPosition -= (this.speed*this.dx);
             pjs.system.setStyle({
                 backgroundPositionX: SpaceInvaders.BGPosition + 'px'
             });
-        }
+		}
+
 		//возможно, что достаточно в ship
 		if (key.isPress('SPACE')){
 			if (Date.now() - this.lastFire > 100 * this.speed){
