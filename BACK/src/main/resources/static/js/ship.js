@@ -1,8 +1,7 @@
 
 class Ship{
 	constructor(position, img, id, fraction, name){
-	// image передаем как {source: "", width: , height: }, position = {x: , y: }
-
+	    // image передаем как {source: "", width: , height: }, position = {x: , y: }
 		this.img = img;
 		this.obj = game.newImageObject({
 			x: position.x ,	y: position.y,
@@ -23,7 +22,7 @@ class Ship{
 		this.bulletHeight = 64;
 		this.lastFire = Date.now();
 		this.lastMove = Date.now();
-		this.damage = 1;
+		this.damage = 25;
 		this.bullets = [];
 		for (let i = 0 ; i < 10;i++){
 		    if(this.fraction === 'BLUE')

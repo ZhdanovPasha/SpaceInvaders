@@ -62,13 +62,6 @@ var initParameters = function(){
 var messageService = new MessageService2(ships,game);
 var playerName = name;
 
-// надо исправить числовые значения
-//var addEnemies = function(){
-//    for (i = 1; i <= enemiesCount; ++i){
- //   	var tmp  = new Ship({x:i*75, y:50},	 {w: 80, h: 39, source: 'img/player.png'}, i, 'PINK');
-  //  	ships.push(tmp);
- //   }
-//};
 function newEnemyShip(name,x0){
     if (ship.fraction === 'BLUE'){
         var pink = new Pink({x:x0, y:70},{w: shipWidth, h: shipHeight, source: 'img/pinkPlayer.png'}, ships.length +1, 'PINK', name);
@@ -137,23 +130,6 @@ game.newLoop('game', function(){
             }
         }
 
-        //for (i = 1 ; i < ships.length; ++i){
-        //	if (Date.now() - ships[i].lastFire > 2000){
-        //		var bul = {position:{x:ships[i].obj.x + (ships[i].obj.w)/2,y:ships[i].obj.y + (ships[i].obj.h)/2},
-        //			img:{width:ships[i].bulletWidth, height: ships[i].bulletHeight, source:
-        //		'img/bullet.png'}, speed:1, damage: 50, dy: -5 };
-
-        //		ships[i].addBullet(bul);
-        //		ships[i].lastFire = Date.now();
-        //	}
-        //if (Date.now() - ships[i].lastMove > 500){
-        //	ships[i].move();
-        //	ships[i].lastMove = Date.now();
-        //	}
-        //	if (ships[i].isDead()){
-        //		ships.splice(i,1);
-        //		i--;
-        //	}
         if (ships.length===1|| ships[0].isDead()) {
             messageService.destroy(ship.name);
             for(let i=0; i<ships.length; ++i){
@@ -191,10 +167,4 @@ game.newLoop('game', function(){
 		game.startLoop('battle_result');
 	
 	}
-	// for (i = 1; i<ships.length; ++i){
-	// 	if (ships[i].isDead()){
-	// 		ships.splice(i,1);
-	// 		i--;
-	// 	}
-	// }
 });

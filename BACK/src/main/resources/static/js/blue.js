@@ -3,6 +3,7 @@ class Blue extends Ship{
 	constructor(position, img, id, fraction, name){
 		super(position, img, id, fraction, name);
 		this.obj.setAngle(180);
+		this.numBots = 4;
 		this.bots = [];
 		this.lastTimeCreateBots = Date.now();
 		this.lastTimeBotsFire = Date.now();
@@ -15,12 +16,6 @@ class Blue extends Ship{
 		this.skill_1.duration = 5000;
 		this.skill_1.cooldown = 10000;
 
-        // for (let i = 0; i < 4; ++i){
-        //     let botsArea = (this.obj.w/2+10)* 4;
-        //     let tmp = new Bot({x:this.obj.x - botsArea/2 + (i)*this.obj.w/2 + 4*(i+1) + 17, y:(ship instanceof Blue)?600: -this.obj.h},
-        //         {w: this.obj.w, h: this.obj.h, source: 'img/bot.png'}, i, 'BLUE', 'noname');
-        //     this.bots.push(tmp);
-        // }
 	}
 	//создание ботов
 	createBots(num){
@@ -98,14 +93,7 @@ class Blue extends Ship{
 		if (this.bots.length){
 			return;
 		}
-		this.createBots(4);
-		// for (let i = 0; i < this.bots.length; ++i){
-		// 	this.bots[i].enabled = true;
-         //    let botsArea = (this.obj.w/2+10)* this.bots.length;
-         //    this.bots[i].obj.x =this.obj.x - botsArea/2 + (i)*this.obj.w/2 + this.bots.length*(i+1) + 17;
-         //    this.bots[i].obj.y =(ship instanceof Blue)?600: -this.obj.h;
-         //    //this.bots[i].obj.setVisible(true);
-		// }
+		this.createBots(this.numBots);
 	}
 
 	getEnabledBots(){
