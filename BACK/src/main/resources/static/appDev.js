@@ -216,7 +216,7 @@ class MessageService2 {
     }
 
     destroy(name) {
-        this.subscription.unsubscribe();
+        //this.subscription.unsubscribe();
         this.stompClient.send("/processDev/"+this.gameId+"/addDestroyMessage",{},JSON.stringify({
             'name':name
         }));
@@ -237,6 +237,7 @@ class MessageService2 {
     }
 
     leaveServer() {
+        this.subscription.unsubscribe();
         this.connected = false;
         this.stompClient.send("/leaveServer",{},JSON.stringify({'name':this.name}));
     }

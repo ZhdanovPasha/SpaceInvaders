@@ -111,9 +111,28 @@ function createShip(name,fraction,x0,y0,speed) {
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function checkEnemiesIsDead(){
-    for(i=1; i<ships.length;i++){
+
+function numEnemies(){
+    let res = 0;
+    for(i=0; i<ships.length;i++){
         if(ship.fraction != ships[i].fraction)
+            res++;
+
+    }
+    return res;
+}
+
+function checkEnemiesIsDead(){
+    for(i=0; i<ships.length;i++){
+        if(ship.fraction != ships[i].fraction)
+        return false;
+
+    }return true;
+}
+
+function checkFriendsIsDead(){
+    for(i=0; i<ships.length;i++){
+        if(ship.fraction == ships[i].fraction)
         return false;
 
     }return true;
@@ -132,7 +151,8 @@ game.newLoop('game', function(){
                 }
             }
         }
-        ships[0].control();
+        if(!ship.isDead())
+            ship.control();
 
         for(let i = 0; i < ships.length; ++i){
             if(ships[i] instanceof Pink){
@@ -149,7 +169,7 @@ game.newLoop('game', function(){
             }
         }
 
-        if (checkEnemiesIsDead() || ships[0].isDead()) {
+        if (checkEnemiesIsDead() || checkFriendsIsDead()) {
             messageService.destroy(ship.name);
             for(let i=0; i<ships.length; ++i){
                 let tmp = new Object();
@@ -162,7 +182,7 @@ game.newLoop('game', function(){
             messageService.getLastChangesForScores();
         }
     }
-    gameInterface.update(ship.currentHP, ship.scores,checkEnemiesIsDead() );
+    gameInterface.update(ship.currentHP, ship.scores, numEnemies() );
     gameInterface.draw();
 
 	if (gameEnd && key.isPress('ENTER')){
