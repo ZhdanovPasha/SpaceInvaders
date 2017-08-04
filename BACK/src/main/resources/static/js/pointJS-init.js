@@ -31,6 +31,9 @@ var pinkPlayer = 'img/pinkPlayer.png';
 var bluePlayer = 'img/bluePlayer.png';
 var pinkBullet = 'img/pinkBullet.png';
 var blueBullet = 'img/blueBullet.png';
+var fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
+var explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
+var explosionAnimation = pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 39, 39, 13);
 
 var isDef = OOP.isDef;
 

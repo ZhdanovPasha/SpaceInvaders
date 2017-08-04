@@ -33,8 +33,8 @@ class Ship{
 		this.lastFire = Date.now();
         this.bulletSpeed = 1;
         this.immortality = false;
-        this.fireSound = audio.newAudio('audio/bullet.mp3', 0.2); // file, volume
-        this.explosionSound = audio.newAudio('audio/exp.mp3', 0.2); // file, volume
+        this.fireSound = fireSound; // file, volume
+        this.explosionSound = explosionSound; // file, volume
         this.bangStarted = Date.now();
 	}
 	
@@ -84,7 +84,7 @@ class Ship{
                             this.bangAnimation = game.newAnimationObject({
                                 x: ships[j].obj.x, y: ships[j].obj.y,
                                 w: 80, h: 70,
-                                animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 80, 39, 4)
+                                animation: explosionAnimation
                             });
                             this.bangStarted = Date.now();
                             ships[j].getDamage(this.damage);
@@ -110,7 +110,7 @@ class Ship{
                                 this.bangAnimation = game.newAnimationObject({
                                     x: ships[j].bots[k].obj.x, y: ships[j].bots[k].obj.y,
                                     w: 80, h: 70,
-                                    animation: pjs.tiles.newImage("img/sprites.png").getAnimation(0, 117, 80, 39, 4)
+                                    animation: explosionAnimation
                                 });
                                 this.bangStarted = Date.now();
                                 if (ships[j].bots[k].isDead() && ships[j] == ship){

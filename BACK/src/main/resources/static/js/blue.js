@@ -130,7 +130,6 @@ class Blue extends Ship{
 			if(key.isPress('Q')){
 				messageService.activateSkill(this.name, 0);
 				this.activateSkill();
-				//this.createBots(4);
 				this.lastTimeCreateBots = Date.now();
 				gameInterface.skill_1.switchOff();
 			}
@@ -138,14 +137,12 @@ class Blue extends Ship{
 	}
 
 	fireBots(){
-		console.log('begin fire bots');
 		if (Date.now() - this.lastTimeBotsFire > 4000) {
         	for (let i = 0; i < this.bots.length; ++i){
         		this.bots[i].shot();
 			}
 			this.lastTimeBotsFire = Date.now();
 		}
-		console.log('I m inside');
 		for (var i = 0; i < this.bots.length; ++i) {
 			console.log(this.bots[i].bullets);
 			for (var j = 0; j < this.bots[i].bullets.length; ++j) {
@@ -177,25 +174,26 @@ class Blue extends Ship{
 	
 	draw(){
 		super.draw();
+		let color = (this == ship)?'blue':'white';
 		if (ships[0] instanceof Blue){
 			this.brush.drawText({
 				x: this.obj.x + this.obj.w/2,
 				y: this.obj.y - 20,
 				text: this.name,
-				color: 'white',
+				color: color,
 				size: 18,
 				align: 'center'
 			});
 		}
-		else{
-			this.brush.drawText({
-				x: this.obj.x + this.obj.w/2,
-				y: this.obj.y + this.obj.h + 2,
-				text: this.name,
-				color: 'white',
-				size: 18,
-				align: 'center'
-			});
-		}
+		else {
+            this.brush.drawText({
+                x: this.obj.x + this.obj.w / 2,
+                y: this.obj.y + this.obj.h + 2,
+                text: this.name,
+                color: color,
+                size: 18,
+                align: 'center'
+            });
+        }
 	}
 }

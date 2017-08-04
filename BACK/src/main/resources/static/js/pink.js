@@ -136,12 +136,13 @@ class Pink extends Ship{
 	
 	draw(){
 		super.draw();
+        let color = (this == ship)?'red':'white';
 		if (ship instanceof Pink){
 			this.brush.drawText({
 				x: this.obj.x + this.obj.w/2,
 				y: this.obj.y - 20,
 				text: this.name,
-				color: 'white',
+				color: color,
 				size: 18,
 				align: 'center'
 			});
@@ -151,7 +152,7 @@ class Pink extends Ship{
 				x: this.obj.x + this.obj.w/2,
 				y: this.obj.y + this.obj.h + 2,
 				text: this.name,
-				color: 'white',
+				color: color,
 				size: 18,
 				align: 'center'
 			});
