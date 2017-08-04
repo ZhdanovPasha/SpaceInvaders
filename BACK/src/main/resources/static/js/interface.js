@@ -263,13 +263,17 @@ class Interface{
 	}
 	
 	initialWin(){
-		this.resultBattleText.text = "Вы победили!Для продолжения нажмите ENTER"
-		this.resultBattleText.draw();
+	    if(gameEnd){
+	        this.resultBattleText.text = "Вы победили!Для продолжения нажмите ENTER"
+            this.resultBattleText.draw();
+	    }
 	}
 	
 	initialLose(){
-		this.resultBattleText.text = "Вы проиграли!Для продолжения нажмите ENTER"
-		this.resultBattleText.draw();
+	    if(gameEnd){
+	        this.resultBattleText.text = "Вы проиграли!Для продолжения нажмите ENTER"
+            this.resultBattleText.draw();
+	    }
 	}
 	
 	drawHP(){
@@ -375,21 +379,33 @@ class Interface{
 			this.checkSkill_1();
 		}
 	}
+
+	drawGameResults(){
+	    if(this.enemies == 0){
+	        this.initialWin();
+	    }
+	    else
+	        this.initialLose();
+	}
+
+	drawDeadText(){
+	    if(this.player.isDead() && !gameEnd){
+	        this.resultBattleText.text = "Вы погибли. Ожидайте окончания игры";
+            this.resultBattleText.draw();
+	    }
+
+	}
 	
 	update(hp, sc, en){//Обновить текущие данные
 		if(hp <= 0){
 			this.currHP = 0;
-			this.initialLose();
 		}
 		else if(hp > this.maxHP) 
 			this.currHP = maxHP;
 		else 
 			this.currHP = hp;
 		
-		if(en)
-			this.initialWin();
-		
-		//this.enemies = en;
+		this.enemies = en;
 		
 		if(sc < 0)
 			this.scores = 0;
@@ -411,5 +427,7 @@ class Interface{
 		this.drawScores();
 		this.drawEnemie();
 		this.drawSkills();
+		this.drawGameResults();
+		this.drawDeadText();
 	}
 }

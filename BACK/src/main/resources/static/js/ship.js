@@ -91,8 +91,12 @@ class Ship{
                             if (ships[j].isDead()){
                                 this.explosionSound.replay();
                             }
-                            if(ship == ships[j])
-                                messageService.hit(this.name, ships[j].name, i);//Если сломаются пули, не передавать пули
+                            if(ship == ships[j]){
+                                messageService.hit(this.name, ships[j].name, i);
+                                if(ship.isDead())
+                                    messageService.destroy(ship.name);
+                            }
+                                //Если сломаются пули, не передавать пули
                             break;
                         }
                     }
