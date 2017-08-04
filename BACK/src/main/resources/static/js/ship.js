@@ -77,7 +77,7 @@ class Ship{
 			bullet.draw();
             for (var j = 0; j < ships.length; ++j){
                 if (ships[j].fraction != this.fraction){
-                    if (bullet.obj.isStaticIntersect(ships[j].obj.getStaticBox()) && bullet.enabled){
+                    if (bullet.checkHitting(ships[j])){
                         hit = true;
                         bullet.obj.y = -bullet.obj.h*10;
                         if (ships[j].immortality == false){
@@ -88,9 +88,9 @@ class Ship{
                             });
                             this.bangStarted = Date.now();
                             ships[j].getDamage(this.damage);
-                            if (ships[j].isDead()){
+                            
                                 this.explosionSound.replay();
-                            }
+
                             if(ship == ships[j]){
                                 messageService.hit(this.name, ships[j].name, i);
                                 if(ship.isDead())
@@ -154,6 +154,7 @@ class Ship{
 	}
 	moveBullets (bullets) {
 		for (let i = 0 ; i < this.bullets.length; i++) {
+
             this.bullets[i].enabled = bullets[i].enabled;
 			this.bullets[i].moveTo(bullets[i].x,bullets[i].y);
 		}

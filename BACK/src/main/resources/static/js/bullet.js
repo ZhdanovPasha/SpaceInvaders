@@ -41,6 +41,7 @@ class Bullet{
 	}
 	shot() {
 		if (!this.enabled) {
+            fireSound.replay();
             if ( ship.fraction === this.owner.fraction ) {
                 this.obj.x = this.owner.obj.x + (this.owner.obj.w)/2-this.owner.bulletWidth/2;
                 this.obj.y = this.owner.obj.y - this.owner.bulletHeight;

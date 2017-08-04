@@ -122,7 +122,7 @@ public class DevProcessController {
         }
     }
 
-    @Scheduled(fixedDelay = 10)
+    @Scheduled(fixedDelay = 1)
     public void hello() throws InterruptedException {
         for (int j = 0; j < gameService.getGamesCount() ; j++) {
             LinkedList<ProcessMessageEntity> mes = new LinkedList<>();
@@ -133,7 +133,6 @@ public class DevProcessController {
                     mes.push(game.getProcessMessages().take());
                 }
                 simpMessagingTemplate.convertAndSend("/game/process/"+j, mes);
-                log.info("send");
             }
         }
     }
