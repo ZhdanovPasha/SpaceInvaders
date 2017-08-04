@@ -2,18 +2,16 @@ package org.spaceinvaders.messages.process;
 
 public class HitBotMessage extends ProcessMessageEntity {
     private String name;
-    private int numBot;
     private int numBullet;
 
     public HitBotMessage() {
         type = ProcessMessageType.HITTING;
     }
 
-    public HitBotMessage(String name, int numBot, int numBullet) {
+    public HitBotMessage(String name, int numBot, String bulletOwner, int numBullet) {
         this();
         this.name = name;
         this.numBullet = numBullet;
-        this.numBot = numBot;
     }
 
     public String getName() {
@@ -22,14 +20,6 @@ public class HitBotMessage extends ProcessMessageEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getNumBot() {
-        return numBot;
-    }
-
-    public void setNumBot(int numBot) {
-        this.numBot = numBot;
     }
 
     public int getNumBullet() {

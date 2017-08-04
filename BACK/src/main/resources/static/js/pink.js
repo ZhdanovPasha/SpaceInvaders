@@ -33,6 +33,9 @@ class Pink extends Ship{
 	//изменение скорости пули(включает\выключает скорострельность)
 	changeBulletsSpeed(speed){
 		this.bulletSpeed = speed;
+		for(let i = 0; i < this.bullets.length; ++i){
+            this.bullets[i].dy = speed;
+		}
 	}
 	//изменение скорости передвижения корабля(включает\выключает ускорение)
 	changeMoveSpeed(speed){
@@ -48,13 +51,13 @@ class Pink extends Ship{
 
 	    this.fastBulletsSpeed = true;
         this.lastChangeBulletsSpeed = Date.now();
-        this.changeBulletsSpeed(this.bulletSpeed+5);
+        this.changeBulletsSpeed(10);
 	}
 
 	deactivateSkill_1(){
 	    if(this.fastBulletsSpeed == false) return;
 
-	    this.changeBulletsSpeed(this.bulletSpeed - 5);
+	    this.changeBulletsSpeed(5);
         this.fastBulletsSpeed = false;
 	}
 

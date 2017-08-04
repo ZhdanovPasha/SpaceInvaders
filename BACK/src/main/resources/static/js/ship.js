@@ -101,6 +101,7 @@ class Ship{
                             if (bullet.obj.isStaticIntersect(ships[j].bots[k].obj.getStaticBox()) && bullet.enabled){
                                 bullet.obj.y = -bullet.obj.h*100;
                                 hit = true;
+                                messageService.hitBot(this.name, i);
                                 ships[j].bots[k].getDamage(this.damage);
                                 this.bangAnimation = game.newAnimationObject({
                                     x: ships[j].bots[k].obj.x, y: ships[j].bots[k].obj.y,
@@ -109,7 +110,7 @@ class Ship{
                                 });
                                 this.bangStarted = Date.now();
                                 if (ships[j].bots[k].isDead() && ships[j] == ship){
-                                    messageService.hitBot(ships[j].name, ships[j].bots[k].id, i);
+                                    messageService.destroyBot(ships[j].name, ships[j].bots[k].id);
                                     ships[j].bots.splice(k,1);
                                     if (!ships[j].bots.length){
                                         messageService.deactivateSkill(ship.name,0);

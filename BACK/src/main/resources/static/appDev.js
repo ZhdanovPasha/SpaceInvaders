@@ -180,10 +180,16 @@ class MessageService2 {
         }));
     }
 
-    hitBot(name,numBot,numBullet) {
+    destroyBot(name,numBot) {
+        this.stompClient.send("/processDev/"+this.gameId+"/addDestroyBotMessage",{},JSON.stringify({
+            'name':name,
+            'numBot':numBot
+        }));
+    }
+
+    hitBot(name, numBullet){
         this.stompClient.send("/processDev/"+this.gameId+"/addHitBotMessage",{},JSON.stringify({
             'name':name,
-            'numBot':numBot,
             'numBullet':numBullet
         }));
     }
