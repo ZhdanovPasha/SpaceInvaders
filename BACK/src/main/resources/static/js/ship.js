@@ -210,7 +210,7 @@ class Ship{
                 messageService.move(this.name, 'RIGHT');
             }
             if (key.isPress('SPACE')) {
-                if (Date.now() - this.lastFire > 100 * this.speed) {
+                if (Date.now() - this.lastFire > 200 * this.speed) {
                     var bulletImg, bulletdy = 3;
                     if (this.fraction == 'BLUE') {
                         bulletImg = blueBullet;
