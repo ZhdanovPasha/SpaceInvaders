@@ -1,6 +1,7 @@
 package org.spaceinvaders.models;
 
 
+import org.spaceinvaders.configuration.Conf;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
 import org.spaceinvaders.messages.process.ProcessMessageEntity;
 

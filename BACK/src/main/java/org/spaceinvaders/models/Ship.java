@@ -2,15 +2,9 @@ package org.spaceinvaders.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.spaceinvaders.messages.process.ProcessMessageEntity;
-import org.spaceinvaders.messages.process.ShotMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.spaceinvaders.configuration.Conf;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by gemini on 25.07.17.

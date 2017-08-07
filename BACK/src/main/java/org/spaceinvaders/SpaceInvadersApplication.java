@@ -7,6 +7,7 @@ import org.spaceinvaders.models.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @SpringBootApplication
 @EnableScheduling
 @Configuration
+@ComponentScan({"org.spaceinvaders.configuration","org.spaceinvaders.controllers","org.spaceinvaders.services"})
 public class SpaceInvadersApplication {
 
 	public static void main(String[] args) {

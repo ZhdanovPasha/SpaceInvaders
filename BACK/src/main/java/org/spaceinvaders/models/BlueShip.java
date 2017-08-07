@@ -1,5 +1,7 @@
 package org.spaceinvaders.models;
 
+import org.spaceinvaders.configuration.Conf;
+
 public class BlueShip extends Ship {
 
     BlueShip(String name, int x, int y,Game game) {

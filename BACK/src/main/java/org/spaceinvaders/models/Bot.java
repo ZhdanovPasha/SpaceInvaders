@@ -1,5 +1,7 @@
 package org.spaceinvaders.models;
 
+import org.spaceinvaders.configuration.Conf;
+
 import java.util.ArrayList;
 
 public class Bot extends Ship {

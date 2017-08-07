@@ -1,5 +1,7 @@
 package org.spaceinvaders.models;
 
+import org.spaceinvaders.configuration.Conf;
+
 /**
  * Created by gemini on 27.07.17.
  */

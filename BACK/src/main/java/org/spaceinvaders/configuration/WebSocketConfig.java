@@ -1,4 +1,4 @@
-package org.spaceinvaders;
+package org.spaceinvaders.configuration;
 
 import org.spaceinvaders.messages.gamelobby.LeaveMessage;
 import org.spaceinvaders.messages.gamelobby.LobbyMessageEntity;
