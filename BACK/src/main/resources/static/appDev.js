@@ -66,7 +66,10 @@ class MessageService2 {
                         this.side = side;
                         this.connected = true;
                         this.joinServer();
-                        this.getIndexOfLobby();
+                        setTimeout((function () {
+                            this.getIndexOfLobby();
+                        }).bind(this) ,300);
+
 
                     }
 
