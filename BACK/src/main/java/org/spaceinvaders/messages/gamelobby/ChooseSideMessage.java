@@ -1,11 +1,13 @@
 package org.spaceinvaders.messages.gamelobby;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.spaceinvaders.models.StatusInLobby;
 
 /**
  * Created by Gemini on 19.07.2017.
  */
 public class ChooseSideMessage extends LobbyMessageEntity {
+
     StatusInLobby side;
     String name;
 
@@ -18,9 +20,13 @@ public class ChooseSideMessage extends LobbyMessageEntity {
         this.name = name;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+
     public StatusInLobby getSide() {
         return side;
     }
+
+
 
     public void setSide(StatusInLobby side) {
         this.side = side;

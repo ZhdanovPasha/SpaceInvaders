@@ -1,3 +1,4 @@
+var playerName = "";
 (function (game) {
     var obj;
     var header;
@@ -6,7 +7,6 @@
     var menuElemHeight = 40;
     var menuWidth = 200;
     var objects = [];
-    var name="";
     var key = pjs.keyControl;
     var nameMaxLength = 30;
     var chooseMenuElements = [
@@ -16,17 +16,21 @@
         {
             text: "Pink",
             handle: function () {
-                console.log("Pink: "+name);
+                console.log("Pink: "+playerName);
                 key.setInputMode(false);
+                playerFraction = 'pink';
                 game.startLoop('game');
+				playerName = playerName;
             }
         },
         {
             text: "Blue",
             handle: function () {
-                console.log("blue: "+name);
+                console.log("blue: "+playerName);
                 key.setInputMode(false);
+                playerFraction = 'blue';
                 game.startLoop('game');
+				playerName = playerName;
             }
         }
     ];
@@ -51,7 +55,7 @@
         {
             text: "Выход",
             handle: function () {
-                game.startLoop('game');
+                window.close();
             }
         }
     ];
@@ -125,19 +129,19 @@
 
                 if (iKey) {
                     if (iKey == 'BACKSPACE') {
-                        name = name.substr(0, name.length - 1);
+                        playerName = playerName.substr(0, playerName.length - 1);
                     } else if (iKey == 'ENTER') {
-                        name = name;//TODO
+                        playerName = playerName;//TODO
                     }
 
                     if (char) {                     // если вводится символ
-                        if (name.length < nameMaxLength) {      // ограничили в 30 символов
-                            name += char;
+                        if (playerName.length < nameMaxLength) {      // ограничили в 30 символов
+                            playerName += char;
                         }
                     }
                 }
                 pjs.brush.drawTextS({
-                    text: name + '_',
+                    text: playerName + '_',
                     size: menuElemHeight,
                     color: '#FFFFFF',
                     x: width / 2, y: 50
