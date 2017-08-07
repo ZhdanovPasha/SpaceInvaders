@@ -26,20 +26,7 @@ public class SpaceInvadersApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpaceInvadersApplication.class, args);
 	}
-	@Bean
-	LinkedBlockingQueue<ProcessMessageEntity> processMessages() {
-		return new LinkedBlockingQueue<>();
-	}
-	@Bean
-	LinkedList<LobbyMessageEntity> lobbyMessages() { return new LinkedList<>();}
-	@Bean
-	LinkedList<Player> getPlayers() {return new LinkedList<Player>();}
-	@Bean
-	ConcurrentHashMap<String,Player> getMap() { return  new ConcurrentHashMap<>();}
-	@Bean
-	HashMap<String,Ship> getShips() {
-		return  new HashMap<>();
-	}
+
 	@Bean
 	LinkedList<Game> games() {
 		LinkedList<Game> games = new LinkedList<>();
