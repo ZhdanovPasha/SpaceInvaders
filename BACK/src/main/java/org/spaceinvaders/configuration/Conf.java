@@ -22,7 +22,7 @@ public class Conf {
     final static private int countOfBots = 4;
     final static private int botBulletsCount = 5;
     final static private int bulletsCount = 10;
-    final static private int maxPlayers = 4;
+    final static private int maxPlayers = 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ;
     public Conf() {
     }
 

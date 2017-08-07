@@ -60,6 +60,12 @@ public class GameService {
     public int getGamesCount() {
         return games.size();
     }
+    public int findIndexWithMaxCountOfPlayers() {
+        Game gameWithMaxPlayers = games.stream().filter(game -> !game.getStarted()).sorted((game1,game2) -> {
+              return game1.getPlayers().size()-game2.getPlayers().size();
+        }).findFirst().get();
+        return games.indexOf(gameWithMaxPlayers);
+    }
     public boolean checkGameForReady(int id) {
        return findGameById(id).readyCheck();
     }
