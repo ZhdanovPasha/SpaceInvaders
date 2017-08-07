@@ -60,8 +60,3 @@ sys.initFullPage();
 sys.initFPSCheck();
 key.initKeyControl();
 mouse.initMouseControl();
-
-
-
-
-// end Other ////////////////////////////////////

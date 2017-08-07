@@ -164,9 +164,7 @@ game.newLoop('game', function(){
         for (i = 0; i < ships.length; ++i) {
             ships[i].fire();
             if (ships[i] instanceof Blue){
-                for (j = 0; j < ships[i].bots.length; ++j){
-                    ships[i].fireBots();
-                }
+                ships[i].fireBots();
             }
         }
 

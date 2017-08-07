@@ -9,9 +9,7 @@ class Bot extends Ship{
 			let bullet = this.bullets[i];
 			bullet.obj.w = 17;
 			bullet.obj.h = 44;
-			bullet.dy = 1;
+			bullet.dy = 5;
 		}
-		//this.bullets.splice(1, this.bullets.length-1);
 	}
-
 }
