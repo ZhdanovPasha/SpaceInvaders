@@ -116,5 +116,5 @@ window.onbeforeunload = function() {
                         }
 
  function f(){
-     alert('ДАМАГВСЕМ ПИЗДА');
+     alert('');
      }
