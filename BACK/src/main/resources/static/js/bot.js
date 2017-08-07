@@ -5,7 +5,8 @@ class Bot extends Ship{
 		this.enabled = false;
 		this.bulletWidth = 17;
 		this.bulletHeight = 44;
-		for (let i = 0; i < this.bullets.length; ++i){
+        this.currentHP = this.maxHP = 50;
+        for (let i = 0; i < this.bullets.length; ++i){
 			let bullet = this.bullets[i];
 			bullet.obj.w = 17;
 			bullet.obj.h = 44;

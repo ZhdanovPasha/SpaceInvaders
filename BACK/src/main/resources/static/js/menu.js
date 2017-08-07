@@ -22,19 +22,14 @@
         {
             text: "Pink",
             handle: function () {
-                console.log("Pink: "+name);
-                // console.log('PINK');
                 messageService.callback=function(result){
                     if(result){
                         setMenuElements(waitMenu);
                         key.setInputMode(false);
-                        console.log(objects);
                         objects.splice(0,objects.length);
-                        console.log(objects);
                                }  };
                 messageService.tryToconnect(name,'PINK');
                 obj = false;
-
             }
         },
         {
@@ -72,8 +67,6 @@
                 key.setInputMode(true);
                 setMenuElements(chooseMenuElements);
                 messageService.connect();
-
-
             }
         },
         {
@@ -120,7 +113,6 @@
             // var mPos = mouse.getPosition();
             header.draw();
             pjs.OOP.drawArr(items, function (o) {
-
                 if (mouse.isInObject(o)) {
                     pjs.brush.drawRect({
                         x: o.x - 4, y: o.y - 4,
@@ -129,7 +121,6 @@
                         strokeWidth: 2
                     });
                 }
-
                 if (mouse.isPeekObject('LEFT', o)) {
                     obj = o;
                 }

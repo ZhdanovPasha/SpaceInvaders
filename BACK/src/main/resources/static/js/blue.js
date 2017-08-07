@@ -107,24 +107,7 @@ class Blue extends Ship{
 	}
 
 	control(){
-	    if((key.isDown('RIGHT'))&&(key.isDown('LEFT'))){
-	        messageService.move(this.name, 'NONE');
-	    }
-		if (key.isDown('LEFT')){
-			messageService.move(this.name, 'LEFT');
-		}
-		if (key.isDown('RIGHT')){
-			messageService.move(this.name, 'RIGHT');
-		}
-		//возможно, что достаточно в ship
-		if (key.isPress('SPACE')){
-			if (Date.now() - this.lastFire > 200 * this.speed){
-				let count = this.shot();
-				if(count != -1)
-				    messageService.shot(this.name, count);
-				    this.lastFire = Date.now();
-			}
-		}
+		super.control();
 		if (Date.now() - this.lastTimeCreateBots > 5000 && !this.bots.length ){
 			gameInterface.skill_1.switchOn();
 			if(key.isPress('Q')){

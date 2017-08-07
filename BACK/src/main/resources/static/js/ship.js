@@ -1,4 +1,3 @@
-
 class Ship{
 	constructor(position, img, id, fraction, name){
 	    // image передаем как {source: "", width: , height: }, position = {x: , y: }
@@ -88,15 +87,14 @@ class Ship{
                             });
                             this.bangStarted = Date.now();
                             ships[j].getDamage(this.damage);
-                            
-                                this.explosionSound.replay();
-
+                            this.explosionSound.replay();
                             if(ship == ships[j]){
                                 messageService.hit(this.name, ships[j].name, i);
-                                if(ship.isDead())
+                                if(ship.isDead()){
                                     messageService.destroy(ship.name);
+                                }
                             }
-                                //Если сломаются пули, не передавать пули
+                            //Если сломаются пули, не передавать пули
                             break;
                         }
                     }
@@ -154,7 +152,6 @@ class Ship{
 	}
 	moveBullets (bullets) {
 		for (let i = 0 ; i < this.bullets.length; i++) {
-
             this.bullets[i].enabled = bullets[i].enabled;
 			this.bullets[i].moveTo(bullets[i].x,bullets[i].y);
 		}
@@ -174,11 +171,9 @@ class Ship{
                     this.obj.x = dif;
                 }
             }
-
             if(direction == 'NONE'){
             this.obj.x = this.obj.x;
             }
-
 		} else{
             if (direction =='LEFT') {
                 this.obj.x += this.dx *this.speed;
