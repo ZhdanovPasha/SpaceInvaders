@@ -8,14 +8,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class GameService {
-    @Autowired
-    private LinkedList<Game> games;
-    @Autowired
-    private ConcurrentHashMap<String,Player> players;
 
+    private  final LinkedList<Game> games;
+
+    private  final ConcurrentHashMap<String,Player> players;
+
+    public GameService(LinkedList<Game> games, ConcurrentHashMap<String,Player> players) {
+        this.games = games;
+        this.players = players;
+    }
     @Scheduled(fixedDelay = 16)
     void update() {
         for (Ship ship:getAllShips()) {
