@@ -18,12 +18,15 @@ import java.util.concurrent.PriorityBlockingQueue;
 @Controller
 @MessageMapping("/processDev")
 public class DevProcessController {
-    private Logger log = LoggerFactory.getLogger(DevProcessController.class);
-    int i;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-    @Autowired
-    private GameService gameService;
+    private final Logger log = LoggerFactory.getLogger(DevProcessController.class);
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final GameService gameService;
+
+    public DevProcessController(SimpMessagingTemplate simpMessagingTemplate, GameService gameService) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
+        this.gameService = gameService;
+    }
+
     @MessageMapping("{id}/addShotMessage")
     public void  addShotMessage(@DestinationVariable Integer id, ShotMessage message) throws InterruptedException {
         Game game = gameService.findGameById(id);

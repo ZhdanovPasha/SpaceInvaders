@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/devlogin")
 public class DevHelloController  {
-    @Autowired
-    GameService gameService;
 
+    private final GameService gameService;
 
+    public DevHelloController(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @RequestMapping("/{name}")
     @ResponseBody

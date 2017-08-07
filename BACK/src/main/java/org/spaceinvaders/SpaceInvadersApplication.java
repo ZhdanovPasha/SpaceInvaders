@@ -34,6 +34,10 @@ public class SpaceInvadersApplication {
 		games.push(new Game());
 		return games;
 	}
+	@Bean
+	ConcurrentHashMap<String,Player> getPlayers() {
+		return new ConcurrentHashMap<String,Player>();
+	}
 }
 
 

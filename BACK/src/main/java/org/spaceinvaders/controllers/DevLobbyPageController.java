@@ -23,12 +23,15 @@ import java.security.Principal;
 @Controller
 @MessageMapping("/lobbyDev")
 public class DevLobbyPageController {
-    private Logger log = LoggerFactory.getLogger(DevLobbyPageController.class);
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-    @Autowired
-    GameService gameService;
-    //ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
+    private final Logger log = LoggerFactory.getLogger(DevLobbyPageController.class);
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final GameService gameService;
+
+    public DevLobbyPageController(SimpMessagingTemplate simpMessagingTemplate, GameService gameService) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
+        this.gameService = gameService;
+    }
+//ОТПРАВЛЕНИЕ СООБЩЕНИЯ НА ТО, ЧТО ДОБАВЛЕН ИГРОК
 
     @MessageMapping("{id}/addJoinMessage")
     @SendToUser("/queue/private")

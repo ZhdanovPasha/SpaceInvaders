@@ -19,12 +19,14 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class ServerController {
-    private Logger log = LoggerFactory.getLogger(ServerController.class);
-    @Autowired
-    GameService gameService;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final Logger log = LoggerFactory.getLogger(ServerController.class);
+    private final GameService gameService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
+    public ServerController(GameService gameService, SimpMessagingTemplate simpMessagingTemplate) {
+        this.gameService = gameService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
 
     @MessageMapping("/joinServer")
     void joinServer(JoinServerMessage message) {
