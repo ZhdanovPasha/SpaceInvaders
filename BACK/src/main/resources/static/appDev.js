@@ -20,6 +20,10 @@ class MessageService2 {
             this.stompClient.connect({},function (frame) {
                 this.userSubscription = this.stompClient.subscribe("/user/queue/private", function (change) {
                     let mes = JSON.parse(change.body);
+                    if (mes.type === "PREFER_LOBBY") {
+                        this.gameId = mes.num;
+                        this.joinLobby();
+                    } else
                     if (mes.type==="IS_CHOOSEN_SIDE") {
                         if (mes.check){
                             this.setReady();
@@ -63,8 +67,9 @@ class MessageService2 {
                         this.connected = true;
                         this.joinServer();
                         setTimeout((function () {
-                            this.joinLobby();
-                        }).bind(this) ,200);
+                            this.getIndexOfLobby();
+                        }).bind(this) ,300);
+
 
                     }
 
@@ -215,6 +220,7 @@ class MessageService2 {
         }));
     }
 
+
     destroy(name) {
         //this.subscription.unsubscribe();
         this.stompClient.send("/processDev/"+this.gameId+"/addDestroyMessage",{},JSON.stringify({
@@ -250,7 +256,9 @@ class MessageService2 {
         }));
 
     }
-
+    getIndexOfLobby() {
+        this.stompClient.send("/getPreferLobby", {}, {});
+    }
     getLastChangesForScores(){
         var sub = messageService.stompClient.subscribe('/game/process/'+messageService.gameId,(function (change) {
             let arr = JSON.parse(change.body);
