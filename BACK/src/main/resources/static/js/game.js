@@ -142,6 +142,7 @@ game.newLoop('game', function(){
 	game.clear();
 	fon.draw();
 	if (!gameEnd) {
+	    backSound.replay();
         for (i = 0; i < ships.length; ++i) {
             ships[i].draw();
             if (ships[i] instanceof Blue){
