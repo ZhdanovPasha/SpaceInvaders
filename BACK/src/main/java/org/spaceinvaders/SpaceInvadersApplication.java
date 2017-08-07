@@ -20,7 +20,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 @SpringBootApplication
 @EnableScheduling
 @Configuration
-@ComponentScan({"org.spaceinvaders.configuration","org.spaceinvaders.controllers","org.spaceinvaders.services"})
 public class SpaceInvadersApplication {
 
 	public static void main(String[] args) {
