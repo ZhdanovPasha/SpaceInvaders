@@ -62,7 +62,7 @@ public class GameService {
     }
     public int findIndexWithMaxCountOfPlayers() {
         Game gameWithMaxPlayers = games.stream().filter(game -> !game.getStarted()).sorted((game1,game2) -> {
-              return game1.getPlayers().size()-game2.getPlayers().size();
+              return game2.getPlayers().size()-game1.getPlayers().size();
         }).findFirst().get();
         return games.indexOf(gameWithMaxPlayers);
     }
