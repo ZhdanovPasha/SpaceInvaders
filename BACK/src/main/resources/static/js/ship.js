@@ -140,7 +140,7 @@ class Ship{
                 this.bangAnimation = undefined;
             }
         }
-	}
+	}sudo
 
 	moveTo(x) {
 		if (ship.fraction == this.fraction) {
