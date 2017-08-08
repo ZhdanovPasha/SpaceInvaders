@@ -124,7 +124,7 @@ class Ship{
                     }
                 }
             }
-            if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= fon.h || hit){
+            if (bullet.obj.y <= 0 || bullet.obj.y + bullet.obj.h >= SpaceInvaders.height || hit){
                 bullet.enabled = false;
             }
 		}
@@ -162,13 +162,27 @@ class Ship{
                 this.obj.x -= this.dx *this.speed;
                 if (this.obj.x <= 0){
                     this.obj.x = 0;
-                }
+                } else
+                    if(ship==this){
+                        camera.move(point(-(this.speed*this.dx), 0));
+                        SpaceInvaders.BGPosition += (this.speed*this.dx);
+                        pjs.system.setStyle({
+                            backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+                        });
+                    }
             }
             if (direction == 'RIGHT') {
 				this.obj.x += this.dx *this.speed;
-                var dif = width - this.obj.w;
+                var dif = SpaceInvaders.mapWidth - this.obj.w;
                 if (this.obj.x >= dif){
                     this.obj.x = dif;
+                } else if(ship==this){
+                    console.log("test 2");
+                    camera.move(point((this.speed*this.dx), 0));
+                    SpaceInvaders.BGPosition -= (this.speed*this.dx);
+                    pjs.system.setStyle({
+                        backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+                    });
                 }
             }
             if(direction == 'NONE'){
@@ -177,15 +191,14 @@ class Ship{
 		} else{
             if (direction =='LEFT') {
                 this.obj.x += this.dx *this.speed;
-                var dif = width - this.obj.w;
+                var dif = SpaceInvaders.mapWidth - this.obj.w;
                 if (this.obj.x >= dif){
                     this.obj.x = dif;
                 }
             }
             if (direction == 'RIGHT') {
                 this.obj.x -= this.dx *this.speed;
-                var dif = width - this.obj.w;
-                if (this.obj.x <= 0){
+                if (this.obj.x <= 0){ //TODO
                     this.obj.x = 0;
                 }
             }

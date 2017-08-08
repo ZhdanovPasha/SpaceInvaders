@@ -47,46 +47,11 @@ class Blue extends Ship{
 	}
 
 	move(direction){
-	    if (ship.fraction==this.fraction){
-            if (direction =='LEFT') {
-                this.obj.x -= this.dx * this.speed;
-                if (this.obj.x <= 0){
-                    this.obj.x = 0;
-                }
-                this.moveBots();
-            }
-            if (direction == 'RIGHT') {
-                this.obj.x += this.dx * this.speed;
-                var dif = width - this.obj.w;
-                if (this.obj.x >= dif){
-                    this.obj.x = dif;
-                }
-                this.moveBots();
-            }
-            if(direction == 'NONE'){
-            this.obj.x = this.obj.x;
-            }
-        } else{
-            if (direction =='LEFT') {
-                this.obj.x += this.dx *this.speed;
-                var dif = width - this.obj.w;
-                if (this.obj.x >= dif){
-                    this.obj.x = dif;
-                }
-                this.moveBots();
-            }
-            if (direction == 'RIGHT') {
-                this.obj.x -= this.dx *this.speed;
-                var dif = width - this.obj.w;
-                if (this.obj.x <= 0){
-                    this.obj.x = 0;
-                }
-                this.moveBots();
-            }
-            if(direction == 'NONE'){
-                this.obj.x = this.obj.x;
-            }
-        }
+		super.move(direction);
+		if(direction != 'NONE'){
+			this.moveBots();
+		}
+
 	}
 
 	activateSkill(){

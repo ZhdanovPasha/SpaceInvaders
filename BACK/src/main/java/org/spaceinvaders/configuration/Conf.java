@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 public class Conf {
 
-    final static private int w = 700;
+    final static private int w = 2000;
     final static private int h = 600;
     final static private int speed = 10;
     final static private int shipWidth = 50;

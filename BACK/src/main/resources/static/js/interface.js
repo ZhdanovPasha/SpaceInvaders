@@ -127,7 +127,7 @@ class Interface{
 			this.skill_2.duration = this.player.skill_2.duration;
 			this.skill_2.cooldown = this.player.skill_2.cooldown;
 			this.skill_2.lastLaunch = Date.now();
-			
+            this.skill_2_baseX = this.skill_2.x;
 
 			this.skill_1 = this.game.newMesh({
 				x: this.skill_2.x - 60,
@@ -164,7 +164,7 @@ class Interface{
 			this.skill_1.duration = this.player.skill_1.duration;
 			this.skill_1.cooldown = this.player.skill_1.cooldown;
 			this.skill_1.lastLaunch = Date.now();
-
+            this.skill_1_baseX = this.skill_2.x - 60;
 			this.skill_3 = this.game.newMesh({
 				x: this.skill_2.x + 60,
 				y: this.skill_2.y,
@@ -201,6 +201,7 @@ class Interface{
 			this.skill_3.duration = this.player.skill_3.duration;
 			this.skill_3.cooldown = this.player.skill_3.cooldown;
 			this.skill_3.lastLaunch = Date.now();
+            this.skill_3_baseX = this.skill_2.x + 60;
 		}
 		else{
 			this.skill_1 = this.game.newMesh({
@@ -232,7 +233,7 @@ class Interface{
 						fillColor: 'red'
 					})]
 			});
-			
+            this.skill_1_baseX = this.game.getWH().w2-25;
 			this.skill_1.description = this.player.skill_1.description;
 			this.skill_1.isClicked = false;
 			this.skill_1.switchOn = switchOn;
@@ -260,6 +261,12 @@ class Interface{
 			size: 20,
 			color: "white"
 		});
+        this.InterfaceMesh = this.game.newMesh({
+            x: 0,
+            y: 0,
+            add: [this.hpText, this.hpRectStroke, this.hpRectVal, this.hpVal, this.scoresText,
+                this.enemieText,this.resultBattleText]
+        });
 	}
 	
 	initialWin(){
@@ -303,6 +310,7 @@ class Interface{
 	}
 	
 	checkSkill_1(){
+        this.skill_1.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_1_baseX, 0));
 		var obj = this.skill_1.getObjects()[2];
 		if(this.mouseControl.isInStatic(obj.getStaticBox())){
 			this.brush.drawText({
@@ -326,6 +334,7 @@ class Interface{
 	}
 	
 	checkSkill_2(){
+        this.skill_2.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_2_baseX, 0));
 		var obj = this.skill_2.getObjects()[2];
 		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
 			this.brush.drawText({
@@ -348,6 +357,7 @@ class Interface{
 	}
 	
 	checkSkill_3(){
+        this.skill_3.setPosition(this.point(-SpaceInvaders.BGPosition + this.skill_3_baseX, 0));
 		var obj = this.skill_3.getObjects()[2];
 		if(this.pjs.mouseControl.isInStatic(obj.getStaticBox())){
 			this.brush.drawText({
@@ -397,6 +407,7 @@ class Interface{
 	}
 	
 	update(hp, sc, en){//Обновить текущие данные
+        this.InterfaceMesh.setPosition(this.point(-SpaceInvaders.BGPosition, 0));
 		if(hp <= 0){
 			this.currHP = 0;
 		}

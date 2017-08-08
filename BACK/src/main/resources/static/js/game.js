@@ -1,3 +1,10 @@
+var game = pjs.game;
+var mouse = pjs.mouseControl;
+var key = pjs.keyControl;
+var point = pjs.vector.point;
+var width = game.getWH().w;
+var height = game.getWH().h;
+
 //initial parametrs
 var shipWidth = 50;
 var shipHeight = 50;
@@ -9,11 +16,6 @@ var ships = [];
 var ship = null;
 var gameInterface = new Interface(pjs);
 
-var fon = game.newImageObject({
-    position: point(0, 0),
-    w: width, h: height,
-    file: 'img/terrain.png'
-});
 
 var initParameters = function(){
 	noEnemy = false;
@@ -98,9 +100,16 @@ function checkFriendsIsDead(){
     return true;
 }
 
-game.newLoop('game', function(){
+game.newLoopFromConstructor('game', function(){
+    this.entry=function(){
+        camera.move(point(SpaceInvaders.mapWidth/2-SpaceInvaders.width/2, 0));
+        SpaceInvaders.BGPosition = -(SpaceInvaders.mapWidth/2-SpaceInvaders.width/2);
+        pjs.system.setStyle({
+            backgroundPositionX: SpaceInvaders.BGPosition + 'px'
+        });
+    };
+    this.update=function(){
 	game.clear();
-	fon.draw();
 	if (!gameEnd) {
 	    backSound.replay();
         for (i = 0; i < ships.length; ++i) {
@@ -147,4 +156,5 @@ game.newLoop('game', function(){
 		game.startLoop('battle_result');
 	
 	}
+};
 });

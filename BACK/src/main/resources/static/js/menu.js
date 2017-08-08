@@ -103,13 +103,11 @@
         this.entry=function(){
             console.log("entered menu");
             game.clear(); // clear screen
-            fon.draw();
             obj = false;
             setMenuElements(menuElements);
         };
         this.update = function () {
             game.clear(); // clear screen
-            fon.draw();
             // var mPos = mouse.getPosition();
             header.draw();
             pjs.OOP.drawArr(items, function (o) {
