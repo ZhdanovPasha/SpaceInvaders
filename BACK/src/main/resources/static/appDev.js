@@ -80,7 +80,7 @@ class MessageService2 {
             });
     }
 
-    startGame() {
+    startGame() { //fixme получается отрицательное x у врагов 965 -> -315
         this.subscription.unsubscribe();
         this.subscription = this.stompClient.subscribe('/game/process/'+this.gameId,(function (change) {
             let arr = JSON.parse(change.body);

@@ -146,7 +146,7 @@ class Ship{
 		if (ship.fraction == this.fraction) {
             this.obj.x = x;
 		} else {
-			this.obj.x = game.getWH().w-(x+this.obj.w);
+			this.obj.x = SpaceInvaders.mapWidth-(x+this.obj.w);
 		}
 
 	}
@@ -177,7 +177,6 @@ class Ship{
                 if (this.obj.x >= dif){
                     this.obj.x = dif;
                 } else if(ship==this){
-                    console.log("test 2");
                     camera.move(point((this.speed*this.dx), 0));
                     SpaceInvaders.BGPosition -= (this.speed*this.dx);
                     pjs.system.setStyle({
@@ -188,6 +187,7 @@ class Ship{
             if(direction == 'NONE'){
             this.obj.x = this.obj.x;
             }
+            console.log("pos: "+this.obj.x);
 		} else{
             if (direction =='LEFT') {
                 this.obj.x += this.dx *this.speed;
@@ -205,6 +205,7 @@ class Ship{
             if(direction == 'NONE'){
                         this.obj.x = this.obj.x;
 			}
+            console.log("enemie pos: "+this.obj.x);//fixme получается отрицательное x
 		}
 	}
 	//наследуются только для героев
