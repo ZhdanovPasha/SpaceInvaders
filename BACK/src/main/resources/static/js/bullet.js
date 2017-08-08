@@ -32,7 +32,7 @@ class Bullet{
                 this.obj.x = x;
                 this.obj.y = y;
             } else {
-                this.obj.x = game.getWH().w - (x + this.obj.w);
+                this.obj.x = SpaceInvaders.mapWidth - (x + this.obj.w);
                 this.obj.y = game.getWH().h - (y + this.obj.h);
             }
         }

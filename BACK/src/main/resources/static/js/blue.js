@@ -113,7 +113,7 @@ class Blue extends Ship{
 				        }
 				    }
 				}
-				if (bullet.obj.y <= 0 || bullet.obj.y >= fon.w || hit) {
+				if (bullet.obj.y <= 0 || bullet.obj.y >= SpaceInvaders.mapWidth || hit) {
 				    bullet.enabled = false;
 				}
 			}
